@@ -2,9 +2,14 @@ package com.example.security.interview.lesson;
 
 import com.example.security.interview.study.SecurityStudyContext;
 import com.example.security.interview.support.WebLessonHarness;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.access.PermissionEvaluator;
+import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
+import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -34,7 +39,7 @@ public final class Lesson29 extends AbstractLesson {
     public void run(SecurityStudyContext ctx) throws Exception {
         try (WebLessonHarness h = new WebLessonHarness(Web.class)) {
             Web.Docs d = h.context().getBean(Web.Docs.class);
-            var auth = new UsernamePasswordAuthenticationToken(
+            var auth = UsernamePasswordAuthenticationToken.authenticated(
                     "u", "n/a", AuthorityUtils.createAuthorityList("ROLE_USER"));
             SecurityContextHolder.getContext().setAuthentication(auth);
             try {
@@ -58,6 +63,21 @@ public final class Lesson29 extends AbstractLesson {
     @EnableWebMvc
     @EnableMethodSecurity
     static class Web {
+        /**
+         * SpEL {@code @beanName} and {@code hasPermission(...)} need a handler wired to the context and
+         * {@link PermissionEvaluator} (Boot does this automatically; plain {@link org.springframework.web.context.support.GenericWebApplicationContext} does not).
+         */
+        @Bean
+        @Primary
+        static MethodSecurityExpressionHandler methodSecurityExpressionHandler(
+                ApplicationContext applicationContext,
+                @Qualifier("lesson29PermissionEvaluator") PermissionEvaluator permissionEvaluator) {
+            var handler = new DefaultMethodSecurityExpressionHandler();
+            handler.setApplicationContext(applicationContext);
+            handler.setPermissionEvaluator(permissionEvaluator);
+            return handler;
+        }
+
         @Bean
         SecurityFilterChain chain(HttpSecurity http) throws Exception {
             return http.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(a -> a.anyRequest().permitAll()).build();
@@ -90,7 +110,7 @@ public final class Lesson29 extends AbstractLesson {
         }
 
         static class Docs {
-            @PreAuthorize("@lesson29PermissionEvaluator.hasPermission(authentication, #id, 'read')")
+            @PreAuthorize("hasPermission(#id, 'read')")
             public String documentRead(String id) {
                 return "ok-" + id;
             }
