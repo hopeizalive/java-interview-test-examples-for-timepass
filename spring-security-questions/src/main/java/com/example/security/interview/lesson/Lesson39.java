@@ -46,7 +46,8 @@ public final class Lesson39 extends AbstractLesson {
             int port = ds.getListenPort();
 
             LdapContextSource cs = new LdapContextSource();
-            cs.setUrl("ldap://127.0.0.1:" + port + "/dc=example,dc=com");
+            cs.setUrl("ldap://127.0.0.1:" + port);
+            cs.setBase("dc=example,dc=com");
             cs.setAnonymousReadOnly(true);
             cs.afterPropertiesSet();
 

@@ -5,6 +5,7 @@ import com.example.security.interview.support.WebLessonHarness;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -30,7 +31,7 @@ public final class Lesson25 extends AbstractLesson {
             try {
                 svc.securedMethod();
                 throw new IllegalStateException("expected AccessDeniedException");
-            } catch (AccessDeniedException ok) {
+            } catch (AccessDeniedException | AuthenticationCredentialsNotFoundException ok) {
                 System.out.println("Denied without authority as expected");
             }
         }

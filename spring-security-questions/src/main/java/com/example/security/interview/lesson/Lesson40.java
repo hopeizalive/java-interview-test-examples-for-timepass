@@ -4,6 +4,7 @@ import com.example.security.interview.study.SecurityStudyContext;
 import com.example.security.interview.support.WebLessonHarness;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,6 +14,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
 import org.springframework.security.web.authentication.preauth.RequestAttributeAuthenticationFilter;
@@ -66,6 +68,7 @@ public final class Lesson40 extends AbstractLesson {
                     .csrf(AbstractHttpConfigurer::disable)
                     .addFilterBefore(preAuth, UsernamePasswordAuthenticationFilter.class)
                     .authorizeHttpRequests(a -> a.anyRequest().authenticated())
+                    .exceptionHandling(e -> e.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                     .build();
         }
 

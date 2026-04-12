@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import java.nio.charset.StandardCharsets;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -31,10 +33,10 @@ public final class Lesson21 extends AbstractLesson {
         try (WebLessonHarness h = new WebLessonHarness(Web.class)) {
             var mvc = h.mockMvc();
             mvc.perform(get("/open")).andExpect(status().isOk());
-            mvc.perform(get("/closed")).andExpect(status().isForbidden());
+            mvc.perform(get("/closed")).andExpect(status().isUnauthorized());
             mvc.perform(get("/need")).andExpect(status().isUnauthorized());
             mvc.perform(get("/need").header("Authorization", "Basic " +
-                            java.util.Base64.getEncoder().encodeToString("z:p".getBytes())))
+                            java.util.Base64.getEncoder().encodeToString("z:p".getBytes(StandardCharsets.UTF_8))))
                     .andExpect(status().isOk());
         }
     }

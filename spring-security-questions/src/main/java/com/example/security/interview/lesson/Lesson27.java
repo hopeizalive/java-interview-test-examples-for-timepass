@@ -6,6 +6,7 @@ import jakarta.annotation.security.RolesAllowed;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -32,12 +33,12 @@ public final class Lesson27 extends AbstractLesson {
             try {
                 d.secured();
                 throw new IllegalStateException("expected deny on @Secured");
-            } catch (AccessDeniedException ignored) {
+            } catch (AccessDeniedException | AuthenticationCredentialsNotFoundException ignored) {
             }
             try {
                 d.rolesAllowed();
                 throw new IllegalStateException("expected deny on @RolesAllowed");
-            } catch (AccessDeniedException ignored) {
+            } catch (AccessDeniedException | AuthenticationCredentialsNotFoundException ignored) {
             }
             System.out.println("Both JSR-250 and @Secured denied without context authorities.");
         }

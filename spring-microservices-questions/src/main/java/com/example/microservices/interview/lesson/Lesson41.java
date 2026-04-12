@@ -2,6 +2,7 @@ package com.example.microservices.interview.lesson;
 
 import com.example.microservices.interview.ms41.Ms41Application;
 import com.example.microservices.interview.study.MicroservicesStudyContext;
+import com.example.microservices.interview.support.BootLessonAutoConfigExcludes;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -22,7 +23,7 @@ public final class Lesson41 extends AbstractMicroLesson {
                 "spring.main.banner-mode", "off",
                 "management.endpoints.web.exposure.include", "health,info",
                 "spring.autoconfigure.exclude",
-                "org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration"
+                BootLessonAutoConfigExcludes.NO_SERVLET_SECURITY
         ));
         try (ConfigurableApplicationContext c = app.run()) {
             int port = ((ServletWebServerApplicationContext) c).getWebServer().getPort();

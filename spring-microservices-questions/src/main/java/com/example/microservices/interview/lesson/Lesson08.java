@@ -9,9 +9,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.ErrorResponseException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.net.URI;
 
@@ -41,9 +43,18 @@ public final class Lesson08 extends AbstractMicroLesson {
     @EnableWebMvc
     static class WebConfig {
         @Bean
-        DemoApi api() {
+        DemoApi demoApi() {
             return new DemoApi();
         }
+
+        /** Ensures {@link ErrorResponseException} / {@link ProblemDetail} serialize as JSON under plain WebMvc. */
+        @Bean
+        ProblemErrors problemErrors() {
+            return new ProblemErrors();
+        }
+
+        @ControllerAdvice
+        static class ProblemErrors extends ResponseEntityExceptionHandler {}
     }
 
     @RestController

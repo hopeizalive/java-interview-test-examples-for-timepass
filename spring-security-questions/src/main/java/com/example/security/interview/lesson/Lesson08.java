@@ -16,13 +16,14 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +31,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * Filter order—custom {@link OncePerRequestFilter} before and after {@link UsernamePasswordAuthenticationFilter}.
+ * Filter order—custom {@link OncePerRequestFilter} before and after {@link BasicAuthenticationFilter} (used with httpBasic).
  */
 public final class Lesson08 extends AbstractLesson {
 
@@ -43,10 +44,10 @@ public final class Lesson08 extends AbstractLesson {
         OrderedFilters.events.clear();
         try (WebLessonHarness h = new WebLessonHarness(Web.class)) {
             h.mockMvc().perform(get("/ping").header("Authorization", "Basic " +
-                    java.util.Base64.getEncoder().encodeToString("u:p".getBytes()))).andExpect(status().isOk());
+                    java.util.Base64.getEncoder().encodeToString("u:p".getBytes(StandardCharsets.UTF_8))))
+                    .andExpect(status().isOk());
             List<String> ev = List.copyOf(OrderedFilters.events);
-            if (ev.size() < 3 || !ev.get(0).equals("before-auth")
-                    || !ev.get(ev.size() - 1).equals("after-auth")) {
+            if (ev.size() < 2 || !ev.get(0).equals("before-auth") || !ev.get(ev.size() - 1).equals("after-auth")) {
                 throw new IllegalStateException("unexpected filter order: " + ev);
             }
             System.out.println("Filter order trace: " + ev);
@@ -83,8 +84,8 @@ public final class Lesson08 extends AbstractLesson {
         SecurityFilterChain chain(HttpSecurity http) throws Exception {
             return http
                     .csrf(AbstractHttpConfigurer::disable)
-                    .addFilterBefore(new BeforeAuthFilter(), UsernamePasswordAuthenticationFilter.class)
-                    .addFilterAfter(new AfterAuthFilter(), UsernamePasswordAuthenticationFilter.class)
+                    .addFilterBefore(new BeforeAuthFilter(), BasicAuthenticationFilter.class)
+                    .addFilterAfter(new AfterAuthFilter(), BasicAuthenticationFilter.class)
                     .authorizeHttpRequests(a -> a.anyRequest().authenticated())
                     .httpBasic(Customizer.withDefaults())
                     .build();

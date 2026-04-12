@@ -49,7 +49,7 @@ public final class Lesson16 extends AbstractLesson {
         @Bean
         SecurityFilterChain chain(HttpSecurity http) throws Exception {
             return http
-                    .csrf(Customizer.withDefaults())
+                    .csrf(c -> c.ignoringRequestMatchers("/logout", "/login"))
                     .authorizeHttpRequests(a -> a.requestMatchers("/login", "/error").permitAll().anyRequest().authenticated())
                     .formLogin(f -> f.permitAll())
                     .logout(Customizer.withDefaults())

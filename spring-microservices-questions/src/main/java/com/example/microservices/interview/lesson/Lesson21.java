@@ -6,6 +6,7 @@ import okhttp3.mockwebserver.MockWebServer;
 import org.springframework.http.client.JdkClientHttpRequestFactory;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.client.RestClientException;
 
 import java.net.http.HttpClient;
 import java.net.http.HttpTimeoutException;
@@ -21,7 +22,7 @@ public final class Lesson21 extends AbstractMicroLesson {
     @Override
     public void run(MicroservicesStudyContext ctx) throws Exception {
         try (MockWebServer server = new MockWebServer()) {
-            server.enqueue(new MockResponse().setBody("fast"));
+            server.enqueue(new MockResponse().setBody("fast").addHeader("Content-Type", "text/plain"));
             server.start();
             String base = "http://127.0.0.1:" + server.getPort();
             JdkClientHttpRequestFactory fastRf = new JdkClientHttpRequestFactory(HttpClient.newBuilder()
@@ -32,7 +33,9 @@ public final class Lesson21 extends AbstractMicroLesson {
             ctx.log("Fast response: " + fast.get().retrieve().body(String.class));
         }
         try (MockWebServer slow = new MockWebServer()) {
-            slow.enqueue(new MockResponse().setBody("late").setBodyDelay(2, java.util.concurrent.TimeUnit.SECONDS));
+            slow.enqueue(new MockResponse().setBody("late")
+                    .addHeader("Content-Type", "text/plain")
+                    .setBodyDelay(2, java.util.concurrent.TimeUnit.SECONDS));
             slow.start();
             String base = "http://127.0.0.1:" + slow.getPort();
             JdkClientHttpRequestFactory slowRf = new JdkClientHttpRequestFactory(HttpClient.newBuilder()
@@ -46,6 +49,10 @@ public final class Lesson21 extends AbstractMicroLesson {
             } catch (ResourceAccessException ex) {
                 Throwable cause = ex.getCause();
                 ctx.log("Timed out as expected: " + (cause instanceof HttpTimeoutException ? "http timeout" : cause));
+            } catch (RestClientException ex) {
+                // JDK client may close the body stream on read timeout before message converters finish.
+                ctx.log("Slow peer failed as expected: " + ex.getClass().getSimpleName()
+                        + (ex.getCause() != null ? " (" + ex.getCause().getMessage() + ")" : ""));
             }
         }
         ctx.log("Talking point: always set timeouts on outbound HTTP in microservices.");

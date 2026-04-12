@@ -57,6 +57,7 @@ public final class Lesson44 extends AbstractLesson {
         SwitchUserFilter switchUserFilter(UserDetailsService users) {
             SwitchUserFilter f = new SwitchUserFilter();
             f.setUserDetailsService(users);
+            f.setTargetUrl("/");
             return f;
         }
 

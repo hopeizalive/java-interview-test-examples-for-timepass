@@ -19,7 +19,9 @@ import org.springframework.security.acls.model.MutableAcl;
 import org.springframework.security.acls.model.ObjectIdentity;
 import org.springframework.security.acls.model.Permission;
 import org.springframework.security.acls.model.Sid;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.List;
 
@@ -43,18 +45,24 @@ public final class Lesson45 extends AbstractLesson {
             var lookup = new BasicLookupStrategy(db, cache, authStrategy, granting);
             var aclService = new JdbcMutableAclService(db, lookup, cache);
 
-            ObjectIdentity oi = new ObjectIdentityImpl(String.class.getName(), "doc-99");
-            MutableAcl acl = aclService.createAcl(oi);
-            Sid reader = new GrantedAuthoritySid("ROLE_READER");
-            acl.insertAce(0, BasePermission.READ, reader, true);
-            aclService.updateAcl(acl);
+            SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(
+                    "acl-admin", "n/a", List.of(new SimpleGrantedAuthority("ROLE_ACL_ADMIN"))));
+            try {
+                ObjectIdentity oi = new ObjectIdentityImpl(String.class.getName(), "doc-99");
+                MutableAcl acl = aclService.createAcl(oi);
+                Sid reader = new GrantedAuthoritySid("ROLE_READER");
+                acl.insertAce(0, BasePermission.READ, reader, true);
+                aclService.updateAcl(acl);
 
-            Acl loaded = aclService.readAclById(oi);
-            boolean ok = loaded.isGranted(List.<Permission>of(BasePermission.READ), List.of(reader), false);
-            if (!ok) {
-                throw new IllegalStateException("expected ACL grant READ");
+                Acl loaded = aclService.readAclById(oi);
+                boolean ok = loaded.isGranted(List.<Permission>of(BasePermission.READ), List.of(reader), false);
+                if (!ok) {
+                    throw new IllegalStateException("expected ACL grant READ");
+                }
+                System.out.println("ACL granted READ for ROLE_READER on doc-99");
+            } finally {
+                SecurityContextHolder.clearContext();
             }
-            System.out.println("ACL granted READ for ROLE_READER on doc-99");
         } finally {
             db.shutdown();
         }

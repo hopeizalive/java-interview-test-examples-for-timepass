@@ -45,7 +45,7 @@ public final class Lesson05 extends AbstractLesson {
     static class Web {
         @Bean
         @Order(1)
-        SecurityFilterChain api(HttpSecurity http) throws Exception {
+        SecurityFilterChain apiChain(HttpSecurity http) throws Exception {
             return http.securityMatcher("/api/**")
                     .csrf(AbstractHttpConfigurer::disable)
                     .authorizeHttpRequests(a -> a.anyRequest().permitAll())
@@ -69,7 +69,7 @@ public final class Lesson05 extends AbstractLesson {
         }
 
         @Bean
-        Api api() {
+        Api demoApi() {
             return new Api();
         }
     }

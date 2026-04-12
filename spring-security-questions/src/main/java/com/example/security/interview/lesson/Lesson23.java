@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import java.nio.charset.StandardCharsets;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -28,13 +30,13 @@ public final class Lesson23 extends AbstractLesson {
 
     @Override
     public void run(SecurityStudyContext ctx) throws Exception {
-        String basicScope = java.util.Base64.getEncoder().encodeToString("scopeuser:p".getBytes());
-        String basicAdmin = java.util.Base64.getEncoder().encodeToString("admin:p".getBytes());
+        String basicScope = java.util.Base64.getEncoder().encodeToString("scopeuser:p".getBytes(StandardCharsets.UTF_8));
+        String basicAdmin = java.util.Base64.getEncoder().encodeToString("admin:p".getBytes(StandardCharsets.UTF_8));
         try (WebLessonHarness h = new WebLessonHarness(Web.class)) {
             var mvc = h.mockMvc();
             mvc.perform(get("/scoped").header("Authorization", "Basic " + basicScope)).andExpect(status().isOk());
             mvc.perform(get("/either").header("Authorization", "Basic " + basicAdmin)).andExpect(status().isOk());
-            mvc.perform(get("/either").header("Authorization", "Basic " + basicScope)).andExpect(status().isOk());
+            mvc.perform(get("/either").header("Authorization", "Basic " + basicScope)).andExpect(status().isForbidden());
         }
     }
 

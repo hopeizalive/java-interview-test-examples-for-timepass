@@ -1,5 +1,6 @@
 package com.example.microservices.interview.support;
 
+import jakarta.servlet.Filter;
 import org.springframework.context.annotation.AnnotatedBeanDefinitionReader;
 import org.springframework.mock.web.MockServletContext;
 import org.springframework.test.web.servlet.MockMvc;
@@ -27,7 +28,11 @@ public final class SimpleWebHarness implements AutoCloseable {
     }
 
     public MockMvc mockMvc() {
-        return MockMvcBuilders.webAppContextSetup(ctx).build();
+        var builder = MockMvcBuilders.webAppContextSetup(ctx);
+        for (String name : ctx.getBeanNamesForType(Filter.class, false, true)) {
+            builder.addFilters(ctx.getBean(name, Filter.class));
+        }
+        return builder.build();
     }
 
     @Override

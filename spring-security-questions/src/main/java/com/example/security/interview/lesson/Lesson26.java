@@ -10,9 +10,12 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
@@ -28,11 +31,18 @@ public final class Lesson26 extends AbstractLesson {
     public void run(SecurityStudyContext ctx) throws Exception {
         try (WebLessonHarness h = new WebLessonHarness(Web.class)) {
             Gate g = h.context().getBean(Gate.class);
+            var auth = new UsernamePasswordAuthenticationToken(
+                    "u", "n/a", AuthorityUtils.createAuthorityList("ROLE_USER"));
+            SecurityContextHolder.getContext().setAuthentication(auth);
             try {
-                g.badReturn();
-                throw new IllegalStateException("expected AccessDeniedException");
-            } catch (AccessDeniedException e) {
-                System.out.println("Post-authorize blocked bad return: " + e.getMessage());
+                try {
+                    g.badReturn();
+                    throw new IllegalStateException("expected AccessDeniedException");
+                } catch (AccessDeniedException e) {
+                    System.out.println("Post-authorize blocked bad return: " + e.getMessage());
+                }
+            } finally {
+                SecurityContextHolder.clearContext();
             }
         }
     }

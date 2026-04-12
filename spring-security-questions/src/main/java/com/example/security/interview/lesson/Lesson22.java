@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import java.nio.charset.StandardCharsets;
+
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.authentication;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -38,9 +40,9 @@ public final class Lesson22 extends AbstractLesson {
             RememberMeAuthenticationToken remember = new RememberMeAuthenticationToken(
                     "key", User.withUsername("m").password("n/a").roles("USER").build(),
                     AuthorityUtils.createAuthorityList("ROLE_USER"));
-            mvc.perform(get("/strict/x").with(authentication(remember))).andExpect(status().isForbidden());
+            mvc.perform(get("/strict/x").with(authentication(remember))).andExpect(status().isUnauthorized());
             mvc.perform(get("/strict/x").header("Authorization", "Basic " +
-                            java.util.Base64.getEncoder().encodeToString("m:p".getBytes())))
+                            java.util.Base64.getEncoder().encodeToString("m:p".getBytes(StandardCharsets.UTF_8))))
                     .andExpect(status().isOk());
         }
     }

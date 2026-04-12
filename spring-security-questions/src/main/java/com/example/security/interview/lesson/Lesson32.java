@@ -28,7 +28,7 @@ public final class Lesson32 extends AbstractLesson {
     public void run(SecurityStudyContext ctx) throws Exception {
         try (WebLessonHarness h = new WebLessonHarness(Web.class)) {
             var mvc = h.mockMvc();
-            mvc.perform(get("/h")).andExpect(status().isOk())
+            mvc.perform(get("/h").secure(true)).andExpect(status().isOk())
                     .andExpect(header().string("X-Frame-Options", "DENY"))
                     .andExpect(header().exists("Strict-Transport-Security"));
         }

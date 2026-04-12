@@ -11,7 +11,10 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
@@ -32,14 +35,21 @@ public final class Lesson29 extends AbstractLesson {
     public void run(SecurityStudyContext ctx) throws Exception {
         try (WebLessonHarness h = new WebLessonHarness(Web.class)) {
             Web.Docs d = h.context().getBean(Web.Docs.class);
-            if (!"ok-doc1".equals(d.documentRead("doc1"))) {
-                throw new IllegalStateException("doc1 should be permitted");
-            }
+            var auth = new UsernamePasswordAuthenticationToken(
+                    "u", "n/a", AuthorityUtils.createAuthorityList("ROLE_USER"));
+            SecurityContextHolder.getContext().setAuthentication(auth);
             try {
-                d.documentRead("doc2");
-                throw new IllegalStateException("expected deny");
-            } catch (AccessDeniedException ok) {
-                System.out.println("doc2 denied: " + ok.getMessage());
+                if (!"ok-doc1".equals(d.documentRead("doc1"))) {
+                    throw new IllegalStateException("doc1 should be permitted");
+                }
+                try {
+                    d.documentRead("doc2");
+                    throw new IllegalStateException("expected deny");
+                } catch (AccessDeniedException ok) {
+                    System.out.println("doc2 denied: " + ok.getMessage());
+                }
+            } finally {
+                SecurityContextHolder.clearContext();
             }
         }
     }

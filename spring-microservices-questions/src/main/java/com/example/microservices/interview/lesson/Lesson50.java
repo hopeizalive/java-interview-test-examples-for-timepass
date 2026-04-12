@@ -3,6 +3,7 @@ package com.example.microservices.interview.lesson;
 import com.example.microservices.interview.ms50a.Ms50SvcAApplication;
 import com.example.microservices.interview.ms50b.Ms50SvcBApplication;
 import com.example.microservices.interview.study.MicroservicesStudyContext;
+import com.example.microservices.interview.support.BootLessonAutoConfigExcludes;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -22,7 +23,7 @@ public final class Lesson50 extends AbstractMicroLesson {
                 "server.port", "0",
                 "spring.main.banner-mode", "off",
                 "spring.autoconfigure.exclude",
-                "org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration"
+                BootLessonAutoConfigExcludes.NO_SERVLET_SECURITY
         ));
         ConfigurableApplicationContext b = bApp.run();
         try {
@@ -33,7 +34,7 @@ public final class Lesson50 extends AbstractMicroLesson {
                     "spring.main.banner-mode", "off",
                     "ms50.peer", "http://127.0.0.1:" + bPort,
                     "spring.autoconfigure.exclude",
-                    "org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration"
+                    BootLessonAutoConfigExcludes.NO_SERVLET_SECURITY
             ));
             ConfigurableApplicationContext a = aApp.run();
             try {

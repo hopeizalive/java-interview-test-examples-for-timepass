@@ -91,7 +91,11 @@ public final class DemoBackpressure {
         try {
             for (int i = 0; i < 4; i++) {
                 int n = i;
-                pool.submit(() -> ctx.log("  work " + n));
+                try {
+                    pool.submit(() -> ctx.log("  work " + n));
+                } catch (RejectedExecutionException e) {
+                    ctx.log("  submit " + n + " rejected — SynchronousQueue has no buffer; only idle threads accept handoff.");
+                }
             }
         } finally {
             pool.shutdown();
