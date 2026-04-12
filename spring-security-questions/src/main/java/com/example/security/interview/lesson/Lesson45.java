@@ -52,7 +52,8 @@ public final class Lesson45 extends AbstractLesson {
             SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(
                     "acl-admin", "n/a", List.of(new SimpleGrantedAuthority("ROLE_ACL_ADMIN"))));
             try {
-                ObjectIdentity oi = new ObjectIdentityImpl(String.class.getName(), "doc-99");
+                // Spring ACL JDBC maps object_id_identity through AclClassIdUtils as Long by default.
+                ObjectIdentity oi = new ObjectIdentityImpl(String.class.getName(), 99L);
                 Sid reader = new GrantedAuthoritySid("ROLE_READER");
                 tx.executeWithoutResult(status -> {
                     MutableAcl acl = aclService.createAcl(oi);
@@ -65,7 +66,7 @@ public final class Lesson45 extends AbstractLesson {
                 if (!ok) {
                     throw new IllegalStateException("expected ACL grant READ");
                 }
-                System.out.println("ACL granted READ for ROLE_READER on doc-99");
+                System.out.println("ACL granted READ for ROLE_READER on object identity 99");
             } finally {
                 SecurityContextHolder.clearContext();
             }

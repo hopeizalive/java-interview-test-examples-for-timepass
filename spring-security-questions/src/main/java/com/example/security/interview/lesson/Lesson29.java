@@ -5,8 +5,6 @@ import com.example.security.interview.support.WebLessonHarness;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.PermissionEvaluator;
-import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
-import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -60,17 +58,6 @@ public final class Lesson29 extends AbstractLesson {
     @EnableWebMvc
     @EnableMethodSecurity
     static class Web {
-        /**
-         * Without Spring Boot method-security auto-config, {@link PermissionEvaluator} must be set on the
-         * expression handler so {@code @PreAuthorize("hasPermission(...)")} is not always denied.
-         */
-        @Bean
-        static MethodSecurityExpressionHandler methodSecurityExpressionHandler(PermissionEvaluator permissionEvaluator) {
-            var h = new DefaultMethodSecurityExpressionHandler();
-            h.setPermissionEvaluator(permissionEvaluator);
-            return h;
-        }
-
         @Bean
         SecurityFilterChain chain(HttpSecurity http) throws Exception {
             return http.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(a -> a.anyRequest().permitAll()).build();
@@ -81,8 +68,9 @@ public final class Lesson29 extends AbstractLesson {
             return new InMemoryUserDetailsManager(User.withUsername("u").password("{noop}p").roles("USER").build());
         }
 
-        @Bean
-        static PermissionEvaluator permissionEvaluator() {
+        /** Named bean so {@code @PreAuthorize} can call it without Boot's expression-handler wiring. */
+        @Bean("lesson29PermissionEvaluator")
+        static PermissionEvaluator lesson29PermissionEvaluator() {
             return new PermissionEvaluator() {
                 @Override
                 public boolean hasPermission(Authentication auth, Object targetDomainObject, Object permission) {
@@ -102,7 +90,7 @@ public final class Lesson29 extends AbstractLesson {
         }
 
         static class Docs {
-            @PreAuthorize("hasPermission(#id, 'read')")
+            @PreAuthorize("@lesson29PermissionEvaluator.hasPermission(authentication, #id, 'read')")
             public String documentRead(String id) {
                 return "ok-" + id;
             }
