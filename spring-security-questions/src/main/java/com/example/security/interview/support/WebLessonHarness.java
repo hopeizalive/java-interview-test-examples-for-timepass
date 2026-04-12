@@ -2,7 +2,6 @@ package com.example.security.interview.support;
 
 import org.springframework.context.annotation.AnnotatedBeanDefinitionReader;
 import org.springframework.mock.web.MockServletContext;
-import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.support.GenericWebApplicationContext;
@@ -22,9 +21,9 @@ public final class WebLessonHarness implements AutoCloseable {
 
     public WebLessonHarness(Class<?>... configClasses) {
         ctx = new GenericWebApplicationContext();
-        MockServletContext servletContext = new MockServletContext("");
-        servletContext.addListener(HttpSessionEventPublisher.class);
-        ctx.setServletContext(servletContext);
+        // MockServletContext does not support addListener (UnsupportedOperationException since Spring 6.1+).
+        // Lessons that need HttpSessionEventPublisher register it as a @Bean (see e.g. Lesson18).
+        ctx.setServletContext(new MockServletContext(""));
         AnnotatedBeanDefinitionReader reader = new AnnotatedBeanDefinitionReader(ctx);
         reader.register(configClasses);
         ctx.refresh();

@@ -2,9 +2,11 @@ package com.example.security.interview.lesson;
 
 import com.example.security.interview.study.SecurityStudyContext;
 import org.springframework.cache.concurrent.ConcurrentMapCache;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.security.acls.domain.AclAuthorizationStrategyImpl;
 import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.security.acls.domain.ConsoleAuditLogger;
@@ -44,15 +46,18 @@ public final class Lesson45 extends AbstractLesson {
             var cache = new SpringCacheBasedAclCache(new ConcurrentMapCache("acl"), granting, authStrategy);
             var lookup = new BasicLookupStrategy(db, cache, authStrategy, granting);
             var aclService = new JdbcMutableAclService(db, lookup, cache);
+            var tx = new TransactionTemplate(new DataSourceTransactionManager(db));
 
             SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(
                     "acl-admin", "n/a", List.of(new SimpleGrantedAuthority("ROLE_ACL_ADMIN"))));
             try {
                 ObjectIdentity oi = new ObjectIdentityImpl(String.class.getName(), "doc-99");
-                MutableAcl acl = aclService.createAcl(oi);
                 Sid reader = new GrantedAuthoritySid("ROLE_READER");
-                acl.insertAce(0, BasePermission.READ, reader, true);
-                aclService.updateAcl(acl);
+                tx.executeWithoutResult(status -> {
+                    MutableAcl acl = aclService.createAcl(oi);
+                    acl.insertAce(0, BasePermission.READ, reader, true);
+                    aclService.updateAcl(acl);
+                });
 
                 Acl loaded = aclService.readAclById(oi);
                 boolean ok = loaded.isGranted(List.<Permission>of(BasePermission.READ), List.of(reader), false);
