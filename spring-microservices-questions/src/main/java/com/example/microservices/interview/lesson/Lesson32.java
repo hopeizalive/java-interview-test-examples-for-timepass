@@ -21,7 +21,7 @@ import java.util.UUID;
 public final class Lesson32 extends AbstractMicroLesson {
 
     public Lesson32() {
-        super(32, "Kafka + Testcontainers: producer sends to topic; consumer with groupId reads one poll.");
+        super(31, "Kafka + Testcontainers: producer sends to topic; consumer with groupId reads one poll.");
     }
 
     @Override

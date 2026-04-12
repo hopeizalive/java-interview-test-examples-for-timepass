@@ -12,7 +12,7 @@ import org.springframework.web.client.RestClient;
 public final class Lesson40 extends AbstractMicroLesson {
 
     public Lesson40() {
-        super(40, "OAuth2 client: stub token endpoint JSON; RestClient retrieves access_token for service calls.");
+        super(36, "OAuth2 client: stub token endpoint JSON; RestClient retrieves access_token for service calls.");
     }
 
     @Override

@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 /**
- * Study CLI for Spring microservices lessons 1–50.
+ * Study CLI for Spring microservices lessons 1–46 (each runs executable code).
  *
  * <pre>
  *   Windows (repo root): microservices-study.cmd list
@@ -38,7 +38,7 @@ import java.util.concurrent.Callable;
                 MicroservicesStudyCli.RunLesson.class,
                 MicroservicesStudyCli.RunAll.class
         },
-        description = "Run Spring microservices interview lessons (1–50)."
+        description = "Run Spring microservices interview lessons (1–46)."
 )
 public class MicroservicesStudyCli implements Callable<Integer> {
 
@@ -59,7 +59,7 @@ public class MicroservicesStudyCli implements Callable<Integer> {
         return 0;
     }
 
-    @Command(name = "list", description = "List lessons 1–50")
+    @Command(name = "list", description = "List lessons 1–46")
     static class ListLessons implements Callable<Integer> {
         @Override
         public Integer call() {

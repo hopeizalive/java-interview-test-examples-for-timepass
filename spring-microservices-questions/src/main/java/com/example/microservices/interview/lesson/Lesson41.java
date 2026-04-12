@@ -11,7 +11,7 @@ import org.springframework.web.client.RestClient;
 public final class Lesson41 extends AbstractMicroLesson {
 
     public Lesson41() {
-        super(41, "Spring Boot Actuator: /actuator/health exposed on the embedded server (Kubernetes probes).");
+        super(37, "Spring Boot Actuator: /actuator/health exposed on the embedded server (Kubernetes probes).");
     }
 
     @Override

@@ -35,7 +35,7 @@ import java.util.concurrent.Callable;
                 SpringDataStudyCli.RunLesson.class,
                 SpringDataStudyCli.RunAll.class
         },
-        description = "Run Spring Data interview lessons (1–50)."
+        description = "Run Spring Data interview lessons (1–34); each lesson runs real persistence code."
 )
 public class SpringDataStudyCli implements Callable<Integer> {
 
@@ -58,7 +58,7 @@ public class SpringDataStudyCli implements Callable<Integer> {
         return 0;
     }
 
-    @Command(name = "list", description = "List lessons 1–50")
+    @Command(name = "list", description = "List lessons 1–34")
     static class ListLessons implements Callable<Integer> {
         @Override
         public Integer call() {
@@ -68,7 +68,7 @@ public class SpringDataStudyCli implements Callable<Integer> {
         }
     }
 
-    @Command(name = "run", description = "Run a single lesson (1–50)")
+    @Command(name = "run", description = "Run a single lesson (1–34)")
     static class RunLesson implements Callable<Integer> {
         @Parameters(index = "0", description = "Lesson number")
         int lesson;

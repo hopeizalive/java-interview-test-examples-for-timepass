@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-/** All 50 Spring Data lessons; each run uses {@link com.example.springdata.interview.SpringDataStudyApplication} once per lesson. */
+/** All Spring Data lessons ({@link SpringDataLesson#LESSON_COUNT}); each run uses {@link com.example.springdata.interview.SpringDataStudyApplication} once per lesson. */
 public final class LessonCatalog {
 
     private static final List<StudyLesson> LESSONS =
@@ -26,17 +26,19 @@ public final class LessonCatalog {
     public static StudyLesson byNumber(int n) {
         StudyLesson lesson = BY_NUMBER.get(n);
         if (lesson == null) {
-            throw new IllegalArgumentException("No lesson " + n + "; valid range 1–" + LESSONS.size());
+            throw new IllegalArgumentException(
+                    "No lesson " + n + "; valid range 1–" + SpringDataLesson.LESSON_COUNT);
         }
         return lesson;
     }
 
     public static void assertCoverage() {
-        if (LESSONS.size() != 50) {
-            throw new IllegalStateException("Expected 50 lessons, got " + LESSONS.size());
+        if (LESSONS.size() != SpringDataLesson.LESSON_COUNT) {
+            throw new IllegalStateException(
+                    "Expected " + SpringDataLesson.LESSON_COUNT + " lessons, got " + LESSONS.size());
         }
         long distinct = LESSONS.stream().mapToInt(StudyLesson::number).distinct().count();
-        if (distinct != 50) {
+        if (distinct != SpringDataLesson.LESSON_COUNT) {
             throw new IllegalStateException("Duplicate or missing lesson numbers");
         }
     }

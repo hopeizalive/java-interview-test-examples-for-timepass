@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public final class Lesson34 extends AbstractMicroLesson {
 
     public Lesson34() {
-        super(34, "Idempotent consumer: ConcurrentHashMap.newKeySet() skips duplicate message IDs.");
+        super(33, "Idempotent consumer: ConcurrentHashMap.newKeySet() skips duplicate message IDs.");
     }
 
     @Override

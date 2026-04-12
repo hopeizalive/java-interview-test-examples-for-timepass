@@ -37,7 +37,7 @@ public final class Lesson39 extends AbstractMicroLesson {
     private static final String SECRET = "0123456789abcdef0123456789abcdef";
 
     public Lesson39() {
-        super(39, "OAuth2 resource server: JWT Bearer token validated with JwtDecoder + oauth2ResourceServer().");
+        super(35, "OAuth2 resource server: JWT Bearer token validated with JwtDecoder + oauth2ResourceServer().");
     }
 
     @Override

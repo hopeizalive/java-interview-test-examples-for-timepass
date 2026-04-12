@@ -11,7 +11,7 @@ import org.springframework.web.client.RestClient;
 public final class Lesson47 extends AbstractMicroLesson {
 
     public Lesson47() {
-        super(47, "@SpringBootTest random port analog: Boot web app on port 0 + RestClient integration call.");
+        super(43, "@SpringBootTest random port analog: Boot web app on port 0 + RestClient integration call.");
     }
 
     @Override

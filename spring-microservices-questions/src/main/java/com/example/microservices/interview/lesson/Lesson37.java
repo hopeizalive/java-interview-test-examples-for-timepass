@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public final class Lesson37 extends AbstractMicroLesson {
 
     public Lesson37() {
-        super(37, "CQRS sketch: command updates write model; event projects into read model map.");
+        super(34, "CQRS sketch: command updates write model; event projects into read model map.");
     }
 
     @Override

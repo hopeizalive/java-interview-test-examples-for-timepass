@@ -11,6 +11,22 @@ To build all modules, run:
 ./mvnw clean compile
 ```
 
+(On Windows you can use `mvn-idea.cmd compile` from the repo root if that is your IDE-aligned wrapper.)
+
+## Learning guides (concepts + where the code is)
+
+Each interview study module keeps **one** markdown guide so you can read **what** is being taught, **where** it is implemented, and **why** it matters—without turning every Java class into a long essay.
+
+| Module | Guide |
+|--------|--------|
+| Spring Data (repositories, Spring integration; 34 runnable lessons) | [spring-data-interview-study/docs/STUDY_GUIDE.md](spring-data-interview-study/docs/STUDY_GUIDE.md) |
+| JPA / Hibernate mechanics | [jpa-interview-study/docs/STUDY_GUIDE.md](jpa-interview-study/docs/STUDY_GUIDE.md) |
+| Concurrency | [concurrency-interview-study/docs/STUDY_GUIDE.md](concurrency-interview-study/docs/STUDY_GUIDE.md) |
+| Spring Security | [spring-security-questions/LESSONS.md](spring-security-questions/LESSONS.md) (lesson list + topics) |
+| Spring Microservices (46 runnable lessons; pure narrative entries removed) | `spring-microservices-questions` CLI + catalog; optional plan under `.cursor/plans/` |
+
+**Convention for new study modules:** add `your-module/docs/STUDY_GUIDE.md` and link it from this section.
+
 ## Interview study CLI contract (`run-all`)
 
 All **interview study** modules (JPA, Spring Data, Concurrency, Security, Microservices) share the same expectations for `run-all` so CI and local smoke runs behave consistently.

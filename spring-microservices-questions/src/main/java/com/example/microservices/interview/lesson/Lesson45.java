@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public final class Lesson45 extends AbstractMicroLesson {
 
     public Lesson45() {
-        super(45, "@WebMvcTest analog: MockMvc with mocked OrderService bean (no full Spring Boot context).");
+        super(41, "@WebMvcTest analog: MockMvc with mocked OrderService bean (no full Spring Boot context).");
     }
 
     @Override

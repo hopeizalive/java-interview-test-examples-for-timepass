@@ -12,7 +12,7 @@ import org.testcontainers.utility.DockerImageName;
 public final class Lesson33 extends AbstractMicroLesson {
 
     public Lesson33() {
-        super(33, "RabbitMQ Testcontainer: RabbitTemplate send/receive; DLQ via dead-letter exchange in real systems.");
+        super(32, "RabbitMQ Testcontainer: RabbitTemplate send/receive; DLQ via dead-letter exchange in real systems.");
     }
 
     @Override

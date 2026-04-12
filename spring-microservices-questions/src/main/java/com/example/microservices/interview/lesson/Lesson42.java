@@ -9,7 +9,7 @@ import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 public final class Lesson42 extends AbstractMicroLesson {
 
     public Lesson42() {
-        super(42, "Micrometer: SimpleMeterRegistry counter increment; bind to global composite for Actuator export.");
+        super(38, "Micrometer: SimpleMeterRegistry counter increment; bind to global composite for Actuator export.");
     }
 
     @Override

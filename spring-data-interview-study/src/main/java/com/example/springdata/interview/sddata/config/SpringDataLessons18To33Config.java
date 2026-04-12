@@ -205,22 +205,8 @@ public class SpringDataLessons18To33Config {
     }
 
     @Bean
-    LessonRunnable lesson28() {
+    LessonRunnable lesson28(Sd30AuthorRepository authors) {
         return StudyLessonFactory.lesson(28, (app, ctx) -> {
-            ctx.log("@DataJpaTest loads slice (JPA + repos) without full web stack; see src/test/.../Lesson28DataJpaSliceTest.java.");
-        });
-    }
-
-    @Bean
-    LessonRunnable lesson29() {
-        return StudyLessonFactory.lesson(29, (app, ctx) -> {
-            ctx.log("H2 is fast for CI; Testcontainers + Postgres validates real SQL, dialect, and migration scripts.");
-        });
-    }
-
-    @Bean
-    LessonRunnable lesson30(Sd30AuthorRepository authors) {
-        return StudyLessonFactory.lesson(30, (app, ctx) -> {
             Sd30Author a = new Sd30Author();
             a.setName("Jordan");
             Sd30Book b1 = new Sd30Book();
@@ -237,26 +223,12 @@ public class SpringDataLessons18To33Config {
     }
 
     @Bean
-    LessonRunnable lesson31(Sd31JdbcShipmentRepository jdbcRepo) {
-        return StudyLessonFactory.lesson(31, (app, ctx) -> {
+    LessonRunnable lesson29(Sd31JdbcShipmentRepository jdbcRepo) {
+        return StudyLessonFactory.lesson(29, (app, ctx) -> {
             Sd31JdbcShipment s = new Sd31JdbcShipment();
             s.setTrackingCode("TRK-1");
             Sd31JdbcShipment saved = jdbcRepo.save(s);
             ctx.log("Spring Data JDBC maps aggregates to SQL explicitly (no lazy navigators); saved id=" + saved.getId());
-        });
-    }
-
-    @Bean
-    LessonRunnable lesson32() {
-        return StudyLessonFactory.lesson(32, (app, ctx) -> {
-            ctx.log("Pick JDBC when you want predictable SQL, reporting, or team comfort outweighs ORM productivity.");
-        });
-    }
-
-    @Bean
-    LessonRunnable lesson33() {
-        return StudyLessonFactory.lesson(33, (app, ctx) -> {
-            ctx.log("R2DBC pairs with reactive stacks; model stays explicit like JDBC but APIs are non-blocking.");
         });
     }
 }

@@ -8,7 +8,7 @@ import io.micrometer.observation.ObservationRegistry;
 public final class Lesson43 extends AbstractMicroLesson {
 
     public Lesson43() {
-        super(43, "Distributed tracing: ObservationRegistry scopes work; Brave/OTel bridges export trace IDs.");
+        super(39, "Distributed tracing: ObservationRegistry scopes work; Brave/OTel bridges export trace IDs.");
     }
 
     @Override

@@ -7,8 +7,10 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-/** All 50 Spring microservices lessons, ordered 1–50. */
+/** Spring microservices lessons (1–46); narrative-only entries removed so each lesson runs executable code. */
 public final class MicroservicesLessonCatalog {
+
+    public static final int LESSON_COUNT = 46;
 
     private static final List<MicroserviceStudyLesson> LESSONS = List.of(
             new Lesson01(),
@@ -41,14 +43,10 @@ public final class MicroservicesLessonCatalog {
             new Lesson28(),
             new Lesson29(),
             new Lesson30(),
-            new Lesson31(),
             new Lesson32(),
             new Lesson33(),
             new Lesson34(),
-            new Lesson35(),
-            new Lesson36(),
             new Lesson37(),
-            new Lesson38(),
             new Lesson39(),
             new Lesson40(),
             new Lesson41(),
@@ -76,17 +74,17 @@ public final class MicroservicesLessonCatalog {
     public static MicroserviceStudyLesson byNumber(int n) {
         MicroserviceStudyLesson lesson = BY_NUMBER.get(n);
         if (lesson == null) {
-            throw new IllegalArgumentException("No lesson " + n + "; valid range 1–" + LESSONS.size());
+            throw new IllegalArgumentException("No lesson " + n + "; valid range 1–" + LESSON_COUNT);
         }
         return lesson;
     }
 
     public static void assertCoverage() {
-        if (LESSONS.size() != 50) {
-            throw new IllegalStateException("Expected 50 lessons, got " + LESSONS.size());
+        if (LESSONS.size() != LESSON_COUNT) {
+            throw new IllegalStateException("Expected " + LESSON_COUNT + " lessons, got " + LESSONS.size());
         }
         long distinct = LESSONS.stream().mapToInt(MicroserviceStudyLesson::number).distinct().count();
-        if (distinct != 50) {
+        if (distinct != LESSON_COUNT) {
             throw new IllegalStateException("Duplicate or missing lesson numbers");
         }
     }

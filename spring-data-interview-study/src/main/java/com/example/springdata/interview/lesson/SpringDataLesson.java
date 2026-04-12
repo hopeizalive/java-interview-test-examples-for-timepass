@@ -6,7 +6,10 @@ import com.example.springdata.interview.study.StudyLesson;
 import com.example.springdata.interview.support.DataSdBoot;
 import org.springframework.boot.WebApplicationType;
 
-/** Fifty interview lessons; all share {@link com.example.springdata.interview.SpringDataStudyApplication}. */
+/**
+ * Spring Data lessons with runnable persistence code only (no pure narrative slots).
+ * Lessons renumbered 1–34 after removing theory-only entries.
+ */
 public enum SpringDataLesson implements StudyLesson {
 
     L01(1, "Spring Data JpaRepository vs EntityManager — less ceremony for CRUD."),
@@ -36,29 +39,15 @@ public enum SpringDataLesson implements StudyLesson {
     L25(25, "JPA auditing: @CreatedDate / @LastModifiedDate via EntityListeners."),
     L26(26, "Custom repository fragment + *Impl registered by naming convention."),
     L27(27, "EntityManager.executeUpdate for bulk operations beside repositories."),
-    L28(28, "@DataJpaTest slices JPA; @SpringBootTest loads the full application."),
-    L29(29, "H2 for fast feedback; Testcontainers + real DB for SQL fidelity."),
-    L30(30, "Pagination + join fetch: duplicates, distinct, separate countQuery."),
-    L31(31, "Spring Data JDBC: small aggregates, explicit SQL, no lazy navigation."),
-    L32(32, "Pick JDBC when reporting, tight SQL, or ORM overhead outweighs benefits."),
-    L33(33, "Spring Data R2DBC targets reactive stacks with non-blocking drivers."),
-    L34(34, "Redis: Spring Data repositories vs RedisTemplate (primitives vs objects)."),
-    L35(35, "Redis serialization: JSON codecs, schema drift, and cluster compatibility."),
-    L36(36, "MongoDB: documents and embedding vs relational normalization."),
-    L37(37, "Spring Data REST exposes repos as HTTP — default is often too open."),
-    L38(38, "Elasticsearch: search indices complement OLTP stores."),
-    L39(39, "Cassandra: partition keys, write paths, and limited ad-hoc query."),
-    L40(40, "Spring Data LDAP maps directory entries through repository abstractions."),
-    L41(41, "Neo4j: relationship-heavy models vs join explosion in SQL."),
-    L42(42, "Spring Boot BOM aligns Spring Data modules — avoid manual version pins."),
-    L43(43, "CalVer release cadence: plan upgrades; read release notes."),
-    L44(44, "SpEL in @Query (#{#…}) adds flexibility but hurts static analysis."),
-    L45(45, "Domain events (AbstractAggregateRoot) publish after successful persist."),
-    L46(46, "Avoid N+1: fetch join, @EntityGraph, or projections for API payloads."),
-    L47(47, "Disable open-in-view in APIs; keep session lifetime explicit."),
-    L48(48, "Indexes + selective predicates align repository methods with planner use."),
-    L49(49, "Unique constraints + DataIntegrityViolationException for idempotent writes."),
-    L50(50, "Capstone: pick JPA, JDBC, document, or cache by data shape and consistency.");
+    L28(28, "Pagination + join fetch: duplicates, distinct, separate countQuery."),
+    L29(29, "Spring Data JDBC: small aggregates, explicit SQL, no lazy navigation."),
+    L30(30, "SpEL in @Query (#{#…}) adds flexibility but hurts static analysis."),
+    L31(31, "Domain events (AbstractAggregateRoot) publish after successful persist."),
+    L32(32, "Avoid N+1: fetch join, @EntityGraph, or projections for API payloads."),
+    L33(33, "Indexes + selective predicates align repository methods with planner use."),
+    L34(34, "Unique constraints + DataIntegrityViolationException for idempotent writes.");
+
+    public static final int LESSON_COUNT = 34;
 
     private final int number;
     private final String title;

@@ -19,82 +19,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.DataIntegrityViolationException;
 
+/** Lessons 30–34 (renumbered; former narrative-only slots removed). */
 @Configuration
 public class SpringDataLessons34To50Config {
 
     @Bean
-    LessonRunnable lesson34() {
-        return StudyLessonFactory.lesson(34, (app, ctx) -> {
-            ctx.log("Redis repositories map keys/fields to objects; RedisTemplate is lower-level (ops per type).");
-        });
-    }
-
-    @Bean
-    LessonRunnable lesson35() {
-        return StudyLessonFactory.lesson(35, (app, ctx) -> {
-            ctx.log("Serialization (JSON/Kryo) drives compatibility; plan migrations and avoid storing opaque blobs without version.");
-        });
-    }
-
-    @Bean
-    LessonRunnable lesson36() {
-        return StudyLessonFactory.lesson(36, (app, ctx) -> {
-            ctx.log("MongoDB favors embedded documents vs joins; repositories feel similar but consistency and query shapes differ.");
-        });
-    }
-
-    @Bean
-    LessonRunnable lesson37() {
-        return StudyLessonFactory.lesson(37, (app, ctx) -> {
-            ctx.log("Spring Data REST exposes repositories over HTTP—tighten security, projections, and exposure defaults.");
-        });
-    }
-
-    @Bean
-    LessonRunnable lesson38() {
-        return StudyLessonFactory.lesson(38, (app, ctx) -> {
-            ctx.log("Elasticsearch indexes serve search/relevance; keep OLTP in the primary store and sync/index as needed.");
-        });
-    }
-
-    @Bean
-    LessonRunnable lesson39() {
-        return StudyLessonFactory.lesson(39, (app, ctx) -> {
-            ctx.log("Cassandra optimizes wide partitions and write throughput; queries are constrained by partition key design.");
-        });
-    }
-
-    @Bean
-    LessonRunnable lesson40() {
-        return StudyLessonFactory.lesson(40, (app, ctx) -> {
-            ctx.log("Spring Data LDAP models directory entries (users/groups) with repository-style accessors for SSO-heavy apps.");
-        });
-    }
-
-    @Bean
-    LessonRunnable lesson41() {
-        return StudyLessonFactory.lesson(41, (app, ctx) -> {
-            ctx.log("Neo4j Spring Data targets relationship-heavy graphs where SQL joins become expensive to reason about.");
-        });
-    }
-
-    @Bean
-    LessonRunnable lesson42() {
-        return StudyLessonFactory.lesson(42, (app, ctx) -> {
-            ctx.log("Spring Boot BOM (release train) aligns Spring Data modules—avoid ad-hoc version pins that drift from Boot.");
-        });
-    }
-
-    @Bean
-    LessonRunnable lesson43() {
-        return StudyLessonFactory.lesson(43, (app, ctx) -> {
-            ctx.log("CalVer cadence: plan upgrades regularly; read release notes for breaking repository/query changes.");
-        });
-    }
-
-    @Bean
-    LessonRunnable lesson44(Sd44SnipRepository repo) {
-        return StudyLessonFactory.lesson(44, (app, ctx) -> {
+    LessonRunnable lesson30(Sd44SnipRepository repo) {
+        return StudyLessonFactory.lesson(30, (app, ctx) -> {
             Sd44Snip a = new Sd44Snip();
             a.setTitle("alpha-demo");
             repo.save(a);
@@ -105,8 +36,8 @@ public class SpringDataLessons34To50Config {
     }
 
     @Bean
-    LessonRunnable lesson45(Sd45OrderRepository orders, Sd45EventListener listener) {
-        return StudyLessonFactory.lesson(45, (app, ctx) -> {
+    LessonRunnable lesson31(Sd45OrderRepository orders, Sd45EventListener listener) {
+        return StudyLessonFactory.lesson(31, (app, ctx) -> {
             Sd45Order o = new Sd45Order();
             o.setState("NEW");
             o = orders.save(o);
@@ -117,8 +48,8 @@ public class SpringDataLessons34To50Config {
     }
 
     @Bean
-    LessonRunnable lesson46(Sd46ParentRepository parents, Sd46BrowseService browse) {
-        return StudyLessonFactory.lesson(46, (app, ctx) -> {
+    LessonRunnable lesson32(Sd46ParentRepository parents, Sd46BrowseService browse) {
+        return StudyLessonFactory.lesson(32, (app, ctx) -> {
             Sd46Parent p = new Sd46Parent();
             p.setName("root");
             Sd46Child c1 = new Sd46Child();
@@ -136,15 +67,8 @@ public class SpringDataLessons34To50Config {
     }
 
     @Bean
-    LessonRunnable lesson47() {
-        return StudyLessonFactory.lesson(47, (app, ctx) -> {
-            ctx.log("open-in-view=false (set in DataSdBoot) avoids hidden session spans in APIs; fetch explicitly in services.");
-        });
-    }
-
-    @Bean
-    LessonRunnable lesson48(Sd48SkuRepository repo) {
-        return StudyLessonFactory.lesson(48, (app, ctx) -> {
+    LessonRunnable lesson33(Sd48SkuRepository repo) {
+        return StudyLessonFactory.lesson(33, (app, ctx) -> {
             Sd48Sku s = new Sd48Sku();
             s.setProductLine("books");
             s.setSkuCode("B-100");
@@ -155,8 +79,8 @@ public class SpringDataLessons34To50Config {
     }
 
     @Bean
-    LessonRunnable lesson49(Sd49LoginRepository repo) {
-        return StudyLessonFactory.lesson(49, (app, ctx) -> {
+    LessonRunnable lesson34(Sd49LoginRepository repo) {
+        return StudyLessonFactory.lesson(34, (app, ctx) -> {
             Sd49Login first = new Sd49Login();
             first.setUserId("pat");
             repo.save(first);
@@ -169,14 +93,6 @@ public class SpringDataLessons34To50Config {
                 ctx.log("Unique constraint → DataIntegrityViolationException for idempotent/duplicate handling: "
                         + ex.getClass().getSimpleName());
             }
-        });
-    }
-
-    @Bean
-    LessonRunnable lesson50() {
-        return StudyLessonFactory.lesson(50, (app, ctx) -> {
-            ctx.log("Capstone: normalized OLTP + rich domain → JPA; heavy reporting/tight SQL → JDBC; document-shaped reads → Mongo;");
-            ctx.log("cache → Redis; search → Elasticsearch; each lesson package (sddata.l*) shows the API you rehearse.");
         });
     }
 }
