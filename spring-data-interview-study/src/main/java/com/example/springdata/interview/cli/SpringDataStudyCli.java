@@ -5,11 +5,22 @@ import com.example.springdata.interview.study.StudyContext;
 import com.example.springdata.interview.study.StudyLesson;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
+
+import static java.nio.file.StandardOpenOption.APPEND;
+import static java.nio.file.StandardOpenOption.CREATE;
+import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
 
 /**
  * Spring Data interview lessons (1–50), H2-backed Boot contexts per lesson.
@@ -18,6 +29,7 @@ import java.util.concurrent.Callable;
  *   mvn -pl spring-data-interview-study exec:java -Dexec.args="list"
  *   mvn -pl spring-data-interview-study exec:java -Dexec.args="run 1"
  *   mvn -pl spring-data-interview-study exec:java -Dexec.args="run-all"
+ *   mvn -pl spring-data-interview-study exec:java -Dexec.args="run-all --errors-log /tmp/sd-errors.log"
  * </pre>
  */
 @Command(
@@ -75,12 +87,20 @@ public class SpringDataStudyCli implements Callable<Integer> {
 
     @Command(name = "run-all", description = "Run every lesson in order; continue on failure and print a summary (exit 1 if any failed)")
     static class RunAll implements Callable<Integer> {
+
+        @Option(
+                names = {"--errors-log", "-e"},
+                defaultValue = "spring-data-study-run-all-errors.log",
+                description = "Single file for full stack traces of all failed lessons (truncated when the first failure is recorded).")
+        private Path errorsLog;
+
         @Override
-        public Integer call() {
+        public Integer call() throws Exception {
             StudyContext ctx = new StudyContext();
             int passed = 0;
             List<Integer> failedNumbers = new ArrayList<>();
             List<String> failedMessages = new ArrayList<>();
+            boolean[] logStarted = {false};
             for (StudyLesson lesson : LessonCatalog.all()) {
                 try {
                     runLesson(ctx, lesson);
@@ -89,6 +109,7 @@ public class SpringDataStudyCli implements Callable<Integer> {
                     failedNumbers.add(lesson.number());
                     failedMessages.add(failureMessage(t));
                     System.err.println("[FAILED] Lesson " + lesson.number() + ": " + failureMessage(t));
+                    appendFailureToLog(errorsLog, logStarted, lesson, t);
                 }
             }
             int failed = failedNumbers.size();
@@ -98,6 +119,9 @@ public class SpringDataStudyCli implements Callable<Integer> {
                 for (int i = 0; i < failedNumbers.size(); i++) {
                     System.out.println("  #" + failedNumbers.get(i) + " — " + failedMessages.get(i));
                 }
+                System.out.println();
+                System.out.println("Full stack traces (all failures in one file):");
+                System.out.println("  " + errorsLog.toAbsolutePath().normalize());
                 return 1;
             }
             return 0;
@@ -121,5 +145,34 @@ public class SpringDataStudyCli implements Callable<Integer> {
             return c.getClass().getSimpleName();
         }
         return c.getClass().getSimpleName() + ": " + m;
+    }
+
+    /**
+     * One file for the whole {@code run-all}: first failure truncates and writes a header; later failures append
+     * a clearly delimited section with the full stack trace each time.
+     */
+    private static void appendFailureToLog(Path path, boolean[] logStarted, StudyLesson lesson, Throwable t)
+            throws Exception {
+        var section = new StringBuilder(512);
+        if (!logStarted[0]) {
+            section.append("Spring Data interview study — run-all failure log\n");
+            section.append("Started: ").append(Instant.now()).append("\n");
+            section.append("(One file for every failure in this run; not one file per lesson.)\n\n");
+            logStarted[0] = true;
+            Files.writeString(path, section.toString(), StandardCharsets.UTF_8, CREATE, TRUNCATE_EXISTING);
+            section.setLength(0);
+        }
+        section.append("================================================================================\n");
+        section.append("Lesson ").append(lesson.number()).append(" — ").append(lesson.title()).append('\n');
+        section.append("Recorded: ").append(Instant.now()).append("\n");
+        section.append("--------------------------------------------------------------------------------\n");
+        var sw = new StringWriter();
+        t.printStackTrace(new PrintWriter(sw));
+        section.append(sw);
+        if (!section.isEmpty() && section.charAt(section.length() - 1) != '\n') {
+            section.append('\n');
+        }
+        section.append('\n');
+        Files.writeString(path, section.toString(), StandardCharsets.UTF_8, CREATE, APPEND);
     }
 }
