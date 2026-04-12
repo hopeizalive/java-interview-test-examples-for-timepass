@@ -8,6 +8,19 @@ set -euo pipefail
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 cd "$DIR" || exit 1
 
+if [[ $# -ne 1 || "$1" != "run-all" ]]; then
+  cat <<EOF
+Usage: $0 run-all
+
+Run all four study module scripts in sequence:
+  concurrency-study.sh
+  microservices-study.sh
+  security-study.sh
+  spring-data-study.sh
+EOF
+  exit 1
+fi
+
 SCRIPTS=(
   "./concurrency-study.sh"
   "./microservices-study.sh"
@@ -32,11 +45,11 @@ done
 for script in "${SCRIPTS[@]}"; do
   echo
   echo "================================================================="
-  echo "Starting: $script"
+  echo "Starting: $script run-all"
   echo "================================================================="
-  "$script"
+  "$script" run-all
   echo "================================================================="
-  echo "Completed: $script"
+  echo "Completed: $script run-all"
   echo "================================================================="
   echo
 
