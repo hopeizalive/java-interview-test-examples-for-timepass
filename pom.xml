@@ -16,6 +16,7 @@
         <module>spring-security-questions</module>
         <module>spring-microservices-questions</module>
         <module>spring-data-interview-study</module>
+        <module>concurrency-interview-study</module>
     </modules>
 
     <properties>

@@ -1,0 +1,57 @@
+# Concurrency interview study — operator / search reference
+# Index this file for production docs search (keywords: concurrency multithreading threads executor kafka interview study CLI).
+
+module_name=Concurrency interview study
+maven_artifact=concurrency-interview-study
+main_class=com.example.concurrency.interview.cli.ConcurrencyStudyCli
+cli_command_name=concurrency-study
+lesson_count=60
+
+description=
+  Executable Java 21 / Spring Boot CLI with 60 lessons covering thread lifecycle, Runnable Callable Future,
+  ExecutorService thread pools, synchronized ReentrantLock ReadWriteLock StampedLock, atomics volatile,
+  race conditions, batch processing (1200+ records), producer-consumer BlockingQueue,
+  CompletableFuture chaining and error handling, graceful shutdown, backpressure Semaphore rejection policies,
+  pool tuning, ScheduledExecutorService Spring @Scheduled TaskScheduler, parallel chunks,
+  Embedded Kafka producer consumer batch vs record, capstone patterns.
+
+production_linux_script=./concurrency-study.sh
+production_linux_jar_script=./concurrency-study-jar.sh
+local_windows_script=concurrency-study.cmd
+local_windows_jar_script=concurrency-study-jar.cmd
+
+prerequisites=
+  Java 21 (production: JAVA_HOME /usr/lib/jvm/java-21-openjdk-amd64 as in other study scripts)
+  Maven wrapper optional for .sh/.cmd exec path; JAR path needs package first.
+
+build_fat_jar=
+  ./mvnw -pl concurrency-interview-study package
+
+run_maven_examples=
+  ./concurrency-study.sh
+  ./concurrency-study.sh list
+  ./concurrency-study.sh run 27
+  ./concurrency-study.sh run-all
+
+run_jar_examples=
+  ./concurrency-study-jar.sh list
+  ./concurrency-study-jar.sh run 1
+  ./concurrency-study-jar.sh run-all
+
+windows_maven_examples=
+  concurrency-study.cmd list
+  concurrency-study.cmd run 59
+  concurrency-study.cmd run-all
+
+subcommands=
+  list       — print lessons 1–60 with titles
+  run N      — run lesson number N
+  run-all    — run every lesson in order (includes Embedded Kafka for late lessons; slower)
+
+search_keywords=
+  concurrency multithreading parallel threads ExecutorService CompletableFuture volatile synchronized
+  ReentrantLock race condition BlockingQueue producer consumer backpressure Kafka EmbeddedKafka
+  Spring Boot interview training study CLI picocli lesson
+
+notes=
+  Lessons 59–60 start an embedded Kafka broker (no external cluster). run-all is suitable for CI with enough time and memory.
