@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public final class Lesson37 extends AbstractLesson {
 
     public Lesson37() {
-        super(37, "Opaque token—introspector accepts token opaque-ok and maps scopes.");
+        super(36, "Opaque token—introspector accepts token opaque-ok and maps scopes.");
     }
 
     @Override

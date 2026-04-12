@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public final class Lesson30 extends AbstractLesson {
 
     public Lesson30() {
-        super(30, "CSRF—POST /action forbidden without token; with(csrf()) succeeds.");
+        super(29, "CSRF—POST /action forbidden without token; with(csrf()) succeeds.");
     }
 
     @Override

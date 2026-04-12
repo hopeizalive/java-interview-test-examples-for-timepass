@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public final class Lesson44 extends AbstractLesson {
 
     public Lesson44() {
-        super(43, "SwitchUserFilter—admin hits /login/impersonate then sees victim principal on /who.");
+        super(42, "SwitchUserFilter—admin hits /login/impersonate then sees victim principal on /who.");
     }
 
     @Override

@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public final class Lesson33 extends AbstractLesson {
 
     public Lesson33() {
-        super(33, "Resource server JWT—Bearer with HS256 token 200; invalid token 401.");
+        super(32, "Resource server JWT—Bearer with HS256 token 200; invalid token 401.");
     }
 
     @Override

@@ -1,4 +1,4 @@
-# Spring Security lessons 1–49
+# Spring Security lessons 1–48
 
 Command (from repo root):
 
@@ -36,27 +36,26 @@ mvn -pl spring-security-questions exec:java -Dexec.args="run <n>"
 | 26 | @PostAuthorize | Return value fails post-check → `AccessDeniedException`. |
 | 27 | @Secured vs @RolesAllowed | Both require `ROLE_ADMIN`; neither satisfied in empty security context. |
 | 28 | @AuthenticationPrincipal | Custom `UserDetails` subtype exposed in MVC. |
-| 29 | PermissionEvaluator | `documentRead("doc1")` OK; `documentRead("doc2")` throws `AccessDeniedException`. |
-| 30 | CSRF | POST without token → 403; `with(csrf())` → 200. |
-| 31 | CORS | OPTIONS preflight returns `Access-Control-Allow-Origin`. |
-| 32 | Security headers | `X-Frame-Options: DENY` and HSTS present. |
-| 33 | JWT resource server | Valid HS256 Bearer → 200; junk token → 401. |
-| 34 | JwtAuthenticationConverter | `roles` claim mapped to `ROLE_*` for authorization. |
-| 35 | Client credentials | `MockWebServer` issues token JSON; token client parses access token. |
-| 36 | OIDC-shaped JWT | Decode locally signed JWT with `aud` / `email`. |
-| 37 | Opaque token introspector | `opaque-ok` → 200; `bad` → 401. |
-| 38 | LDAP bind | UnboundID in-memory LDAP; `BindAuthenticator` binds `test` user. |
-| 39 | RequestAttributeAuthenticationFilter | Request attribute becomes `PreAuthenticated` principal. |
-| 40 | Entry point vs access denied | No auth → 401 body `unauth`; wrong role → 403 `denied`. |
-| 41 | AccessDeniedHandler | VIP-only route returns custom 403 body. |
-| 42 | RunAsUserToken | Token carries `ROLE_RUN_AS_SPECIAL`. |
-| 43 | Switch user | Admin impersonates `victim`; `/who` returns victim name. |
-| 44 | JDBC ACL | H2 + `JdbcMutableAclService`; `isGranted` READ for `ROLE_READER`. |
-| 45 | KeyGenerators | Non-empty string and random bytes from `spring-security-crypto`. |
-| 46 | `user()` vs Basic | MockMvc synthetic user and real Basic both pass `/secure`. |
-| 47 | securityContext() | Injects custom `SecurityContext` into request. |
-| 48 | authentication() | Injects `Authentication` into request. |
-| 49 | WebFlux chain | `/api/ping` 401 anonymous; `mockUser` → 200. |
+| 29 | CSRF | POST without token → 403; `with(csrf())` → 200. |
+| 30 | CORS | OPTIONS preflight returns `Access-Control-Allow-Origin`. |
+| 31 | Security headers | `X-Frame-Options: DENY` and HSTS present. |
+| 32 | JWT resource server | Valid HS256 Bearer → 200; junk token → 401. |
+| 33 | JwtAuthenticationConverter | `roles` claim mapped to `ROLE_*` for authorization. |
+| 34 | Client credentials | `MockWebServer` issues token JSON; token client parses access token. |
+| 35 | OIDC-shaped JWT | Decode locally signed JWT with `aud` / `email`. |
+| 36 | Opaque token introspector | `opaque-ok` → 200; `bad` → 401. |
+| 37 | LDAP bind | UnboundID in-memory LDAP; `BindAuthenticator` binds `test` user. |
+| 38 | RequestAttributeAuthenticationFilter | Request attribute becomes `PreAuthenticated` principal. |
+| 39 | Entry point vs access denied | No auth → 401 body `unauth`; wrong role → 403 `denied`. |
+| 40 | AccessDeniedHandler | VIP-only route returns custom 403 body. |
+| 41 | RunAsUserToken | Token carries `ROLE_RUN_AS_SPECIAL`. |
+| 42 | Switch user | Admin impersonates `victim`; `/who` returns victim name. |
+| 43 | JDBC ACL | HSQL + `JdbcMutableAclService`; `isGranted` READ for `ROLE_READER`. |
+| 44 | KeyGenerators | Non-empty string and random bytes from `spring-security-crypto`. |
+| 45 | `user()` vs Basic | MockMvc synthetic user and real Basic both pass `/secure`. |
+| 46 | securityContext() | Injects custom `SecurityContext` into request. |
+| 47 | authentication() | Injects `Authentication` into request. |
+| 48 | WebFlux chain | `/api/ping` 401 anonymous; `mockUser` → 200. |
 
 ---
 

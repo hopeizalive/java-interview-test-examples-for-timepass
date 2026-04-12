@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public final class Lesson31 extends AbstractLesson {
 
     public Lesson31() {
-        super(31, "CORS—preflight OPTIONS returns Access-Control-Allow-Origin.");
+        super(30, "CORS—preflight OPTIONS returns Access-Control-Allow-Origin.");
     }
 
     @Override

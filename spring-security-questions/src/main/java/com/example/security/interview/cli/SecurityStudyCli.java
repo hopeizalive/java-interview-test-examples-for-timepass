@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 /**
- * Study CLI for Spring Security lessons 1–49.
+ * Study CLI for Spring Security lessons 1–48.
  *
  * <pre>
  *   Windows (repo root): security-study.cmd list
@@ -35,7 +35,7 @@ import java.util.concurrent.Callable;
                 SecurityStudyCli.RunLesson.class,
                 SecurityStudyCli.RunAll.class
         },
-        description = "Run Spring Security interview lessons (1–49)."
+        description = "Run Spring Security interview lessons (1–48)."
 )
 public class SecurityStudyCli implements Callable<Integer> {
 
@@ -58,7 +58,7 @@ public class SecurityStudyCli implements Callable<Integer> {
         return 0;
     }
 
-    @Command(name = "list", description = "List lessons 1–49")
+    @Command(name = "list", description = "List lessons 1–48")
     static class ListLessons implements Callable<Integer> {
         @Override
         public Integer call() {
@@ -68,7 +68,7 @@ public class SecurityStudyCli implements Callable<Integer> {
         }
     }
 
-    @Command(name = "run", description = "Run a single lesson (1–49)")
+    @Command(name = "run", description = "Run a single lesson (1–48)")
     static class RunLesson implements Callable<Integer> {
         @Parameters(index = "0", description = "Lesson number")
         int lesson;

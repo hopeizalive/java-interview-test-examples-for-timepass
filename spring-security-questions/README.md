@@ -1,6 +1,6 @@
 # Spring Security interview lessons
 
-Forty-nine **hands-on** lessons (Java demos, not prose-only). Each `run` exercises Spring Security APIs or a minimal web/reactive setup.
+Forty-eight **hands-on** lessons (Java demos, not prose-only). Each `run` exercises Spring Security APIs or a minimal web/reactive setup.
 
 ## Run the CLI
 

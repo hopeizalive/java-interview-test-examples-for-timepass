@@ -34,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public final class Lesson34 extends AbstractLesson {
 
     public Lesson34() {
-        super(34, "JwtAuthenticationConverter—roles claim becomes ROLE_* authorities.");
+        super(33, "JwtAuthenticationConverter—roles claim becomes ROLE_* authorities.");
     }
 
     @Override

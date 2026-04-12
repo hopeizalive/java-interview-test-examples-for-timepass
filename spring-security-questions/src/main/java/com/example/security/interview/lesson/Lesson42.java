@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public final class Lesson42 extends AbstractLesson {
 
     public Lesson42() {
-        super(41, "ExceptionTranslationFilter—AccessDeniedException mapped to custom 403 body.");
+        super(40, "ExceptionTranslationFilter—AccessDeniedException mapped to custom 403 body.");
     }
 
     @Override

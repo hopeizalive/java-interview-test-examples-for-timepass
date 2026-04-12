@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public final class Lesson32 extends AbstractLesson {
 
     public Lesson32() {
-        super(32, "Security headers—frameOptions deny + HSTS observed on GET /h.");
+        super(31, "Security headers—frameOptions deny + HSTS observed on GET /h.");
     }
 
     @Override

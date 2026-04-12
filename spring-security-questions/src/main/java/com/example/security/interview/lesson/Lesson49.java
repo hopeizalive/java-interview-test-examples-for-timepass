@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public final class Lesson49 extends AbstractLesson {
 
     public Lesson49() {
-        super(48, "authentication() post-processor—UsernamePasswordAuthenticationToken for MockMvc.");
+        super(47, "authentication() post-processor—UsernamePasswordAuthenticationToken for MockMvc.");
     }
 
     @Override

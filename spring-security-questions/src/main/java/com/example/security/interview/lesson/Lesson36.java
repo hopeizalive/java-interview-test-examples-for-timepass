@@ -19,7 +19,7 @@ import java.util.List;
 public final class Lesson36 extends AbstractLesson {
 
     public Lesson36() {
-        super(36, "OIDC ID token shape—iss, aud, email claims decoded locally.");
+        super(35, "OIDC ID token shape—iss, aud, email claims decoded locally.");
     }
 
     @Override

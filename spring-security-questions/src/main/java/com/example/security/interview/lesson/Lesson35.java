@@ -16,7 +16,7 @@ import org.springframework.security.oauth2.core.endpoint.OAuth2AccessTokenRespon
 public final class Lesson35 extends AbstractLesson {
 
     public Lesson35() {
-        super(35, "OAuth2 client credentials—ClientRegistration + token JSON from MockWebServer.");
+        super(34, "OAuth2 client credentials—ClientRegistration + token JSON from MockWebServer.");
     }
 
     @Override

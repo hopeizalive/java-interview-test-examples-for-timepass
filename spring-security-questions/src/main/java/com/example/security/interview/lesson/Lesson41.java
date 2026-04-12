@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public final class Lesson41 extends AbstractLesson {
 
     public Lesson41() {
-        super(40, "AuthenticationEntryPoint vs AccessDeniedHandler—401 unauthenticated, 403 wrong role.");
+        super(39, "AuthenticationEntryPoint vs AccessDeniedHandler—401 unauthenticated, 403 wrong role.");
     }
 
     @Override

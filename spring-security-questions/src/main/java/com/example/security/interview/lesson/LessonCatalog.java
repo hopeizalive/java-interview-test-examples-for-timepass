@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-/** All 49 Spring Security lessons, ordered 1–49 (SAML metadata lesson removed—no cert or extra repo prerequisites). */
+/** All 48 Spring Security lessons, ordered 1–48 (SAML metadata lesson removed from original set). */
 public final class LessonCatalog {
 
     private static final List<StudyLesson> LESSONS = List.of(
@@ -39,7 +39,6 @@ public final class LessonCatalog {
             new Lesson26(),
             new Lesson27(),
             new Lesson28(),
-            new Lesson29(),
             new Lesson30(),
             new Lesson31(),
             new Lesson32(),
@@ -81,11 +80,11 @@ public final class LessonCatalog {
     }
 
     public static void assertCoverage() {
-        if (LESSONS.size() != 49) {
-            throw new IllegalStateException("Expected 49 lessons, got " + LESSONS.size());
+        if (LESSONS.size() != 48) {
+            throw new IllegalStateException("Expected 48 lessons, got " + LESSONS.size());
         }
         long distinct = LESSONS.stream().mapToInt(StudyLesson::number).distinct().count();
-        if (distinct != 49) {
+        if (distinct != 48) {
             throw new IllegalStateException("Duplicate or missing lesson numbers");
         }
         for (int i = 0; i < LESSONS.size(); i++) {

@@ -31,7 +31,7 @@ import java.util.List;
 public final class Lesson45 extends AbstractLesson {
 
     public Lesson45() {
-        super(44, "JdbcMutableAclService + HSQL—grant READ to ROLE_READER; isGranted true.");
+        super(43, "JdbcMutableAclService + HSQL—grant READ to ROLE_READER; isGranted true.");
     }
 
     @Override

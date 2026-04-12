@@ -35,7 +35,7 @@ public final class Lesson40 extends AbstractLesson {
     public static final String ATTR = "com.example.lesson40.USER";
 
     public Lesson40() {
-        super(39, "RequestAttributeAuthenticationFilter—request attribute becomes authenticated user.");
+        super(38, "RequestAttributeAuthenticationFilter—request attribute becomes authenticated user.");
     }
 
     @Override

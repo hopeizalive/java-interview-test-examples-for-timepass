@@ -1,0 +1,38 @@
+Spring Security interview study — run-all failure log
+Started: 2026-04-12T20:29:06.500776115Z
+(One file for every failure in this run; not one file per lesson.)
+
+================================================================================
+Lesson 29 — PermissionEvaluator—hasPermission('doc1','read') gates documentRead.
+Recorded: 2026-04-12T20:29:06.503495146Z
+--------------------------------------------------------------------------------
+org.springframework.security.authorization.AuthorizationDeniedException: Access Denied
+	at org.springframework.security.authorization.method.ThrowingMethodAuthorizationDeniedHandler.handleDeniedInvocation(ThrowingMethodAuthorizationDeniedHandler.java:38)
+	at org.springframework.security.authorization.method.PreAuthorizeAuthorizationManager.handleDeniedInvocation(PreAuthorizeAuthorizationManager.java:108)
+	at org.springframework.security.authorization.method.AuthorizationManagerBeforeMethodInterceptor.handle(AuthorizationManagerBeforeMethodInterceptor.java:287)
+	at org.springframework.security.authorization.method.AuthorizationManagerBeforeMethodInterceptor.attemptAuthorization(AuthorizationManagerBeforeMethodInterceptor.java:260)
+	at org.springframework.security.authorization.method.AuthorizationManagerBeforeMethodInterceptor.invoke(AuthorizationManagerBeforeMethodInterceptor.java:196)
+	at org.springframework.security.config.annotation.method.configuration.DeferringMethodInterceptor.invoke(DeferringMethodInterceptor.java:44)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:727)
+	at com.example.security.interview.lesson.Lesson29$Web$Docs$$SpringCGLIB$$0.documentRead(<generated>)
+	at com.example.security.interview.lesson.Lesson29.run(Lesson29.java:41)
+	at com.example.security.interview.cli.SecurityStudyCli.runLesson(SecurityStudyCli.java:112)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.lambda$call$0(SecurityStudyCli.java:99)
+	at com.example.interview.studycli.runall.StudyRunAllExecutor.execute(StudyRunAllExecutor.java:36)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:102)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:84)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2041)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2453)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2415)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2273)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2417)
+	at picocli.CommandLine.execute(CommandLine.java:2170)
+	at com.example.security.interview.cli.SecurityStudyCli.main(SecurityStudyCli.java:46)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doMain(ExecJavaMojo.java:385)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doExec(ExecJavaMojo.java:374)
+	at org.codehaus.mojo.exec.ExecJavaMojo.lambda$execute$0(ExecJavaMojo.java:296)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
