@@ -3,7 +3,8 @@ package com.example.springdata.interview.sddata.l31;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
-@Table("sd31_shipments")
+/** Uppercase name matches H2 default unquoted DDL (avoids quoted "sd31_shipments" vs SD31_SHIPMENTS mismatch). */
+@Table("SD31_SHIPMENTS")
 public class Sd31JdbcShipment {
 
     @Id

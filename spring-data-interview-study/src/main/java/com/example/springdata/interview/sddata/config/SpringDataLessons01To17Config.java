@@ -28,6 +28,7 @@ import com.example.springdata.interview.sddata.l13.Sd13InventoryRepository;
 import com.example.springdata.interview.sddata.l13.Sd13InventoryService;
 import com.example.springdata.interview.sddata.l14.Sd14BlogPost;
 import com.example.springdata.interview.sddata.l14.Sd14BlogPostRepository;
+import com.example.springdata.interview.sddata.l14.Sd14BlogPostDemoService;
 import com.example.springdata.interview.sddata.l14.Sd14Comment;
 import com.example.springdata.interview.sddata.l15.Sd15LazyDemoService;
 import com.example.springdata.interview.sddata.l15.Sd15Player;
@@ -39,6 +40,8 @@ import com.example.springdata.interview.sddata.l16.Sd16WalletRepository;
 import com.example.springdata.interview.sddata.l17.Sd17Pet;
 import com.example.springdata.interview.sddata.l17.Sd17PetRepository;
 import jakarta.persistence.EntityManager;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.support.TransactionTemplate;
 import org.hibernate.LazyInitializationException;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext;
@@ -224,7 +227,7 @@ public class SpringDataLessons01To17Config {
     }
 
     @Bean
-    LessonRunnable lesson14(Sd14BlogPostRepository repo) {
+    LessonRunnable lesson14(Sd14BlogPostRepository repo, Sd14BlogPostDemoService demo) {
         return StudyLessonFactory.lesson(14, (app, ctx) -> {
             Sd14BlogPost post = new Sd14BlogPost();
             post.setTitle("Graph demo");
@@ -232,10 +235,10 @@ public class SpringDataLessons01To17Config {
             c.setBody("hi");
             post.addComment(c);
             repo.save(post);
-            var plain = repo.findByTitle("Graph demo").orElseThrow();
-            var withGraph = repo.findWithCommentsByTitle("Graph demo").orElseThrow();
-            ctx.log("Without graph, comments initialized? " + plain.getComments().size());
-            ctx.log("With @EntityGraph, comments size in same round-trip: " + withGraph.getComments().size());
+            int plainCount = demo.commentCountWithoutGraph("Graph demo");
+            int graphCount = demo.commentCountWithEntityGraph("Graph demo");
+            ctx.log("Inside @Transactional: without @EntityGraph, comments load lazily on access (count=" + plainCount + ").");
+            ctx.log("With @EntityGraph, association fetched with the root (count=" + graphCount + "); fewer round-trips for graphs.");
         });
     }
 
@@ -274,17 +277,20 @@ public class SpringDataLessons01To17Config {
     }
 
     @Bean
-    LessonRunnable lesson17(Sd17PetRepository repo, EntityManager em) {
+    LessonRunnable lesson17(Sd17PetRepository repo, EntityManager em, PlatformTransactionManager ptm) {
         return StudyLessonFactory.lesson(17, (app, ctx) -> {
-            Sd17Pet pet = new Sd17Pet();
-            pet.setName("new");
-            Sd17Pet saved = repo.save(pet);
-            ctx.log("New entity (null id) → persist path; id=" + saved.getId());
-            em.flush();
-            em.clear();
-            saved.setName("detached-merge");
-            Sd17Pet merged = repo.save(saved);
-            ctx.log("After clear(), save(detached) follows merge semantics; merged id=" + merged.getId());
+            TransactionTemplate transactionTemplate = new TransactionTemplate(ptm);
+            transactionTemplate.executeWithoutResult(status -> {
+                Sd17Pet pet = new Sd17Pet();
+                pet.setName("new");
+                Sd17Pet saved = repo.save(pet);
+                ctx.log("New entity (null id) → persist path; id=" + saved.getId());
+                em.flush();
+                em.clear();
+                saved.setName("detached-merge");
+                Sd17Pet merged = repo.save(saved);
+                ctx.log("After clear(), save(detached) follows merge semantics; merged id=" + merged.getId());
+            });
         });
     }
 }

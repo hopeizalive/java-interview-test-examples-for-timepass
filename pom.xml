@@ -11,6 +11,7 @@
     <name>demoproject parent</name>
 
     <modules>
+        <module>interview-study-cli-support</module>
         <module>app</module>
         <module>jpa-interview-study</module>
         <module>spring-security-questions</module>

@@ -11,6 +11,35 @@ To build all modules, run:
 ./mvnw clean compile
 ```
 
+## Interview study CLI contract (`run-all`)
+
+All **interview study** modules (JPA, Spring Data, Concurrency, Security, Microservices) share the same expectations for `run-all` so CI and local smoke runs behave consistently.
+
+### Shared library
+
+- **Artifact:** `interview-study-cli-support` (module `interview-study-cli-support/`)
+- **Package:** `com.example.interview.studycli.runall`
+- **Use this** instead of copying `failureMessage` helpers or ad-hoc try/catch loops into each new study module.
+
+### What `run-all` must do
+
+1. **Continue on failure** — run every lesson in catalog order; one failing lesson must not stop the rest.
+2. **Exit code** — `0` if all passed, `1` if any lesson failed (unless the module has an additional fatal error path, e.g. report directory creation, which may use `2`).
+3. **Stderr line per failure** — `[FAILED] Lesson N: <root-cause one-liner>` using `RunAllThrowableFormatter.rootCauseMessage(Throwable)`.
+4. **Stdout summary** — final line `========== run-all complete: X passed, Y failed ==========` plus a numbered list of failed lessons (number + same one-liner). Use `StudyRunAllExecutor.printStandardSummary`.
+5. **Optional stack trace log** — Picocli option `--errors-log` / `-e` with a **default file name in the current working directory** (per module). On the **first failure of that run**, truncate and write a header, then **append** a delimited section per failure with the **full** stack trace. Implementation: `RunAllStackTraceLogWriter` (synchronized methods for a clear concurrency story if the runner is ever extended). After the summary, if there were failures, print the absolute path to that log (`StudyRunAllExecutor.printStackTraceLogPointer`).
+
+### Wiring a new study module
+
+1. Add a Maven dependency on `org.example:interview-study-cli-support` (same `${project.version}` as the parent).
+2. Build `List<RunAllTask>`: each task has `number`, `title`, and a `StudyLessonAction` that closes over your shared context (e.g. `StudyContext`, `EntityManagerFactory`, etc.).
+3. Call `StudyRunAllExecutor.execute("<Module name> interview study", errorsLogPath, tasks)` then print summary + stack-trace pointer.
+4. Reuse the **same Picocli option names** (`--errors-log`, `-e`) and the same **semantic** (default log file name pattern `<cli-name>-run-all-errors.log`).
+
+### Microservices module note
+
+Microservices **also** writes a timestamped PASS/FAIL **report** under `target/microservices-reports/` via `RunAllReportWriter`. That is **in addition to** the shared stack-trace log contract above, not a replacement.
+
 ## Running the Studies
 
 ### Microservices Study
@@ -29,3 +58,6 @@ To build all modules, run:
 - Operator / search reference: `concurrency-study.messages.txt`
 - Run with Maven: `./concurrency-study.sh` (pass args after the script, e.g. `./concurrency-study.sh list`)
 - Run with JAR: First build `./mvnw -pl concurrency-interview-study package`, then `./concurrency-study-jar.sh`
+
+### JPA Study
+- `run-all` follows the same contract; default stack trace log: `jpa-study-run-all-errors.log` in the working directory.

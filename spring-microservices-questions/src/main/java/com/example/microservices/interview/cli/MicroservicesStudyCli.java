@@ -1,10 +1,13 @@
 package com.example.microservices.interview.cli;
 
+import com.example.interview.studycli.runall.RunAllStackTraceLogWriter;
+import com.example.interview.studycli.runall.RunAllThrowableFormatter;
 import com.example.microservices.interview.lesson.MicroservicesLessonCatalog;
 import com.example.microservices.interview.study.MicroserviceStudyLesson;
 import com.example.microservices.interview.study.MicroservicesStudyContext;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
 import java.nio.file.Files;
@@ -79,8 +82,16 @@ public class MicroservicesStudyCli implements Callable<Integer> {
         }
     }
 
-    @Command(name = "run-all", description = "Run every lesson in order; continue on failure; always write a PASS/FAIL report under target/microservices-reports/ (exit 1 if any failed)")
+    @Command(
+            name = "run-all",
+            description = "Run every lesson in order; continue on failure; PASS/FAIL report under target/microservices-reports/; optional stack trace log (exit 1 if any failed)")
     static class RunAll implements Callable<Integer> {
+
+        @Option(
+                names = {"--errors-log", "-e"},
+                defaultValue = "microservices-study-run-all-errors.log",
+                description = "Full stack traces for failures (same contract as other study modules; created on first failure).")
+        private Path errorsLog;
 
         @Override
         public Integer call() {
@@ -96,6 +107,8 @@ public class MicroservicesStudyCli implements Callable<Integer> {
             int passed = 0;
             List<Integer> failedNumbers = new ArrayList<>();
             List<String> failedMessages = new ArrayList<>();
+            RunAllStackTraceLogWriter traceLog =
+                    new RunAllStackTraceLogWriter(errorsLog, "Spring microservices interview study");
 
             try (RunAllReportWriter report = new RunAllReportWriter(reportPath)) {
                 for (MicroserviceStudyLesson lesson : MicroservicesLessonCatalog.all()) {
@@ -104,11 +117,16 @@ public class MicroservicesStudyCli implements Callable<Integer> {
                         passed++;
                         report.lessonResult(lesson.number(), lesson.title(), true, null);
                     } catch (Throwable t) {
-                        String msg = failureMessage(t);
+                        String msg = RunAllThrowableFormatter.rootCauseMessage(t);
                         failedNumbers.add(lesson.number());
                         failedMessages.add(msg);
                         System.err.println("[FAILED] Lesson " + lesson.number() + ": " + msg);
                         report.lessonResult(lesson.number(), lesson.title(), false, msg);
+                        try {
+                            traceLog.appendFailureSection(lesson.number(), lesson.title(), t);
+                        } catch (Exception io) {
+                            System.err.println("Could not append stack trace log: " + io.getMessage());
+                        }
                     }
                 }
                 int failed = failedNumbers.size();
@@ -120,6 +138,9 @@ public class MicroservicesStudyCli implements Callable<Integer> {
                     for (int i = 0; i < failedNumbers.size(); i++) {
                         System.out.println("  #" + failedNumbers.get(i) + " — " + failedMessages.get(i));
                     }
+                    System.out.println();
+                    System.out.println("Full stack traces (all failures in this run):");
+                    System.out.println("  " + errorsLog.toAbsolutePath().normalize());
                 }
                 printReportLocationBanner(written);
                 if (failed > 0) {
@@ -161,18 +182,5 @@ public class MicroservicesStudyCli implements Callable<Integer> {
         System.out.println(lesson.title());
         lesson.run(ctx);
         System.out.println();
-    }
-
-    /** Short message for summaries (prefers root cause). */
-    private static String failureMessage(Throwable t) {
-        Throwable c = t;
-        while (c.getCause() != null && c.getCause() != c) {
-            c = c.getCause();
-        }
-        String m = c.getMessage();
-        if (m == null || m.isBlank()) {
-            return c.getClass().getSimpleName();
-        }
-        return c.getClass().getSimpleName() + ": " + m;
     }
 }

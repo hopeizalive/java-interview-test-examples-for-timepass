@@ -108,12 +108,15 @@ public class SpringDataLessons18To33Config {
     }
 
     @Bean
-    LessonRunnable lesson21(Sd21FlushEntityRepository repo, EntityManager em) {
+    LessonRunnable lesson21(Sd21FlushEntityRepository repo, EntityManager em, PlatformTransactionManager ptm) {
+        TransactionTemplate tt = new TransactionTemplate(ptm);
         return StudyLessonFactory.lesson(21, (app, ctx) -> {
-            Sd21FlushEntity e = new Sd21FlushEntity();
-            e.setName("flush-me");
-            repo.save(e);
-            em.flush();
+            tt.executeWithoutResult(status -> {
+                Sd21FlushEntity e = new Sd21FlushEntity();
+                e.setName("flush-me");
+                repo.save(e);
+                em.flush();
+            });
             ctx.log("flush() pushes SQL to the DB within the same transaction; commit still defines visibility to other txs.");
         });
     }
@@ -134,16 +137,20 @@ public class SpringDataLessons18To33Config {
     }
 
     @Bean
-    LessonRunnable lesson23(Sd23GhostRepository repo, EntityManager em) {
+    LessonRunnable lesson23(Sd23GhostRepository repo, EntityManager em, PlatformTransactionManager ptm) {
+        TransactionTemplate tt = new TransactionTemplate(ptm);
         return StudyLessonFactory.lesson(23, (app, ctx) -> {
-            Sd23Ghost g = new Sd23Ghost();
-            g.setLabel("proxy");
-            Long id = repo.save(g).getId();
-            em.flush();
-            em.clear();
-            var ref = repo.getReferenceById(id);
-            ctx.log("getReferenceById returns a lazy proxy (may not SELECT until use): " + ref.getClass().getSimpleName());
-            ctx.log("findById hits DB when absent: " + repo.findById(id));
+            tt.executeWithoutResult(status -> {
+                Sd23Ghost g = new Sd23Ghost();
+                g.setLabel("proxy");
+                Long id = repo.save(g).getId();
+                em.flush();
+                em.clear();
+                var ref = repo.getReferenceById(id);
+                ctx.log("getReferenceById returns a lazy proxy (may not SELECT until use): " + ref.getClass().getSimpleName());
+                ctx.log("Touching proxy loads row: label=" + ref.getLabel());
+                ctx.log("findById after clear: " + repo.findById(id));
+            });
         });
     }
 

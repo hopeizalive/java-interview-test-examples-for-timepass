@@ -4,10 +4,17 @@ import com.example.concurrency.interview.lesson.ConcurrencyLesson;
 import com.example.concurrency.interview.lesson.LessonCatalog;
 import com.example.concurrency.interview.study.StudyContext;
 import com.example.concurrency.interview.study.StudyLesson;
+import com.example.interview.studycli.runall.RunAllTask;
+import com.example.interview.studycli.runall.StudyRunAllExecutor;
+import com.example.interview.studycli.runall.StudyRunAllResult;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
 
 /**
@@ -30,6 +37,8 @@ import java.util.concurrent.Callable;
         },
         description = "Run concurrency interview lessons (1–" + ConcurrencyLesson.EXPECTED_LESSON_COUNT + ").")
 public class ConcurrencyStudyCli implements Callable<Integer> {
+
+    private static final String RUN_ALL_FAILURE_BANNER = "Concurrency interview study";
 
     public static void main(String[] args) {
         LessonCatalog.assertCoverage();
@@ -71,15 +80,30 @@ public class ConcurrencyStudyCli implements Callable<Integer> {
         }
     }
 
-    @Command(name = "run-all", description = "Run every lesson in order")
+    @Command(
+            name = "run-all",
+            description = "Run every lesson in order; continue on failure; exit 1 if any failed (see guide.md).")
     static class RunAll implements Callable<Integer> {
+
+        @Option(
+                names = {"--errors-log", "-e"},
+                defaultValue = "concurrency-study-run-all-errors.log",
+                description = "Stack trace log path (created on first failure in this run).")
+        private Path errorsLog;
+
         @Override
         public Integer call() throws Exception {
             StudyContext ctx = new StudyContext();
+            List<RunAllTask> tasks = new ArrayList<>();
             for (StudyLesson lesson : LessonCatalog.all()) {
-                runLesson(ctx, lesson);
+                StudyLesson l = lesson;
+                tasks.add(new RunAllTask(l.number(), l.title(), () -> runLesson(ctx, l)));
             }
-            return 0;
+            StudyRunAllResult result =
+                    StudyRunAllExecutor.execute(RUN_ALL_FAILURE_BANNER, errorsLog, tasks);
+            StudyRunAllExecutor.printStandardSummary(result, System.out);
+            StudyRunAllExecutor.printStackTraceLogPointer(result, System.out);
+            return result.exitCode();
         }
     }
 

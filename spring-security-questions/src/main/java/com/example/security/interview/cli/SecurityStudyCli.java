@@ -1,12 +1,17 @@
 package com.example.security.interview.cli;
 
+import com.example.interview.studycli.runall.RunAllTask;
+import com.example.interview.studycli.runall.StudyRunAllExecutor;
+import com.example.interview.studycli.runall.StudyRunAllResult;
 import com.example.security.interview.lesson.LessonCatalog;
 import com.example.security.interview.study.SecurityStudyContext;
 import com.example.security.interview.study.StudyLesson;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -33,6 +38,8 @@ import java.util.concurrent.Callable;
         description = "Run Spring Security interview lessons (1–50)."
 )
 public class SecurityStudyCli implements Callable<Integer> {
+
+    private static final String RUN_ALL_FAILURE_BANNER = "Spring Security interview study";
 
     public static void main(String[] args) {
         LessonCatalog.assertCoverage();
@@ -76,32 +83,26 @@ public class SecurityStudyCli implements Callable<Integer> {
 
     @Command(name = "run-all", description = "Run every lesson in order; continue on failure and print a summary (exit 1 if any failed)")
     static class RunAll implements Callable<Integer> {
+
+        @Option(
+                names = {"--errors-log", "-e"},
+                defaultValue = "security-study-run-all-errors.log",
+                description = "Stack trace log path (created on first failure in this run).")
+        private Path errorsLog;
+
         @Override
-        public Integer call() {
+        public Integer call() throws Exception {
             SecurityStudyContext ctx = new SecurityStudyContext();
-            int passed = 0;
-            List<Integer> failedNumbers = new ArrayList<>();
-            List<String> failedMessages = new ArrayList<>();
+            List<RunAllTask> tasks = new ArrayList<>();
             for (StudyLesson lesson : LessonCatalog.all()) {
-                try {
-                    runLesson(ctx, lesson);
-                    passed++;
-                } catch (Throwable t) {
-                    failedNumbers.add(lesson.number());
-                    failedMessages.add(failureMessage(t));
-                    System.err.println("[FAILED] Lesson " + lesson.number() + ": " + failureMessage(t));
-                }
+                StudyLesson l = lesson;
+                tasks.add(new RunAllTask(l.number(), l.title(), () -> runLesson(ctx, l)));
             }
-            int failed = failedNumbers.size();
-            System.out.println("========== run-all complete: " + passed + " passed, " + failed + " failed ==========");
-            if (failed > 0) {
-                System.out.println("Failed lessons:");
-                for (int i = 0; i < failedNumbers.size(); i++) {
-                    System.out.println("  #" + failedNumbers.get(i) + " — " + failedMessages.get(i));
-                }
-                return 1;
-            }
-            return 0;
+            StudyRunAllResult result =
+                    StudyRunAllExecutor.execute(RUN_ALL_FAILURE_BANNER, errorsLog, tasks);
+            StudyRunAllExecutor.printStandardSummary(result, System.out);
+            StudyRunAllExecutor.printStackTraceLogPointer(result, System.out);
+            return result.exitCode();
         }
     }
 
@@ -110,17 +111,5 @@ public class SecurityStudyCli implements Callable<Integer> {
         System.out.println(lesson.title());
         lesson.run(ctx);
         System.out.println();
-    }
-
-    private static String failureMessage(Throwable t) {
-        Throwable c = t;
-        while (c.getCause() != null && c.getCause() != c) {
-            c = c.getCause();
-        }
-        String m = c.getMessage();
-        if (m == null || m.isBlank()) {
-            return c.getClass().getSimpleName();
-        }
-        return c.getClass().getSimpleName() + ": " + m;
     }
 }
