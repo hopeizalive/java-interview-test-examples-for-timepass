@@ -29,10 +29,13 @@ public final class DemoExecutors {
     public static void l05(StudyContext ctx) throws Exception {
         ctx.log("newCachedThreadPool: grows/shrinks; good for many short async tasks.");
         try (var ex = Executors.newCachedThreadPool()) {
-            ex.invokeAll(List.of(() -> {
+
+
+            Callable<Object> objectCallable = () -> {
                 ctx.log("  a");
                 return null;
-            }, () -> {
+            };
+            ex.invokeAll(List.of(objectCallable, () -> {
                 ctx.log("  b");
                 return null;
             }));
@@ -99,14 +102,14 @@ public final class DemoExecutors {
     public static void l11(StudyContext ctx) throws Exception {
         ctx.log("invokeAll: submit a batch of Callables and wait for all to complete.");
         List<Callable<String>> tasks = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 15; i++) {
             int n = i;
             tasks.add(() -> "v" + n);
         }
         try (var ex = Executors.newFixedThreadPool(3)) {
             var futures = ex.invokeAll(tasks);
             for (var f : futures) {
-                ctx.log("  " + f.get());
+                ctx.log(Thread.currentThread().getName()+"  " + f.get());
             }
         }
     }

@@ -33,7 +33,9 @@ public final class DemoThreads {
         try (var ex = Executors.newSingleThreadExecutor()) {
             Callable<String> task = () -> "answer-" + Thread.currentThread().getName();
             Future<String> f = ex.submit(task);
+            Future<String> f2 = ex.submit(task);
             ctx.log("  get(): " + f.get());
+            ctx.log("  get2(): " + f2.get());
         }
     }
 
