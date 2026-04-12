@@ -10,7 +10,7 @@ import org.testcontainers.utility.DockerImageName;
 public final class Lesson48 extends AbstractMicroLesson {
 
     public Lesson48() {
-        super(44, "Testcontainers multi-service style: app logic (here JDBC) + real PostgreSQL engine.");
+        super(43, "Testcontainers multi-service style: app logic (here JDBC) + real PostgreSQL engine.");
     }
 
     @Override

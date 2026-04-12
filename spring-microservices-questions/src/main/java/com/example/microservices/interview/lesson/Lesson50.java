@@ -13,7 +13,7 @@ import org.springframework.web.client.RestClient;
 public final class Lesson50 extends AbstractMicroLesson {
 
     public Lesson50() {
-        super(46, "End-to-end smoke: two Spring Boot apps (ms50b then ms50a) with RestClient hop.");
+        super(45, "End-to-end smoke: two Spring Boot apps (ms50b then ms50a) with RestClient hop.");
     }
 
     @Override

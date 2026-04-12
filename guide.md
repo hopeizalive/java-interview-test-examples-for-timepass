@@ -23,7 +23,7 @@ Each interview study module keeps **one** markdown guide so you can read **what*
 | JPA / Hibernate mechanics | [jpa-interview-study/docs/STUDY_GUIDE.md](jpa-interview-study/docs/STUDY_GUIDE.md) |
 | Concurrency | [concurrency-interview-study/docs/STUDY_GUIDE.md](concurrency-interview-study/docs/STUDY_GUIDE.md) |
 | Spring Security | [spring-security-questions/LESSONS.md](spring-security-questions/LESSONS.md) (lesson list + topics) |
-| Spring Microservices (46 runnable lessons; pure narrative entries removed) | `spring-microservices-questions` CLI + catalog; optional plan under `.cursor/plans/` |
+| Spring Microservices (45 runnable lessons; pure narrative entries removed) | `spring-microservices-questions` CLI + catalog; optional plan under `.cursor/plans/` |
 
 **Convention for new study modules:** add `your-module/docs/STUDY_GUIDE.md` and link it from this section.
 

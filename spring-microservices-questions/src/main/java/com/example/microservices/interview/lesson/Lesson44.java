@@ -11,7 +11,7 @@ import org.springframework.core.env.StandardEnvironment;
 public final class Lesson44 extends AbstractMicroLesson {
 
     public Lesson44() {
-        super(40, "Centralized config: profiles activate feature beans; Spring Cloud Config serves Git-backed layers.");
+        super(39, "Centralized config: profiles activate feature beans; Spring Cloud Config serves Git-backed layers.");
     }
 
     @Override

@@ -7,10 +7,10 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-/** Spring microservices lessons (1–46); narrative-only entries removed so each lesson runs executable code. */
+/** Spring microservices lessons (1–45); narrative-only entries removed so each lesson runs executable code. */
 public final class MicroservicesLessonCatalog {
 
-    public static final int LESSON_COUNT = 46;
+    public static final int LESSON_COUNT = 45;
 
     private static final List<MicroserviceStudyLesson> LESSONS = List.of(
             new Lesson01(),
@@ -49,7 +49,6 @@ public final class MicroservicesLessonCatalog {
             new Lesson37(),
             new Lesson39(),
             new Lesson40(),
-            new Lesson41(),
             new Lesson42(),
             new Lesson43(),
             new Lesson44(),

@@ -9,7 +9,7 @@ import com.example.microservices.interview.support.MicroBoot;
 public final class Lesson46 extends AbstractMicroLesson {
 
     public Lesson46() {
-        super(42, "@DataJpaTest analog: MicroBoot + msdata.l11 slice (repositories only, no web).");
+        super(41, "@DataJpaTest analog: MicroBoot + msdata.l11 slice (repositories only, no web).");
     }
 
     @Override

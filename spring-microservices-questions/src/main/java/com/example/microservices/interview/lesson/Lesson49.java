@@ -9,7 +9,7 @@ import org.springframework.web.client.RestClient;
 public final class Lesson49 extends AbstractMicroLesson {
 
     public Lesson49() {
-        super(45, "Contract testing sketch: MockWebServer records request count for consumer calls.");
+        super(44, "Contract testing sketch: MockWebServer records request count for consumer calls.");
     }
 
     @Override
