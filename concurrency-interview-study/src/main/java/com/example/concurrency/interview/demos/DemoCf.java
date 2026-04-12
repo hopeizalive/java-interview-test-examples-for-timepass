@@ -67,10 +67,10 @@ public final class DemoCf {
                 });
         ctx.log("  value: " + bad.join());
 
-        CompletableFuture<String> h = CompletableFuture.supplyAsync(() -> {
+        CompletableFuture<String> h = CompletableFuture.<String>supplyAsync(() -> {
                     throw new RuntimeException("x");
                 })
-                .handle((String v, Throwable ex) -> ex != null ? "fallback" : v);
+                .handle((v, ex) -> ex != null ? "fallback" : v);
         ctx.log("  handle: " + h.join());
     }
 
