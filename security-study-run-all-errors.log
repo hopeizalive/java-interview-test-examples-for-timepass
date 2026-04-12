@@ -1,0 +1,1033 @@
+Spring Security interview study — run-all failure log
+Started: 2026-04-12T20:00:43.773052424Z
+(One file for every failure in this run; not one file per lesson.)
+
+================================================================================
+Lesson 1 — Authentication vs authorization—demonstrate both via one SecurityFilterChain (MockMvc).
+Recorded: 2026-04-12T20:00:43.776345075Z
+--------------------------------------------------------------------------------
+java.lang.UnsupportedOperationException
+	at org.springframework.mock.web.MockServletContext.addListener(MockServletContext.java:704)
+	at com.example.security.interview.support.WebLessonHarness.<init>(WebLessonHarness.java:26)
+	at com.example.security.interview.lesson.Lesson01.run(Lesson01.java:33)
+	at com.example.security.interview.cli.SecurityStudyCli.runLesson(SecurityStudyCli.java:112)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.lambda$call$0(SecurityStudyCli.java:99)
+	at com.example.interview.studycli.runall.StudyRunAllExecutor.execute(StudyRunAllExecutor.java:36)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:102)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:84)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2041)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2453)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2415)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2273)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2417)
+	at picocli.CommandLine.execute(CommandLine.java:2170)
+	at com.example.security.interview.cli.SecurityStudyCli.main(SecurityStudyCli.java:46)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doMain(ExecJavaMojo.java:385)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doExec(ExecJavaMojo.java:374)
+	at org.codehaus.mojo.exec.ExecJavaMojo.lambda$execute$0(ExecJavaMojo.java:296)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+================================================================================
+Lesson 3 — Authentication and GrantedAuthority—access decision uses authorities (ROLE_ADMIN vs ROLE_USER).
+Recorded: 2026-04-12T20:00:43.791100112Z
+--------------------------------------------------------------------------------
+java.lang.UnsupportedOperationException
+	at org.springframework.mock.web.MockServletContext.addListener(MockServletContext.java:704)
+	at com.example.security.interview.support.WebLessonHarness.<init>(WebLessonHarness.java:26)
+	at com.example.security.interview.lesson.Lesson03.run(Lesson03.java:33)
+	at com.example.security.interview.cli.SecurityStudyCli.runLesson(SecurityStudyCli.java:112)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.lambda$call$0(SecurityStudyCli.java:99)
+	at com.example.interview.studycli.runall.StudyRunAllExecutor.execute(StudyRunAllExecutor.java:36)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:102)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:84)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2041)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2453)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2415)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2273)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2417)
+	at picocli.CommandLine.execute(CommandLine.java:2170)
+	at com.example.security.interview.cli.SecurityStudyCli.main(SecurityStudyCli.java:46)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doMain(ExecJavaMojo.java:385)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doExec(ExecJavaMojo.java:374)
+	at org.codehaus.mojo.exec.ExecJavaMojo.lambda$execute$0(ExecJavaMojo.java:296)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+================================================================================
+Lesson 5 — Multiple SecurityFilterChain beans—/api/** open, /** authenticated.
+Recorded: 2026-04-12T20:00:44.235004871Z
+--------------------------------------------------------------------------------
+java.lang.UnsupportedOperationException
+	at org.springframework.mock.web.MockServletContext.addListener(MockServletContext.java:704)
+	at com.example.security.interview.support.WebLessonHarness.<init>(WebLessonHarness.java:26)
+	at com.example.security.interview.lesson.Lesson05.run(Lesson05.java:35)
+	at com.example.security.interview.cli.SecurityStudyCli.runLesson(SecurityStudyCli.java:112)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.lambda$call$0(SecurityStudyCli.java:99)
+	at com.example.interview.studycli.runall.StudyRunAllExecutor.execute(StudyRunAllExecutor.java:36)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:102)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:84)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2041)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2453)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2415)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2273)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2417)
+	at picocli.CommandLine.execute(CommandLine.java:2170)
+	at com.example.security.interview.cli.SecurityStudyCli.main(SecurityStudyCli.java:46)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doMain(ExecJavaMojo.java:385)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doExec(ExecJavaMojo.java:374)
+	at org.codehaus.mojo.exec.ExecJavaMojo.lambda$execute$0(ExecJavaMojo.java:296)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+================================================================================
+Lesson 6 — HttpSecurity defaults vs permitAll for /public/** (other paths require auth).
+Recorded: 2026-04-12T20:00:44.237221696Z
+--------------------------------------------------------------------------------
+java.lang.UnsupportedOperationException
+	at org.springframework.mock.web.MockServletContext.addListener(MockServletContext.java:704)
+	at com.example.security.interview.support.WebLessonHarness.<init>(WebLessonHarness.java:26)
+	at com.example.security.interview.lesson.Lesson06.run(Lesson06.java:31)
+	at com.example.security.interview.cli.SecurityStudyCli.runLesson(SecurityStudyCli.java:112)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.lambda$call$0(SecurityStudyCli.java:99)
+	at com.example.interview.studycli.runall.StudyRunAllExecutor.execute(StudyRunAllExecutor.java:36)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:102)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:84)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2041)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2453)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2415)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2273)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2417)
+	at picocli.CommandLine.execute(CommandLine.java:2170)
+	at com.example.security.interview.cli.SecurityStudyCli.main(SecurityStudyCli.java:46)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doMain(ExecJavaMojo.java:385)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doExec(ExecJavaMojo.java:374)
+	at org.codehaus.mojo.exec.ExecJavaMojo.lambda$execute$0(ExecJavaMojo.java:296)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+================================================================================
+Lesson 7 — RequestCache—saved request replay after successful form login.
+Recorded: 2026-04-12T20:00:44.239457225Z
+--------------------------------------------------------------------------------
+java.lang.UnsupportedOperationException
+	at org.springframework.mock.web.MockServletContext.addListener(MockServletContext.java:704)
+	at com.example.security.interview.support.WebLessonHarness.<init>(WebLessonHarness.java:26)
+	at com.example.security.interview.lesson.Lesson07.run(Lesson07.java:35)
+	at com.example.security.interview.cli.SecurityStudyCli.runLesson(SecurityStudyCli.java:112)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.lambda$call$0(SecurityStudyCli.java:99)
+	at com.example.interview.studycli.runall.StudyRunAllExecutor.execute(StudyRunAllExecutor.java:36)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:102)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:84)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2041)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2453)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2415)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2273)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2417)
+	at picocli.CommandLine.execute(CommandLine.java:2170)
+	at com.example.security.interview.cli.SecurityStudyCli.main(SecurityStudyCli.java:46)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doMain(ExecJavaMojo.java:385)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doExec(ExecJavaMojo.java:374)
+	at org.codehaus.mojo.exec.ExecJavaMojo.lambda$execute$0(ExecJavaMojo.java:296)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+================================================================================
+Lesson 8 — Filter order—OncePerRequestFilter before and after UsernamePasswordAuthenticationFilter.
+Recorded: 2026-04-12T20:00:44.242951451Z
+--------------------------------------------------------------------------------
+java.lang.UnsupportedOperationException
+	at org.springframework.mock.web.MockServletContext.addListener(MockServletContext.java:704)
+	at com.example.security.interview.support.WebLessonHarness.<init>(WebLessonHarness.java:26)
+	at com.example.security.interview.lesson.Lesson08.run(Lesson08.java:45)
+	at com.example.security.interview.cli.SecurityStudyCli.runLesson(SecurityStudyCli.java:112)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.lambda$call$0(SecurityStudyCli.java:99)
+	at com.example.interview.studycli.runall.StudyRunAllExecutor.execute(StudyRunAllExecutor.java:36)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:102)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:84)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2041)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2453)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2415)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2273)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2417)
+	at picocli.CommandLine.execute(CommandLine.java:2170)
+	at com.example.security.interview.cli.SecurityStudyCli.main(SecurityStudyCli.java:46)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doMain(ExecJavaMojo.java:385)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doExec(ExecJavaMojo.java:374)
+	at org.codehaus.mojo.exec.ExecJavaMojo.lambda$execute$0(ExecJavaMojo.java:296)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+================================================================================
+Lesson 12 — DaoAuthenticationProvider—form login success vs bad credentials.
+Recorded: 2026-04-12T20:00:44.928551096Z
+--------------------------------------------------------------------------------
+java.lang.UnsupportedOperationException
+	at org.springframework.mock.web.MockServletContext.addListener(MockServletContext.java:704)
+	at com.example.security.interview.support.WebLessonHarness.<init>(WebLessonHarness.java:26)
+	at com.example.security.interview.lesson.Lesson12.run(Lesson12.java:34)
+	at com.example.security.interview.cli.SecurityStudyCli.runLesson(SecurityStudyCli.java:112)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.lambda$call$0(SecurityStudyCli.java:99)
+	at com.example.interview.studycli.runall.StudyRunAllExecutor.execute(StudyRunAllExecutor.java:36)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:102)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:84)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2041)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2453)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2415)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2273)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2417)
+	at picocli.CommandLine.execute(CommandLine.java:2170)
+	at com.example.security.interview.cli.SecurityStudyCli.main(SecurityStudyCli.java:46)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doMain(ExecJavaMojo.java:385)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doExec(ExecJavaMojo.java:374)
+	at org.codehaus.mojo.exec.ExecJavaMojo.lambda$execute$0(ExecJavaMojo.java:296)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+================================================================================
+Lesson 13 — InMemoryUserDetailsManager vs custom UserDetailsService—ROLE_EXTRA only on custom.
+Recorded: 2026-04-12T20:00:44.930678734Z
+--------------------------------------------------------------------------------
+java.lang.UnsupportedOperationException
+	at org.springframework.mock.web.MockServletContext.addListener(MockServletContext.java:704)
+	at com.example.security.interview.support.WebLessonHarness.<init>(WebLessonHarness.java:26)
+	at com.example.security.interview.lesson.Lesson13.run(Lesson13.java:35)
+	at com.example.security.interview.cli.SecurityStudyCli.runLesson(SecurityStudyCli.java:112)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.lambda$call$0(SecurityStudyCli.java:99)
+	at com.example.interview.studycli.runall.StudyRunAllExecutor.execute(StudyRunAllExecutor.java:36)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:102)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:84)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2041)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2453)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2415)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2273)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2417)
+	at picocli.CommandLine.execute(CommandLine.java:2170)
+	at com.example.security.interview.cli.SecurityStudyCli.main(SecurityStudyCli.java:46)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doMain(ExecJavaMojo.java:385)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doExec(ExecJavaMojo.java:374)
+	at org.codehaus.mojo.exec.ExecJavaMojo.lambda$execute$0(ExecJavaMojo.java:296)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+================================================================================
+Lesson 14 — Form login—POST credentials yields authenticated session.
+Recorded: 2026-04-12T20:00:44.933331792Z
+--------------------------------------------------------------------------------
+java.lang.UnsupportedOperationException
+	at org.springframework.mock.web.MockServletContext.addListener(MockServletContext.java:704)
+	at com.example.security.interview.support.WebLessonHarness.<init>(WebLessonHarness.java:26)
+	at com.example.security.interview.lesson.Lesson14.run(Lesson14.java:34)
+	at com.example.security.interview.cli.SecurityStudyCli.runLesson(SecurityStudyCli.java:112)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.lambda$call$0(SecurityStudyCli.java:99)
+	at com.example.interview.studycli.runall.StudyRunAllExecutor.execute(StudyRunAllExecutor.java:36)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:102)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:84)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2041)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2453)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2415)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2273)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2417)
+	at picocli.CommandLine.execute(CommandLine.java:2170)
+	at com.example.security.interview.cli.SecurityStudyCli.main(SecurityStudyCli.java:46)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doMain(ExecJavaMojo.java:385)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doExec(ExecJavaMojo.java:374)
+	at org.codehaus.mojo.exec.ExecJavaMojo.lambda$execute$0(ExecJavaMojo.java:296)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+================================================================================
+Lesson 15 — HTTP Basic—401 challenge with WWW-Authenticate, then 200 with valid Basic.
+Recorded: 2026-04-12T20:00:44.935473907Z
+--------------------------------------------------------------------------------
+java.lang.UnsupportedOperationException
+	at org.springframework.mock.web.MockServletContext.addListener(MockServletContext.java:704)
+	at com.example.security.interview.support.WebLessonHarness.<init>(WebLessonHarness.java:26)
+	at com.example.security.interview.lesson.Lesson15.run(Lesson15.java:33)
+	at com.example.security.interview.cli.SecurityStudyCli.runLesson(SecurityStudyCli.java:112)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.lambda$call$0(SecurityStudyCli.java:99)
+	at com.example.interview.studycli.runall.StudyRunAllExecutor.execute(StudyRunAllExecutor.java:36)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:102)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:84)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2041)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2453)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2415)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2273)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2417)
+	at picocli.CommandLine.execute(CommandLine.java:2170)
+	at com.example.security.interview.cli.SecurityStudyCli.main(SecurityStudyCli.java:46)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doMain(ExecJavaMojo.java:385)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doExec(ExecJavaMojo.java:374)
+	at org.codehaus.mojo.exec.ExecJavaMojo.lambda$execute$0(ExecJavaMojo.java:296)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+================================================================================
+Lesson 16 — Logout—invalidate session so /me is unauthorized after logout.
+Recorded: 2026-04-12T20:00:44.938896389Z
+--------------------------------------------------------------------------------
+java.lang.UnsupportedOperationException
+	at org.springframework.mock.web.MockServletContext.addListener(MockServletContext.java:704)
+	at com.example.security.interview.support.WebLessonHarness.<init>(WebLessonHarness.java:26)
+	at com.example.security.interview.lesson.Lesson16.run(Lesson16.java:34)
+	at com.example.security.interview.cli.SecurityStudyCli.runLesson(SecurityStudyCli.java:112)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.lambda$call$0(SecurityStudyCli.java:99)
+	at com.example.interview.studycli.runall.StudyRunAllExecutor.execute(StudyRunAllExecutor.java:36)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:102)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:84)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2041)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2453)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2415)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2273)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2417)
+	at picocli.CommandLine.execute(CommandLine.java:2170)
+	at com.example.security.interview.cli.SecurityStudyCli.main(SecurityStudyCli.java:46)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doMain(ExecJavaMojo.java:385)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doExec(ExecJavaMojo.java:374)
+	at org.codehaus.mojo.exec.ExecJavaMojo.lambda$execute$0(ExecJavaMojo.java:296)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+================================================================================
+Lesson 17 — Session fixation—JSESSIONID value changes after form login.
+Recorded: 2026-04-12T20:00:44.940761578Z
+--------------------------------------------------------------------------------
+java.lang.UnsupportedOperationException
+	at org.springframework.mock.web.MockServletContext.addListener(MockServletContext.java:704)
+	at com.example.security.interview.support.WebLessonHarness.<init>(WebLessonHarness.java:26)
+	at com.example.security.interview.lesson.Lesson17.run(Lesson17.java:34)
+	at com.example.security.interview.cli.SecurityStudyCli.runLesson(SecurityStudyCli.java:112)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.lambda$call$0(SecurityStudyCli.java:99)
+	at com.example.interview.studycli.runall.StudyRunAllExecutor.execute(StudyRunAllExecutor.java:36)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:102)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:84)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2041)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2453)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2415)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2273)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2417)
+	at picocli.CommandLine.execute(CommandLine.java:2170)
+	at com.example.security.interview.cli.SecurityStudyCli.main(SecurityStudyCli.java:46)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doMain(ExecJavaMojo.java:385)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doExec(ExecJavaMojo.java:374)
+	at org.codehaus.mojo.exec.ExecJavaMojo.lambda$execute$0(ExecJavaMojo.java:296)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+================================================================================
+Lesson 18 — Concurrent sessions—maxSessions=1; second form login expires first session.
+Recorded: 2026-04-12T20:00:44.946380878Z
+--------------------------------------------------------------------------------
+java.lang.UnsupportedOperationException
+	at org.springframework.mock.web.MockServletContext.addListener(MockServletContext.java:704)
+	at com.example.security.interview.support.WebLessonHarness.<init>(WebLessonHarness.java:26)
+	at com.example.security.interview.lesson.Lesson18.run(Lesson18.java:35)
+	at com.example.security.interview.cli.SecurityStudyCli.runLesson(SecurityStudyCli.java:112)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.lambda$call$0(SecurityStudyCli.java:99)
+	at com.example.interview.studycli.runall.StudyRunAllExecutor.execute(StudyRunAllExecutor.java:36)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:102)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:84)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2041)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2453)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2415)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2273)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2417)
+	at picocli.CommandLine.execute(CommandLine.java:2170)
+	at com.example.security.interview.cli.SecurityStudyCli.main(SecurityStudyCli.java:46)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doMain(ExecJavaMojo.java:385)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doExec(ExecJavaMojo.java:374)
+	at org.codehaus.mojo.exec.ExecJavaMojo.lambda$execute$0(ExecJavaMojo.java:296)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+================================================================================
+Lesson 19 — Remember-me—new session + remember-me cookie still reaches /rm.
+Recorded: 2026-04-12T20:00:44.947300453Z
+--------------------------------------------------------------------------------
+java.lang.UnsupportedOperationException
+	at org.springframework.mock.web.MockServletContext.addListener(MockServletContext.java:704)
+	at com.example.security.interview.support.WebLessonHarness.<init>(WebLessonHarness.java:26)
+	at com.example.security.interview.lesson.Lesson19.run(Lesson19.java:32)
+	at com.example.security.interview.cli.SecurityStudyCli.runLesson(SecurityStudyCli.java:112)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.lambda$call$0(SecurityStudyCli.java:99)
+	at com.example.interview.studycli.runall.StudyRunAllExecutor.execute(StudyRunAllExecutor.java:36)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:102)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:84)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2041)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2453)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2415)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2273)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2417)
+	at picocli.CommandLine.execute(CommandLine.java:2170)
+	at com.example.security.interview.cli.SecurityStudyCli.main(SecurityStudyCli.java:46)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doMain(ExecJavaMojo.java:385)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doExec(ExecJavaMojo.java:374)
+	at org.codehaus.mojo.exec.ExecJavaMojo.lambda$execute$0(ExecJavaMojo.java:296)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+================================================================================
+Lesson 20 — authorizeHttpRequests + requestMatchers—hasRole USER on /u/**.
+Recorded: 2026-04-12T20:00:44.949076585Z
+--------------------------------------------------------------------------------
+java.lang.UnsupportedOperationException
+	at org.springframework.mock.web.MockServletContext.addListener(MockServletContext.java:704)
+	at com.example.security.interview.support.WebLessonHarness.<init>(WebLessonHarness.java:26)
+	at com.example.security.interview.lesson.Lesson20.run(Lesson20.java:31)
+	at com.example.security.interview.cli.SecurityStudyCli.runLesson(SecurityStudyCli.java:112)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.lambda$call$0(SecurityStudyCli.java:99)
+	at com.example.interview.studycli.runall.StudyRunAllExecutor.execute(StudyRunAllExecutor.java:36)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:102)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:84)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2041)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2453)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2415)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2273)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2417)
+	at picocli.CommandLine.execute(CommandLine.java:2170)
+	at com.example.security.interview.cli.SecurityStudyCli.main(SecurityStudyCli.java:46)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doMain(ExecJavaMojo.java:385)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doExec(ExecJavaMojo.java:374)
+	at org.codehaus.mojo.exec.ExecJavaMojo.lambda$execute$0(ExecJavaMojo.java:296)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+================================================================================
+Lesson 21 — permitAll / denyAll / authenticated—three paths behave differently.
+Recorded: 2026-04-12T20:00:44.952041054Z
+--------------------------------------------------------------------------------
+java.lang.UnsupportedOperationException
+	at org.springframework.mock.web.MockServletContext.addListener(MockServletContext.java:704)
+	at com.example.security.interview.support.WebLessonHarness.<init>(WebLessonHarness.java:26)
+	at com.example.security.interview.lesson.Lesson21.run(Lesson21.java:33)
+	at com.example.security.interview.cli.SecurityStudyCli.runLesson(SecurityStudyCli.java:112)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.lambda$call$0(SecurityStudyCli.java:99)
+	at com.example.interview.studycli.runall.StudyRunAllExecutor.execute(StudyRunAllExecutor.java:36)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:102)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:84)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2041)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2453)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2415)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2273)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2417)
+	at picocli.CommandLine.execute(CommandLine.java:2170)
+	at com.example.security.interview.cli.SecurityStudyCli.main(SecurityStudyCli.java:46)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doMain(ExecJavaMojo.java:385)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doExec(ExecJavaMojo.java:374)
+	at org.codehaus.mojo.exec.ExecJavaMojo.lambda$execute$0(ExecJavaMojo.java:296)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+================================================================================
+Lesson 22 — fullyAuthenticated() rejects RememberMeAuthenticationToken for /strict/**.
+Recorded: 2026-04-12T20:00:44.953968989Z
+--------------------------------------------------------------------------------
+java.lang.UnsupportedOperationException
+	at org.springframework.mock.web.MockServletContext.addListener(MockServletContext.java:704)
+	at com.example.security.interview.support.WebLessonHarness.<init>(WebLessonHarness.java:26)
+	at com.example.security.interview.lesson.Lesson22.run(Lesson22.java:38)
+	at com.example.security.interview.cli.SecurityStudyCli.runLesson(SecurityStudyCli.java:112)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.lambda$call$0(SecurityStudyCli.java:99)
+	at com.example.interview.studycli.runall.StudyRunAllExecutor.execute(StudyRunAllExecutor.java:36)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:102)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:84)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2041)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2453)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2415)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2273)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2417)
+	at picocli.CommandLine.execute(CommandLine.java:2170)
+	at com.example.security.interview.cli.SecurityStudyCli.main(SecurityStudyCli.java:46)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doMain(ExecJavaMojo.java:385)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doExec(ExecJavaMojo.java:374)
+	at org.codehaus.mojo.exec.ExecJavaMojo.lambda$execute$0(ExecJavaMojo.java:296)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+================================================================================
+Lesson 23 — hasAuthority SCOPE_read vs hasAnyRole('ADMIN','USER').
+Recorded: 2026-04-12T20:00:44.956506982Z
+--------------------------------------------------------------------------------
+java.lang.UnsupportedOperationException
+	at org.springframework.mock.web.MockServletContext.addListener(MockServletContext.java:704)
+	at com.example.security.interview.support.WebLessonHarness.<init>(WebLessonHarness.java:26)
+	at com.example.security.interview.lesson.Lesson23.run(Lesson23.java:35)
+	at com.example.security.interview.cli.SecurityStudyCli.runLesson(SecurityStudyCli.java:112)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.lambda$call$0(SecurityStudyCli.java:99)
+	at com.example.interview.studycli.runall.StudyRunAllExecutor.execute(StudyRunAllExecutor.java:36)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:102)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:84)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2041)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2453)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2415)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2273)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2417)
+	at picocli.CommandLine.execute(CommandLine.java:2170)
+	at com.example.security.interview.cli.SecurityStudyCli.main(SecurityStudyCli.java:46)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doMain(ExecJavaMojo.java:385)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doExec(ExecJavaMojo.java:374)
+	at org.codehaus.mojo.exec.ExecJavaMojo.lambda$execute$0(ExecJavaMojo.java:296)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+================================================================================
+Lesson 24 — requestMatchers /api/demo vs /api/demo/**—child path needs **.
+Recorded: 2026-04-12T20:00:44.959163196Z
+--------------------------------------------------------------------------------
+java.lang.UnsupportedOperationException
+	at org.springframework.mock.web.MockServletContext.addListener(MockServletContext.java:704)
+	at com.example.security.interview.support.WebLessonHarness.<init>(WebLessonHarness.java:26)
+	at com.example.security.interview.lesson.Lesson24.run(Lesson24.java:34)
+	at com.example.security.interview.cli.SecurityStudyCli.runLesson(SecurityStudyCli.java:112)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.lambda$call$0(SecurityStudyCli.java:99)
+	at com.example.interview.studycli.runall.StudyRunAllExecutor.execute(StudyRunAllExecutor.java:36)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:102)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:84)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2041)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2453)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2415)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2273)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2417)
+	at picocli.CommandLine.execute(CommandLine.java:2170)
+	at com.example.security.interview.cli.SecurityStudyCli.main(SecurityStudyCli.java:46)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doMain(ExecJavaMojo.java:385)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doExec(ExecJavaMojo.java:374)
+	at org.codehaus.mojo.exec.ExecJavaMojo.lambda$execute$0(ExecJavaMojo.java:296)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+================================================================================
+Lesson 25 — @EnableMethodSecurity—@PreAuthorize blocks securedMethod without ROLE_ADMIN.
+Recorded: 2026-04-12T20:00:45.002566541Z
+--------------------------------------------------------------------------------
+java.lang.UnsupportedOperationException
+	at org.springframework.mock.web.MockServletContext.addListener(MockServletContext.java:704)
+	at com.example.security.interview.support.WebLessonHarness.<init>(WebLessonHarness.java:26)
+	at com.example.security.interview.lesson.Lesson25.run(Lesson25.java:29)
+	at com.example.security.interview.cli.SecurityStudyCli.runLesson(SecurityStudyCli.java:112)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.lambda$call$0(SecurityStudyCli.java:99)
+	at com.example.interview.studycli.runall.StudyRunAllExecutor.execute(StudyRunAllExecutor.java:36)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:102)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:84)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2041)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2453)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2415)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2273)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2417)
+	at picocli.CommandLine.execute(CommandLine.java:2170)
+	at com.example.security.interview.cli.SecurityStudyCli.main(SecurityStudyCli.java:46)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doMain(ExecJavaMojo.java:385)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doExec(ExecJavaMojo.java:374)
+	at org.codehaus.mojo.exec.ExecJavaMojo.lambda$execute$0(ExecJavaMojo.java:296)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+================================================================================
+Lesson 26 — @PostAuthorize—return value must equal 'ok' for USER.
+Recorded: 2026-04-12T20:00:45.005651524Z
+--------------------------------------------------------------------------------
+java.lang.UnsupportedOperationException
+	at org.springframework.mock.web.MockServletContext.addListener(MockServletContext.java:704)
+	at com.example.security.interview.support.WebLessonHarness.<init>(WebLessonHarness.java:26)
+	at com.example.security.interview.lesson.Lesson26.run(Lesson26.java:32)
+	at com.example.security.interview.cli.SecurityStudyCli.runLesson(SecurityStudyCli.java:112)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.lambda$call$0(SecurityStudyCli.java:99)
+	at com.example.interview.studycli.runall.StudyRunAllExecutor.execute(StudyRunAllExecutor.java:36)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:102)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:84)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2041)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2453)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2415)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2273)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2417)
+	at picocli.CommandLine.execute(CommandLine.java:2170)
+	at com.example.security.interview.cli.SecurityStudyCli.main(SecurityStudyCli.java:46)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doMain(ExecJavaMojo.java:385)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doExec(ExecJavaMojo.java:374)
+	at org.codehaus.mojo.exec.ExecJavaMojo.lambda$execute$0(ExecJavaMojo.java:296)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+================================================================================
+Lesson 27 — @Secured and @RolesAllowed both require ROLE_ADMIN for paired methods.
+Recorded: 2026-04-12T20:00:45.007366753Z
+--------------------------------------------------------------------------------
+java.lang.UnsupportedOperationException
+	at org.springframework.mock.web.MockServletContext.addListener(MockServletContext.java:704)
+	at com.example.security.interview.support.WebLessonHarness.<init>(WebLessonHarness.java:26)
+	at com.example.security.interview.lesson.Lesson27.run(Lesson27.java:31)
+	at com.example.security.interview.cli.SecurityStudyCli.runLesson(SecurityStudyCli.java:112)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.lambda$call$0(SecurityStudyCli.java:99)
+	at com.example.interview.studycli.runall.StudyRunAllExecutor.execute(StudyRunAllExecutor.java:36)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:102)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:84)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2041)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2453)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2415)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2273)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2417)
+	at picocli.CommandLine.execute(CommandLine.java:2170)
+	at com.example.security.interview.cli.SecurityStudyCli.main(SecurityStudyCli.java:46)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doMain(ExecJavaMojo.java:385)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doExec(ExecJavaMojo.java:374)
+	at org.codehaus.mojo.exec.ExecJavaMojo.lambda$execute$0(ExecJavaMojo.java:296)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+================================================================================
+Lesson 28 — @AuthenticationPrincipal CustomUserDetails exposes custom label field.
+Recorded: 2026-04-12T20:00:45.009349772Z
+--------------------------------------------------------------------------------
+java.lang.UnsupportedOperationException
+	at org.springframework.mock.web.MockServletContext.addListener(MockServletContext.java:704)
+	at com.example.security.interview.support.WebLessonHarness.<init>(WebLessonHarness.java:26)
+	at com.example.security.interview.lesson.Lesson28.run(Lesson28.java:34)
+	at com.example.security.interview.cli.SecurityStudyCli.runLesson(SecurityStudyCli.java:112)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.lambda$call$0(SecurityStudyCli.java:99)
+	at com.example.interview.studycli.runall.StudyRunAllExecutor.execute(StudyRunAllExecutor.java:36)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:102)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:84)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2041)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2453)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2415)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2273)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2417)
+	at picocli.CommandLine.execute(CommandLine.java:2170)
+	at com.example.security.interview.cli.SecurityStudyCli.main(SecurityStudyCli.java:46)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doMain(ExecJavaMojo.java:385)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doExec(ExecJavaMojo.java:374)
+	at org.codehaus.mojo.exec.ExecJavaMojo.lambda$execute$0(ExecJavaMojo.java:296)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+================================================================================
+Lesson 29 — PermissionEvaluator—hasPermission('doc1','read') gates documentRead.
+Recorded: 2026-04-12T20:00:45.010968821Z
+--------------------------------------------------------------------------------
+java.lang.UnsupportedOperationException
+	at org.springframework.mock.web.MockServletContext.addListener(MockServletContext.java:704)
+	at com.example.security.interview.support.WebLessonHarness.<init>(WebLessonHarness.java:26)
+	at com.example.security.interview.lesson.Lesson29.run(Lesson29.java:36)
+	at com.example.security.interview.cli.SecurityStudyCli.runLesson(SecurityStudyCli.java:112)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.lambda$call$0(SecurityStudyCli.java:99)
+	at com.example.interview.studycli.runall.StudyRunAllExecutor.execute(StudyRunAllExecutor.java:36)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:102)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:84)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2041)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2453)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2415)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2273)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2417)
+	at picocli.CommandLine.execute(CommandLine.java:2170)
+	at com.example.security.interview.cli.SecurityStudyCli.main(SecurityStudyCli.java:46)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doMain(ExecJavaMojo.java:385)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doExec(ExecJavaMojo.java:374)
+	at org.codehaus.mojo.exec.ExecJavaMojo.lambda$execute$0(ExecJavaMojo.java:296)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+================================================================================
+Lesson 30 — CSRF—POST /action forbidden without token; with(csrf()) succeeds.
+Recorded: 2026-04-12T20:00:45.014940087Z
+--------------------------------------------------------------------------------
+java.lang.UnsupportedOperationException
+	at org.springframework.mock.web.MockServletContext.addListener(MockServletContext.java:704)
+	at com.example.security.interview.support.WebLessonHarness.<init>(WebLessonHarness.java:26)
+	at com.example.security.interview.lesson.Lesson30.run(Lesson30.java:32)
+	at com.example.security.interview.cli.SecurityStudyCli.runLesson(SecurityStudyCli.java:112)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.lambda$call$0(SecurityStudyCli.java:99)
+	at com.example.interview.studycli.runall.StudyRunAllExecutor.execute(StudyRunAllExecutor.java:36)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:102)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:84)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2041)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2453)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2415)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2273)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2417)
+	at picocli.CommandLine.execute(CommandLine.java:2170)
+	at com.example.security.interview.cli.SecurityStudyCli.main(SecurityStudyCli.java:46)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doMain(ExecJavaMojo.java:385)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doExec(ExecJavaMojo.java:374)
+	at org.codehaus.mojo.exec.ExecJavaMojo.lambda$execute$0(ExecJavaMojo.java:296)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+================================================================================
+Lesson 31 — CORS—preflight OPTIONS returns Access-Control-Allow-Origin.
+Recorded: 2026-04-12T20:00:45.015778140Z
+--------------------------------------------------------------------------------
+java.lang.UnsupportedOperationException
+	at org.springframework.mock.web.MockServletContext.addListener(MockServletContext.java:704)
+	at com.example.security.interview.support.WebLessonHarness.<init>(WebLessonHarness.java:26)
+	at com.example.security.interview.lesson.Lesson31.run(Lesson31.java:35)
+	at com.example.security.interview.cli.SecurityStudyCli.runLesson(SecurityStudyCli.java:112)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.lambda$call$0(SecurityStudyCli.java:99)
+	at com.example.interview.studycli.runall.StudyRunAllExecutor.execute(StudyRunAllExecutor.java:36)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:102)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:84)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2041)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2453)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2415)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2273)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2417)
+	at picocli.CommandLine.execute(CommandLine.java:2170)
+	at com.example.security.interview.cli.SecurityStudyCli.main(SecurityStudyCli.java:46)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doMain(ExecJavaMojo.java:385)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doExec(ExecJavaMojo.java:374)
+	at org.codehaus.mojo.exec.ExecJavaMojo.lambda$execute$0(ExecJavaMojo.java:296)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+================================================================================
+Lesson 32 — Security headers—frameOptions deny + HSTS observed on GET /h.
+Recorded: 2026-04-12T20:00:45.021925555Z
+--------------------------------------------------------------------------------
+java.lang.UnsupportedOperationException
+	at org.springframework.mock.web.MockServletContext.addListener(MockServletContext.java:704)
+	at com.example.security.interview.support.WebLessonHarness.<init>(WebLessonHarness.java:26)
+	at com.example.security.interview.lesson.Lesson32.run(Lesson32.java:29)
+	at com.example.security.interview.cli.SecurityStudyCli.runLesson(SecurityStudyCli.java:112)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.lambda$call$0(SecurityStudyCli.java:99)
+	at com.example.interview.studycli.runall.StudyRunAllExecutor.execute(StudyRunAllExecutor.java:36)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:102)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:84)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2041)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2453)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2415)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2273)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2417)
+	at picocli.CommandLine.execute(CommandLine.java:2170)
+	at com.example.security.interview.cli.SecurityStudyCli.main(SecurityStudyCli.java:46)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doMain(ExecJavaMojo.java:385)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doExec(ExecJavaMojo.java:374)
+	at org.codehaus.mojo.exec.ExecJavaMojo.lambda$execute$0(ExecJavaMojo.java:296)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+================================================================================
+Lesson 33 — Resource server JWT—Bearer with HS256 token 200; invalid token 401.
+Recorded: 2026-04-12T20:00:45.216269476Z
+--------------------------------------------------------------------------------
+java.lang.UnsupportedOperationException
+	at org.springframework.mock.web.MockServletContext.addListener(MockServletContext.java:704)
+	at com.example.security.interview.support.WebLessonHarness.<init>(WebLessonHarness.java:26)
+	at com.example.security.interview.lesson.Lesson33.run(Lesson33.java:31)
+	at com.example.security.interview.cli.SecurityStudyCli.runLesson(SecurityStudyCli.java:112)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.lambda$call$0(SecurityStudyCli.java:99)
+	at com.example.interview.studycli.runall.StudyRunAllExecutor.execute(StudyRunAllExecutor.java:36)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:102)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:84)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2041)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2453)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2415)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2273)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2417)
+	at picocli.CommandLine.execute(CommandLine.java:2170)
+	at com.example.security.interview.cli.SecurityStudyCli.main(SecurityStudyCli.java:46)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doMain(ExecJavaMojo.java:385)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doExec(ExecJavaMojo.java:374)
+	at org.codehaus.mojo.exec.ExecJavaMojo.lambda$execute$0(ExecJavaMojo.java:296)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+================================================================================
+Lesson 34 — JwtAuthenticationConverter—roles claim becomes ROLE_* authorities.
+Recorded: 2026-04-12T20:00:45.221433397Z
+--------------------------------------------------------------------------------
+java.lang.UnsupportedOperationException
+	at org.springframework.mock.web.MockServletContext.addListener(MockServletContext.java:704)
+	at com.example.security.interview.support.WebLessonHarness.<init>(WebLessonHarness.java:26)
+	at com.example.security.interview.lesson.Lesson34.run(Lesson34.java:50)
+	at com.example.security.interview.cli.SecurityStudyCli.runLesson(SecurityStudyCli.java:112)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.lambda$call$0(SecurityStudyCli.java:99)
+	at com.example.interview.studycli.runall.StudyRunAllExecutor.execute(StudyRunAllExecutor.java:36)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:102)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:84)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2041)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2453)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2415)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2273)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2417)
+	at picocli.CommandLine.execute(CommandLine.java:2170)
+	at com.example.security.interview.cli.SecurityStudyCli.main(SecurityStudyCli.java:46)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doMain(ExecJavaMojo.java:385)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doExec(ExecJavaMojo.java:374)
+	at org.codehaus.mojo.exec.ExecJavaMojo.lambda$execute$0(ExecJavaMojo.java:296)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+================================================================================
+Lesson 37 — Opaque token—introspector accepts token opaque-ok and maps scopes.
+Recorded: 2026-04-12T20:00:46.439323922Z
+--------------------------------------------------------------------------------
+java.lang.UnsupportedOperationException
+	at org.springframework.mock.web.MockServletContext.addListener(MockServletContext.java:704)
+	at com.example.security.interview.support.WebLessonHarness.<init>(WebLessonHarness.java:26)
+	at com.example.security.interview.lesson.Lesson37.run(Lesson37.java:32)
+	at com.example.security.interview.cli.SecurityStudyCli.runLesson(SecurityStudyCli.java:112)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.lambda$call$0(SecurityStudyCli.java:99)
+	at com.example.interview.studycli.runall.StudyRunAllExecutor.execute(StudyRunAllExecutor.java:36)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:102)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:84)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2041)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2453)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2415)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2273)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2417)
+	at picocli.CommandLine.execute(CommandLine.java:2170)
+	at com.example.security.interview.cli.SecurityStudyCli.main(SecurityStudyCli.java:46)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doMain(ExecJavaMojo.java:385)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doExec(ExecJavaMojo.java:374)
+	at org.codehaus.mojo.exec.ExecJavaMojo.lambda$execute$0(ExecJavaMojo.java:296)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+================================================================================
+Lesson 39 — RequestAttributeAuthenticationFilter—request attribute becomes authenticated user.
+Recorded: 2026-04-12T20:00:47.182506947Z
+--------------------------------------------------------------------------------
+java.lang.UnsupportedOperationException
+	at org.springframework.mock.web.MockServletContext.addListener(MockServletContext.java:704)
+	at com.example.security.interview.support.WebLessonHarness.<init>(WebLessonHarness.java:26)
+	at com.example.security.interview.lesson.Lesson40.run(Lesson40.java:44)
+	at com.example.security.interview.cli.SecurityStudyCli.runLesson(SecurityStudyCli.java:112)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.lambda$call$0(SecurityStudyCli.java:99)
+	at com.example.interview.studycli.runall.StudyRunAllExecutor.execute(StudyRunAllExecutor.java:36)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:102)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:84)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2041)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2453)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2415)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2273)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2417)
+	at picocli.CommandLine.execute(CommandLine.java:2170)
+	at com.example.security.interview.cli.SecurityStudyCli.main(SecurityStudyCli.java:46)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doMain(ExecJavaMojo.java:385)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doExec(ExecJavaMojo.java:374)
+	at org.codehaus.mojo.exec.ExecJavaMojo.lambda$execute$0(ExecJavaMojo.java:296)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+================================================================================
+Lesson 40 — AuthenticationEntryPoint vs AccessDeniedHandler—401 unauthenticated, 403 wrong role.
+Recorded: 2026-04-12T20:00:47.185649959Z
+--------------------------------------------------------------------------------
+java.lang.UnsupportedOperationException
+	at org.springframework.mock.web.MockServletContext.addListener(MockServletContext.java:704)
+	at com.example.security.interview.support.WebLessonHarness.<init>(WebLessonHarness.java:26)
+	at com.example.security.interview.lesson.Lesson41.run(Lesson41.java:32)
+	at com.example.security.interview.cli.SecurityStudyCli.runLesson(SecurityStudyCli.java:112)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.lambda$call$0(SecurityStudyCli.java:99)
+	at com.example.interview.studycli.runall.StudyRunAllExecutor.execute(StudyRunAllExecutor.java:36)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:102)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:84)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2041)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2453)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2415)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2273)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2417)
+	at picocli.CommandLine.execute(CommandLine.java:2170)
+	at com.example.security.interview.cli.SecurityStudyCli.main(SecurityStudyCli.java:46)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doMain(ExecJavaMojo.java:385)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doExec(ExecJavaMojo.java:374)
+	at org.codehaus.mojo.exec.ExecJavaMojo.lambda$execute$0(ExecJavaMojo.java:296)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+================================================================================
+Lesson 41 — ExceptionTranslationFilter—AccessDeniedException mapped to custom 403 body.
+Recorded: 2026-04-12T20:00:47.186691521Z
+--------------------------------------------------------------------------------
+java.lang.UnsupportedOperationException
+	at org.springframework.mock.web.MockServletContext.addListener(MockServletContext.java:704)
+	at com.example.security.interview.support.WebLessonHarness.<init>(WebLessonHarness.java:26)
+	at com.example.security.interview.lesson.Lesson42.run(Lesson42.java:33)
+	at com.example.security.interview.cli.SecurityStudyCli.runLesson(SecurityStudyCli.java:112)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.lambda$call$0(SecurityStudyCli.java:99)
+	at com.example.interview.studycli.runall.StudyRunAllExecutor.execute(StudyRunAllExecutor.java:36)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:102)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:84)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2041)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2453)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2415)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2273)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2417)
+	at picocli.CommandLine.execute(CommandLine.java:2170)
+	at com.example.security.interview.cli.SecurityStudyCli.main(SecurityStudyCli.java:46)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doMain(ExecJavaMojo.java:385)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doExec(ExecJavaMojo.java:374)
+	at org.codehaus.mojo.exec.ExecJavaMojo.lambda$execute$0(ExecJavaMojo.java:296)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+================================================================================
+Lesson 43 — SwitchUserFilter—admin hits /login/impersonate then sees victim principal on /who.
+Recorded: 2026-04-12T20:00:47.190547713Z
+--------------------------------------------------------------------------------
+java.lang.UnsupportedOperationException
+	at org.springframework.mock.web.MockServletContext.addListener(MockServletContext.java:704)
+	at com.example.security.interview.support.WebLessonHarness.<init>(WebLessonHarness.java:26)
+	at com.example.security.interview.lesson.Lesson44.run(Lesson44.java:36)
+	at com.example.security.interview.cli.SecurityStudyCli.runLesson(SecurityStudyCli.java:112)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.lambda$call$0(SecurityStudyCli.java:99)
+	at com.example.interview.studycli.runall.StudyRunAllExecutor.execute(StudyRunAllExecutor.java:36)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:102)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:84)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2041)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2453)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2415)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2273)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2417)
+	at picocli.CommandLine.execute(CommandLine.java:2170)
+	at com.example.security.interview.cli.SecurityStudyCli.main(SecurityStudyCli.java:46)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doMain(ExecJavaMojo.java:385)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doExec(ExecJavaMojo.java:374)
+	at org.codehaus.mojo.exec.ExecJavaMojo.lambda$execute$0(ExecJavaMojo.java:296)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+================================================================================
+Lesson 44 — JdbcMutableAclService + H2—grant READ to ROLE_READER; isGranted true.
+Recorded: 2026-04-12T20:00:47.790620167Z
+--------------------------------------------------------------------------------
+java.lang.IllegalArgumentException: Transaction must be running
+	at org.springframework.util.Assert.isTrue(Assert.java:116)
+	at org.springframework.security.acls.jdbc.JdbcMutableAclService.createOrRetrieveSidPrimaryKey(JdbcMutableAclService.java:252)
+	at org.springframework.security.acls.jdbc.JdbcMutableAclService.createOrRetrieveSidPrimaryKey(JdbcMutableAclService.java:227)
+	at org.springframework.security.acls.jdbc.JdbcMutableAclService.createObjectIdentity(JdbcMutableAclService.java:179)
+	at org.springframework.security.acls.jdbc.JdbcMutableAclService.createAcl(JdbcMutableAclService.java:126)
+	at com.example.security.interview.lesson.Lesson45.run(Lesson45.java:52)
+	at com.example.security.interview.cli.SecurityStudyCli.runLesson(SecurityStudyCli.java:112)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.lambda$call$0(SecurityStudyCli.java:99)
+	at com.example.interview.studycli.runall.StudyRunAllExecutor.execute(StudyRunAllExecutor.java:36)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:102)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:84)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2041)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2453)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2415)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2273)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2417)
+	at picocli.CommandLine.execute(CommandLine.java:2170)
+	at com.example.security.interview.cli.SecurityStudyCli.main(SecurityStudyCli.java:46)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doMain(ExecJavaMojo.java:385)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doExec(ExecJavaMojo.java:374)
+	at org.codehaus.mojo.exec.ExecJavaMojo.lambda$execute$0(ExecJavaMojo.java:296)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+================================================================================
+Lesson 46 — SecurityMockMvcRequestPostProcessors.user() vs HTTP Basic—both authenticate.
+Recorded: 2026-04-12T20:00:47.794438838Z
+--------------------------------------------------------------------------------
+java.lang.UnsupportedOperationException
+	at org.springframework.mock.web.MockServletContext.addListener(MockServletContext.java:704)
+	at com.example.security.interview.support.WebLessonHarness.<init>(WebLessonHarness.java:26)
+	at com.example.security.interview.lesson.Lesson47.run(Lesson47.java:32)
+	at com.example.security.interview.cli.SecurityStudyCli.runLesson(SecurityStudyCli.java:112)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.lambda$call$0(SecurityStudyCli.java:99)
+	at com.example.interview.studycli.runall.StudyRunAllExecutor.execute(StudyRunAllExecutor.java:36)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:102)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:84)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2041)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2453)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2415)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2273)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2417)
+	at picocli.CommandLine.execute(CommandLine.java:2170)
+	at com.example.security.interview.cli.SecurityStudyCli.main(SecurityStudyCli.java:46)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doMain(ExecJavaMojo.java:385)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doExec(ExecJavaMojo.java:374)
+	at org.codehaus.mojo.exec.ExecJavaMojo.lambda$execute$0(ExecJavaMojo.java:296)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+================================================================================
+Lesson 47 — securityContext() post-processor—custom Authentication in SecurityContext.
+Recorded: 2026-04-12T20:00:47.798000551Z
+--------------------------------------------------------------------------------
+java.lang.UnsupportedOperationException
+	at org.springframework.mock.web.MockServletContext.addListener(MockServletContext.java:704)
+	at com.example.security.interview.support.WebLessonHarness.<init>(WebLessonHarness.java:26)
+	at com.example.security.interview.lesson.Lesson48.run(Lesson48.java:36)
+	at com.example.security.interview.cli.SecurityStudyCli.runLesson(SecurityStudyCli.java:112)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.lambda$call$0(SecurityStudyCli.java:99)
+	at com.example.interview.studycli.runall.StudyRunAllExecutor.execute(StudyRunAllExecutor.java:36)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:102)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:84)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2041)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2453)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2415)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2273)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2417)
+	at picocli.CommandLine.execute(CommandLine.java:2170)
+	at com.example.security.interview.cli.SecurityStudyCli.main(SecurityStudyCli.java:46)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doMain(ExecJavaMojo.java:385)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doExec(ExecJavaMojo.java:374)
+	at org.codehaus.mojo.exec.ExecJavaMojo.lambda$execute$0(ExecJavaMojo.java:296)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+================================================================================
+Lesson 48 — authentication() post-processor—UsernamePasswordAuthenticationToken for MockMvc.
+Recorded: 2026-04-12T20:00:47.799381646Z
+--------------------------------------------------------------------------------
+java.lang.UnsupportedOperationException
+	at org.springframework.mock.web.MockServletContext.addListener(MockServletContext.java:704)
+	at com.example.security.interview.support.WebLessonHarness.<init>(WebLessonHarness.java:26)
+	at com.example.security.interview.lesson.Lesson49.run(Lesson49.java:33)
+	at com.example.security.interview.cli.SecurityStudyCli.runLesson(SecurityStudyCli.java:112)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.lambda$call$0(SecurityStudyCli.java:99)
+	at com.example.interview.studycli.runall.StudyRunAllExecutor.execute(StudyRunAllExecutor.java:36)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:102)
+	at com.example.security.interview.cli.SecurityStudyCli$RunAll.call(SecurityStudyCli.java:84)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2041)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2453)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2415)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2273)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2417)
+	at picocli.CommandLine.execute(CommandLine.java:2170)
+	at com.example.security.interview.cli.SecurityStudyCli.main(SecurityStudyCli.java:46)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doMain(ExecJavaMojo.java:385)
+	at org.codehaus.mojo.exec.ExecJavaMojo.doExec(ExecJavaMojo.java:374)
+	at org.codehaus.mojo.exec.ExecJavaMojo.lambda$execute$0(ExecJavaMojo.java:296)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
