@@ -21,6 +21,10 @@ To build all modules, run:
 - Run with Maven: `./security-study.sh`
 - Run with JAR: First build `./mvnw -pl spring-security-questions package`, then `./security-study-jar.sh`
 
+### Spring Data Study
+- Run with Maven: `./spring-data-study.sh`
+- Run with JAR: First build `./mvnw -pl spring-data-interview-study package`, then `./spring-data-study-jar.sh`
+
 ### Concurrency Study
 - Operator / search reference: `concurrency-study.messages.txt`
 - Run with Maven: `./concurrency-study.sh` (pass args after the script, e.g. `./concurrency-study.sh list`)
