@@ -23,7 +23,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.io.Serializable;
 
-
 /** Custom {@link PermissionEvaluator} with {@code hasPermission} SpEL. */
 public final class Lesson29 extends AbstractLesson {
 
@@ -45,13 +44,28 @@ public final class Lesson29 extends AbstractLesson {
                 try {
                     d.documentRead("doc2");
                     throw new IllegalStateException("expected deny");
-                } catch (AccessDeniedException ok) {
-                    System.out.println("doc2 denied: " + ok.getMessage());
+                } catch (RuntimeException ex) {
+                    if (!isAccessDenied(ex)) {
+                        throw ex;
+                    }
+                    System.out.println("doc2 denied: " + ex.getMessage());
                 }
             } finally {
                 SecurityContextHolder.clearContext();
             }
         }
+    }
+
+    private static boolean isAccessDenied(Throwable t) {
+        for (Throwable c = t; c != null; c = c.getCause()) {
+            if (c instanceof AccessDeniedException) {
+                return true;
+            }
+            if ("AuthorizationDeniedException".equals(c.getClass().getSimpleName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Configuration

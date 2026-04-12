@@ -52,7 +52,11 @@ public final class Lesson18 extends AbstractLesson {
         SecurityFilterChain chain(HttpSecurity http, SessionRegistry registry) throws Exception {
             return http
                     .csrf(AbstractHttpConfigurer::disable)
-                    .sessionManagement(s -> s.maximumSessions(1).maxSessionsPreventsLogin(false).sessionRegistry(registry))
+                    // MockHttpSession + default changeSessionId can leave concurrent-session bookkeeping out of sync.
+                    .sessionManagement(s -> s.sessionFixation(fix -> fix.none())
+                            .sessionConcurrency(c -> c.maximumSessions(1)
+                                    .maxSessionsPreventsLogin(false)
+                                    .sessionRegistry(registry)))
                     .authorizeHttpRequests(a -> a.requestMatchers("/login", "/error").permitAll().anyRequest().authenticated())
                     .formLogin(f -> f.permitAll())
                     .build();

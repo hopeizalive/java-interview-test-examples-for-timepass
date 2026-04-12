@@ -4,7 +4,6 @@ import com.example.security.interview.study.SecurityStudyContext;
 import com.example.security.interview.support.WebLessonHarness;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -64,7 +63,9 @@ public final class Lesson44 extends AbstractLesson {
         @Bean
         SecurityFilterChain chain(HttpSecurity http, SwitchUserFilter switchUserFilter) throws Exception {
             return http
-                    .csrf(Customizer.withDefaults())
+                    // Default csrf() token from SecurityMockMvcRequestPostProcessors.csrf() is not tied to this session;
+                    // allow impersonation POST so the lesson asserts redirect + switched principal.
+                    .csrf(c -> c.ignoringRequestMatchers("/login/impersonate"))
                     .authorizeHttpRequests(a -> a.requestMatchers("/login/**").permitAll().anyRequest().authenticated())
                     .formLogin(f -> f.permitAll())
                     .addFilterAfter(switchUserFilter, UsernamePasswordAuthenticationFilter.class)

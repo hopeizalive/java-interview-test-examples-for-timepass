@@ -18,7 +18,6 @@ import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
 import org.springframework.security.web.authentication.preauth.RequestAttributeAuthenticationFilter;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedGrantedAuthoritiesUserDetailsService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -53,9 +52,9 @@ public final class Lesson40 extends AbstractLesson {
     @EnableWebMvc
     static class Web {
         @Bean
-        SecurityFilterChain chain(HttpSecurity http) throws Exception {
+        SecurityFilterChain chain(HttpSecurity http, UserDetailsService users) throws Exception {
             PreAuthenticatedAuthenticationProvider provider = new PreAuthenticatedAuthenticationProvider();
-            provider.setPreAuthenticatedUserDetailsService(new PreAuthenticatedGrantedAuthoritiesUserDetailsService());
+            provider.setPreAuthenticatedUserDetailsService(token -> users.loadUserByUsername(token.getName()));
             AuthenticationManager am = new ProviderManager(List.of(provider));
 
             RequestAttributeAuthenticationFilter preAuth = new RequestAttributeAuthenticationFilter();
@@ -75,6 +74,7 @@ public final class Lesson40 extends AbstractLesson {
         @Bean
         UserDetailsService users() {
             return new InMemoryUserDetailsManager(
+                    User.withUsername("alice").password("{noop}n/a").roles("USER").build(),
                     User.withUsername("placeholder").password("{noop}n/a").roles("USER").build());
         }
 

@@ -46,6 +46,9 @@ public final class Lesson45 extends AbstractLesson {
             var cache = new SpringCacheBasedAclCache(new ConcurrentMapCache("acl"), granting, authStrategy);
             var lookup = new BasicLookupStrategy(db, cache, authStrategy, granting);
             var aclService = new JdbcMutableAclService(db, lookup, cache);
+            // H2 2.x removed CALL IDENTITY(); Spring ACL defaults target Hypersonic/HSQL.
+            aclService.setClassIdentityQuery("SELECT SCOPE_IDENTITY()");
+            aclService.setSidIdentityQuery("SELECT SCOPE_IDENTITY()");
             var tx = new TransactionTemplate(new DataSourceTransactionManager(db));
 
             SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(
