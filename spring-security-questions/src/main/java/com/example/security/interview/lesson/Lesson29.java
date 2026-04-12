@@ -4,9 +4,11 @@ import com.example.security.interview.study.SecurityStudyContext;
 import com.example.security.interview.support.WebLessonHarness;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.PermissionEvaluator;
+import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
+import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -44,11 +46,8 @@ public final class Lesson29 extends AbstractLesson {
                 try {
                     d.documentRead("doc2");
                     throw new IllegalStateException("expected deny");
-                } catch (RuntimeException ex) {
-                    if (!isAccessDenied(ex)) {
-                        throw ex;
-                    }
-                    System.out.println("doc2 denied: " + ex.getMessage());
+                } catch (AuthorizationDeniedException ok) {
+                    System.out.println("doc2 denied: " + ok.getMessage());
                 }
             } finally {
                 SecurityContextHolder.clearContext();
@@ -56,23 +55,22 @@ public final class Lesson29 extends AbstractLesson {
         }
     }
 
-    private static boolean isAccessDenied(Throwable t) {
-        for (Throwable c = t; c != null; c = c.getCause()) {
-            if (c instanceof AccessDeniedException) {
-                return true;
-            }
-            if ("AuthorizationDeniedException".equals(c.getClass().getSimpleName())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     @Configuration
     @EnableWebSecurity
     @EnableWebMvc
     @EnableMethodSecurity
     static class Web {
+        /**
+         * Without Spring Boot method-security auto-config, {@link PermissionEvaluator} must be set on the
+         * expression handler so {@code @PreAuthorize("hasPermission(...)")} is not always denied.
+         */
+        @Bean
+        static MethodSecurityExpressionHandler methodSecurityExpressionHandler(PermissionEvaluator permissionEvaluator) {
+            var h = new DefaultMethodSecurityExpressionHandler();
+            h.setPermissionEvaluator(permissionEvaluator);
+            return h;
+        }
+
         @Bean
         SecurityFilterChain chain(HttpSecurity http) throws Exception {
             return http.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(a -> a.anyRequest().permitAll()).build();

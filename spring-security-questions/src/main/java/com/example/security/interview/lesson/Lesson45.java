@@ -31,13 +31,14 @@ import java.util.List;
 public final class Lesson45 extends AbstractLesson {
 
     public Lesson45() {
-        super(44, "JdbcMutableAclService + H2—grant READ to ROLE_READER; isGranted true.");
+        super(44, "JdbcMutableAclService + HSQL—grant READ to ROLE_READER; isGranted true.");
     }
 
     @Override
     public void run(SecurityStudyContext ctx) throws Exception {
+        // H2 2.x removed IDENTITY()/SCOPE_IDENTITY() used by Spring ACL defaults; HSQL matches those defaults.
         EmbeddedDatabase db = new EmbeddedDatabaseBuilder()
-                .setType(EmbeddedDatabaseType.H2)
+                .setType(EmbeddedDatabaseType.HSQL)
                 .addScript("classpath:acl-schema.sql")
                 .build();
         try {
@@ -46,9 +47,6 @@ public final class Lesson45 extends AbstractLesson {
             var cache = new SpringCacheBasedAclCache(new ConcurrentMapCache("acl"), granting, authStrategy);
             var lookup = new BasicLookupStrategy(db, cache, authStrategy, granting);
             var aclService = new JdbcMutableAclService(db, lookup, cache);
-            // H2 2.x removed CALL IDENTITY(); Spring ACL defaults target Hypersonic/HSQL.
-            aclService.setClassIdentityQuery("SELECT SCOPE_IDENTITY()");
-            aclService.setSidIdentityQuery("SELECT SCOPE_IDENTITY()");
             var tx = new TransactionTemplate(new DataSourceTransactionManager(db));
 
             SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(

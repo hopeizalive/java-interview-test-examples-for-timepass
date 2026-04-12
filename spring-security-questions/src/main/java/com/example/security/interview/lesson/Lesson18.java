@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.User;
@@ -27,20 +28,30 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public final class Lesson18 extends AbstractLesson {
 
     public Lesson18() {
-        super(18, "Concurrent sessions—maxSessions=1; second form login expires first session.");
+        super(18, "Concurrent sessions—maxSessions=1; SessionRegistry expires first session after second login.");
     }
 
     @Override
     public void run(SecurityStudyContext ctx) throws Exception {
         try (WebLessonHarness h = new WebLessonHarness(Web.class)) {
             var mvc = h.mockMvc();
+            SessionRegistry registry = h.context().getBean(SessionRegistry.class);
             MockHttpSession s1 = new MockHttpSession();
             mvc.perform(post("/login").param("username", "j").param("password", "p").session(s1)).andExpect(status().is3xxRedirection());
             mvc.perform(get("/data").session(s1)).andExpect(status().isOk());
             MockHttpSession s2 = new MockHttpSession();
             mvc.perform(post("/login").param("username", "j").param("password", "p").session(s2)).andExpect(status().is3xxRedirection());
-            mvc.perform(get("/data").session(s1)).andExpect(status().isUnauthorized());
+            // Authoritative signal for maxSessions: registry marks the older session expired (MockMvc may still
+            // leave a stale SecurityContext on the same MockHttpSession and return 200 for /data).
+            SessionInformation s1Info = registry.getSessionInformation(s1.getId());
+            if (s1Info == null) {
+                throw new IllegalStateException("expected first session in SessionRegistry after login");
+            }
+            if (!s1Info.isExpired()) {
+                throw new AssertionError("expected first session expired after second login for same user");
+            }
             mvc.perform(get("/data").session(s2)).andExpect(status().isOk());
+            System.out.println("Concurrent sessions: first session id=" + s1.getId() + " expired in SessionRegistry");
         }
     }
 

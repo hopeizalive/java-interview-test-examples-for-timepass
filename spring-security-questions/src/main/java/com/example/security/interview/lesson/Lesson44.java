@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -37,7 +36,7 @@ public final class Lesson44 extends AbstractLesson {
             MockHttpSession s = new MockHttpSession();
             mvc.perform(post("/login").param("username", "admin").param("password", "p").session(s))
                     .andExpect(status().is3xxRedirection());
-            mvc.perform(post("/login/impersonate").param("username", "victim").with(csrf()).session(s))
+            mvc.perform(post("/login/impersonate").param("username", "victim").session(s))
                     .andExpect(status().is3xxRedirection());
             String body = mvc.perform(get("/who").session(s))
                     .andExpect(status().isOk())
@@ -63,9 +62,8 @@ public final class Lesson44 extends AbstractLesson {
         @Bean
         SecurityFilterChain chain(HttpSecurity http, SwitchUserFilter switchUserFilter) throws Exception {
             return http
-                    // Default csrf() token from SecurityMockMvcRequestPostProcessors.csrf() is not tied to this session;
-                    // allow impersonation POST so the lesson asserts redirect + switched principal.
-                    .csrf(c -> c.ignoringRequestMatchers("/login/impersonate"))
+                    // Lesson focuses on SwitchUserFilter, not CSRF token wiring in MockMvc.
+                    .csrf(AbstractHttpConfigurer::disable)
                     .authorizeHttpRequests(a -> a.requestMatchers("/login/**").permitAll().anyRequest().authenticated())
                     .formLogin(f -> f.permitAll())
                     .addFilterAfter(switchUserFilter, UsernamePasswordAuthenticationFilter.class)
