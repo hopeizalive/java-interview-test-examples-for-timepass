@@ -40,6 +40,8 @@ public final class DataSdBoot {
         defaults.put("logging.level.root", "warn");
         defaults.put("logging.level.org.hibernate.SQL", "off");
         defaults.put("spring.jpa.open-in-view", "false");
+        defaults.put("spring.sql.init.mode", "embedded");
+        defaults.put("spring.sql.init.schema-locations", "classpath:schema-spring-data-study.sql");
         app.setDefaultProperties(defaults);
         return app.run();
     }
