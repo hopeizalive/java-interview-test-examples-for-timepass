@@ -1,0 +1,50 @@
+package com.example.microservices.interview.lesson;
+
+import com.example.microservices.interview.study.MicroservicesStudyContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+/** Bounded contexts: separate Spring configurations model separate domains. */
+public final class Lesson02 extends AbstractMicroLesson {
+
+    public Lesson02() {
+        super(2, "Bounded contexts: inventory and shipping as isolated AnnotationConfigApplicationContext beans.");
+    }
+
+    @Override
+    public void run(MicroservicesStudyContext ctx) {
+        try (var inv = new AnnotationConfigApplicationContext(InventoryBoundary.class);
+                var ship = new AnnotationConfigApplicationContext(ShippingBoundary.class)) {
+            ctx.log("Inventory policy bean: " + inv.getBean(InventoryPolicy.class).rule());
+            ctx.log("Shipping policy bean: " + ship.getBean(ShippingPolicy.class).rule());
+        }
+        ctx.log("Talking point: align service boundaries with domain language (DDD), not only technical layers.");
+    }
+
+    @Configuration
+    static class InventoryBoundary {
+        @Bean
+        InventoryPolicy inventoryPolicy() {
+            return () -> "reserve-stock";
+        }
+    }
+
+    @Configuration
+    static class ShippingBoundary {
+        @Bean
+        ShippingPolicy shippingPolicy() {
+            return () -> "route-parcel";
+        }
+    }
+
+    @FunctionalInterface
+    interface InventoryPolicy {
+        String rule();
+    }
+
+    @FunctionalInterface
+    interface ShippingPolicy {
+        String rule();
+    }
+}
