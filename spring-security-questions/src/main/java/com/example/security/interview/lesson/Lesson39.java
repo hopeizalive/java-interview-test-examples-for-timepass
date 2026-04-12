@@ -16,7 +16,7 @@ import org.springframework.security.ldap.authentication.BindAuthenticator;
 public final class Lesson39 extends AbstractLesson {
 
     public Lesson39() {
-        super(39, "LDAP—UnboundID in-memory server; BindAuthenticator binds uid=test.");
+        super(38, "LDAP—UnboundID in-memory server; BindAuthenticator binds uid=test.");
     }
 
     @Override

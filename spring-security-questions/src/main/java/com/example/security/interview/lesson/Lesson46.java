@@ -7,7 +7,7 @@ import org.springframework.security.crypto.keygen.KeyGenerators;
 public final class Lesson46 extends AbstractLesson {
 
     public Lesson46() {
-        super(46, "KeyGenerators.string() and secureRandom() produce non-empty key material.");
+        super(45, "KeyGenerators.string() and secureRandom() produce non-empty key material.");
     }
 
     @Override

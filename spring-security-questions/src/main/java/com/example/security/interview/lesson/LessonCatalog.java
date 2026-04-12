@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-/** All 50 Spring Security lessons, ordered 1–50. */
+/** All 49 Spring Security lessons, ordered 1–49 (SAML metadata lesson removed—no cert or extra repo prerequisites). */
 public final class LessonCatalog {
 
     private static final List<StudyLesson> LESSONS = List.of(
@@ -48,7 +48,6 @@ public final class LessonCatalog {
             new Lesson35(),
             new Lesson36(),
             new Lesson37(),
-            new Lesson38(),
             new Lesson39(),
             new Lesson40(),
             new Lesson41(),
@@ -76,18 +75,24 @@ public final class LessonCatalog {
     public static StudyLesson byNumber(int n) {
         StudyLesson lesson = BY_NUMBER.get(n);
         if (lesson == null) {
-            throw new IllegalArgumentException("No lesson " + n + "; valid range 1–" + LESSONS.size());
+            throw new IllegalArgumentException("No lesson " + n + "; valid range 1–" + LESSONS.size() + " (consecutive).");
         }
         return lesson;
     }
 
     public static void assertCoverage() {
-        if (LESSONS.size() != 50) {
-            throw new IllegalStateException("Expected 50 lessons, got " + LESSONS.size());
+        if (LESSONS.size() != 49) {
+            throw new IllegalStateException("Expected 49 lessons, got " + LESSONS.size());
         }
         long distinct = LESSONS.stream().mapToInt(StudyLesson::number).distinct().count();
-        if (distinct != 50) {
+        if (distinct != 49) {
             throw new IllegalStateException("Duplicate or missing lesson numbers");
+        }
+        for (int i = 0; i < LESSONS.size(); i++) {
+            if (LESSONS.get(i).number() != i + 1) {
+                throw new IllegalStateException("Lesson at index " + i + " must be number " + (i + 1)
+                        + " but was " + LESSONS.get(i).number());
+            }
         }
     }
 }

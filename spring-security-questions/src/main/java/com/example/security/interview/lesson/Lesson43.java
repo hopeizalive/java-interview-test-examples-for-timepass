@@ -11,7 +11,7 @@ import java.util.List;
 public final class Lesson43 extends AbstractLesson {
 
     public Lesson43() {
-        super(43, "RunAsUserToken—RUN_AS authorities added for impersonation-style elevation.");
+        super(42, "RunAsUserToken—RUN_AS authorities added for impersonation-style elevation.");
     }
 
     @Override

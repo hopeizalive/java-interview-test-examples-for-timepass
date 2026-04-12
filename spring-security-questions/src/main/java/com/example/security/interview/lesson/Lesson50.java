@@ -18,7 +18,7 @@ import static org.springframework.web.reactive.function.server.RequestPredicates
 public final class Lesson50 extends AbstractLesson {
 
     public Lesson50() {
-        super(50, "WebFlux SecurityWebFilterChain—/api/** authenticated; WebTestClient + mockUser.");
+        super(49, "WebFlux SecurityWebFilterChain—/api/** authenticated; WebTestClient + mockUser.");
     }
 
     @Override

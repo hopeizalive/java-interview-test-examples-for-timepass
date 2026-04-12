@@ -1,4 +1,4 @@
-# Spring Security lessons 1–50
+# Spring Security lessons 1–49
 
 Command (from repo root):
 
@@ -45,19 +45,18 @@ mvn -pl spring-security-questions exec:java -Dexec.args="run <n>"
 | 35 | Client credentials | `MockWebServer` issues token JSON; token client parses access token. |
 | 36 | OIDC-shaped JWT | Decode locally signed JWT with `aud` / `email`. |
 | 37 | Opaque token introspector | `opaque-ok` → 200; `bad` → 401. |
-| 38 | SAML metadata | `RelyingPartyRegistrations.fromMetadataLocation` loads IdP `entityId`. |
-| 39 | LDAP bind | UnboundID in-memory LDAP; `BindAuthenticator` binds `test` user. |
-| 40 | RequestAttributeAuthenticationFilter | Request attribute becomes `PreAuthenticated` principal. |
-| 41 | Entry point vs access denied | No auth → 401 body `unauth`; wrong role → 403 `denied`. |
-| 42 | AccessDeniedHandler | VIP-only route returns custom 403 body. |
-| 43 | RunAsUserToken | Token carries `ROLE_RUN_AS_SPECIAL`. |
-| 44 | Switch user | Admin impersonates `victim`; `/who` returns victim name. |
-| 45 | JDBC ACL | H2 + `JdbcMutableAclService`; `isGranted` READ for `ROLE_READER`. |
-| 46 | KeyGenerators | Non-empty string and random bytes from `spring-security-crypto`. |
-| 47 | `user()` vs Basic | MockMvc synthetic user and real Basic both pass `/secure`. |
-| 48 | securityContext() | Injects custom `SecurityContext` into request. |
-| 49 | authentication() | Injects `Authentication` into request. |
-| 50 | WebFlux chain | `/api/ping` 401 anonymous; `mockUser` → 200. |
+| 38 | LDAP bind | UnboundID in-memory LDAP; `BindAuthenticator` binds `test` user. |
+| 39 | RequestAttributeAuthenticationFilter | Request attribute becomes `PreAuthenticated` principal. |
+| 40 | Entry point vs access denied | No auth → 401 body `unauth`; wrong role → 403 `denied`. |
+| 41 | AccessDeniedHandler | VIP-only route returns custom 403 body. |
+| 42 | RunAsUserToken | Token carries `ROLE_RUN_AS_SPECIAL`. |
+| 43 | Switch user | Admin impersonates `victim`; `/who` returns victim name. |
+| 44 | JDBC ACL | H2 + `JdbcMutableAclService`; `isGranted` READ for `ROLE_READER`. |
+| 45 | KeyGenerators | Non-empty string and random bytes from `spring-security-crypto`. |
+| 46 | `user()` vs Basic | MockMvc synthetic user and real Basic both pass `/secure`. |
+| 47 | securityContext() | Injects custom `SecurityContext` into request. |
+| 48 | authentication() | Injects `Authentication` into request. |
+| 49 | WebFlux chain | `/api/ping` 401 anonymous; `mockUser` → 200. |
 
 ---
 

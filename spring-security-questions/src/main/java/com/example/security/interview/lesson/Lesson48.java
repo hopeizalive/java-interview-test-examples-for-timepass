@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public final class Lesson48 extends AbstractLesson {
 
     public Lesson48() {
-        super(48, "securityContext() post-processor—custom Authentication in SecurityContext.");
+        super(47, "securityContext() post-processor—custom Authentication in SecurityContext.");
     }
 
     @Override

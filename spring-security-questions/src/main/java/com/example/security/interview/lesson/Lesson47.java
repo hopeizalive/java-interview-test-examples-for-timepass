@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public final class Lesson47 extends AbstractLesson {
 
     public Lesson47() {
-        super(47, "SecurityMockMvcRequestPostProcessors.user() vs HTTP Basic—both authenticate.");
+        super(46, "SecurityMockMvcRequestPostProcessors.user() vs HTTP Basic—both authenticate.");
     }
 
     @Override

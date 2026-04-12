@@ -1,6 +1,6 @@
 # Spring Security interview lessons
 
-Fifty **hands-on** lessons (Java demos, not prose-only). Each `run` exercises Spring Security APIs or a minimal web/reactive setup.
+Forty-nine **hands-on** lessons (Java demos, not prose-only). Each `run` exercises Spring Security APIs or a minimal web/reactive setup.
 
 ## Run the CLI
 
@@ -31,7 +31,7 @@ mvnw -pl spring-security-questions exec:java -Dexec.args="run 11"
 java -jar spring-security-questions/target/spring-security-questions-1.0-SNAPSHOT.jar run-all
 ```
 
-Requirements: **Java 21**, network on first build (dependency download). The module POM adds the **Shibboleth** Maven repository so OpenSAML (SAML2 support) can resolve. Some lessons start embedded LDAP or H2; no external IdP is required for the default code path.
+Requirements: **Java 21**, network on first build (dependency download). Some lessons start embedded LDAP or H2; everything runs from the classpath without external services.
 
 ## Lesson index and interview notes
 
