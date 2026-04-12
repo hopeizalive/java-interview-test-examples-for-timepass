@@ -70,7 +70,7 @@ public final class DemoCf {
         CompletableFuture<String> h = CompletableFuture.supplyAsync(() -> {
                     throw new RuntimeException("x");
                 })
-                .handle((v, ex) -> ex != null ? "fallback" : v);
+                .handle((String v, Throwable ex) -> ex != null ? "fallback" : v);
         ctx.log("  handle: " + h.join());
     }
 

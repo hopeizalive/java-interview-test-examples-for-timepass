@@ -1,6 +1,7 @@
 package com.example.concurrency.interview.demos.support;
 
 import org.springframework.kafka.test.EmbeddedKafkaBroker;
+import org.springframework.kafka.test.EmbeddedKafkaKraftBroker;
 
 /** Starts an in-process Kafka broker for CLI lessons (no external cluster). */
 public final class KafkaEmbedded implements AutoCloseable {
@@ -12,7 +13,7 @@ public final class KafkaEmbedded implements AutoCloseable {
     }
 
     public static KafkaEmbedded start(int partitions, String... topics) throws Exception {
-        EmbeddedKafkaBroker b = new EmbeddedKafkaBroker(1, true, partitions, topics);
+        EmbeddedKafkaBroker b = new EmbeddedKafkaKraftBroker(1, partitions, topics);
         b.afterPropertiesSet();
         return new KafkaEmbedded(b);
     }
