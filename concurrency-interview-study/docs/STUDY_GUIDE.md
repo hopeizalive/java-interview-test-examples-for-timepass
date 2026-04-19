@@ -162,7 +162,7 @@ Combines **executor batching** with **async composition**. Bridge to the next pa
 
 ---
 
-## Part 7 — Producer–consumer queues (lessons 32–35)
+## Part 7 — Producer–consumer queues (lessons 32–35, 61)
 
 ### Lesson 32: `ArrayBlockingQueue` (bounded)
 
@@ -180,9 +180,19 @@ Send a **sentinel** message so consumers exit cleanly. Pattern for **draining** 
 
 Competing consumers **share** load; relates to **work stealing** mentally and to Kafka consumer groups later at a high level.
 
+### Lesson 61: Producer–consumer **problem** — `wait` / `notifyAll` **and** `BlockingQueue`
+
+**Theory.** The classical **producer–consumer problem** coordinates two (or more) threads through a **bounded buffer**: the producer must not overwrite unread slots, and the consumer must not read an empty buffer. On the JVM this is usually expressed with a **monitor** (`synchronized` on a lock object): while the buffer is **full**, the producer calls **`wait()`** to release the monitor and sleep until space exists; while **empty**, the consumer waits. After each **`put`** or **`take`**, call **`notifyAll()`** so every waiter re-checks the condition (mandatory pattern when multiple producers/consumers exist—`notify()` can wake the wrong thread).
+
+**Same condition via `BlockingQueue`.** `BlockingQueue.put` blocks when the queue is **full**; `take` blocks when it is **empty**. `ArrayBlockingQueue` (bounded) applies the **same logical condition** as a hand-rolled ring buffer, using `ReentrantLock` + `Condition` internally instead of `Object.wait`/`notifyAll`. Lesson 61 runs **both** with the same capacity and item count so you can compare logs.
+
+**Relation to lessons 32–35.** Those lessons already used `BlockingQueue`; lesson 61 ties them back to **explicit** monitor code. **Always wait in a loop** (`while` condition), never `if`, because **spurious wakeups** and **batched** notifications mean the condition may still be false after wake.
+
+**What to take away.** In production you normally use **`BlockingQueue`** or a reactive pipeline; you still explain the **monitor + wait/notify** version to show you understand **why** blocking queues behave as they do and how **lost signals** happen if you forget `notify` or use `if` instead of `while`.
+
 ---
 
-## Part 8 — `CompletableFuture` (lessons 36–42)
+## Part 8 — `CompletableFuture` and structured concurrency (lessons 36–42, 62)
 
 ### Lesson 36: `CompletableFuture.supplyAsync` and default executor
 
@@ -211,6 +221,16 @@ You learn **pipeline-level** recovery vs letting exceptions propagate. `handle` 
 ### Lesson 42: `get()` vs `join()` exception shapes
 
 `get()` wraps in **`ExecutionException`**/`InterruptedException`; `join()` throws **`CompletionException`**. Know what your API consumers must catch.
+
+### Lesson 62: Structured concurrency — `StructuredTaskScope.ShutdownOnFailure` (JDK 21+)
+
+**Theory.** **Structured concurrency** means subtasks have a **parent scope**: they are started **for** a bounded piece of work and must finish (or be **cancelled**) when that work ends or fails. That avoids **orphan threads**—a classic problem with raw `new Thread` or fire-and-forget `CompletableFuture.runAsync` where a failure in one branch leaves unrelated work running.
+
+**API.** `StructuredTaskScope` (JDK 21) lets you **`fork(Callable)`** subtasks, **`join()`** until the scope’s policy is satisfied, then **`throwIfFailed()`** to surface the first failure. **`ShutdownOnFailure`** means: if **any** fork completes exceptionally, the scope **shuts down** and **cancels** the others (typically **interrupt**), so you do not keep calling a dead downstream after one leg failed.
+
+**Contrast with `CompletableFuture`.** `allOf` composes stages but does not by itself define a **single cancellation tree**; you often add manual `exceptionally` / `cancel chains`. Structured scopes make **“all succeed or we unwind together”** the default story—closer to **try/finally** for threads.
+
+**What to take away.** Interviews: name **structured concurrency**, **failure propagation**, and **peer cancellation**. In production, also know **Project Loom** / **virtual threads** pair well with scopes (many blocked forks are cheap). Requires **JDK 21+** (this module targets Java 21).
 
 ---
 

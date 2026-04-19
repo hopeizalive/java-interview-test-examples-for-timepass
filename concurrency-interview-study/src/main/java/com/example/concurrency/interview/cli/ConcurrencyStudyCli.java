@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 /**
- * Concurrency interview lessons (1–60), mostly plain JDK + optional Spring / Embedded Kafka per lesson.
+ * Concurrency interview lessons (1–62), mostly plain JDK + optional Spring / Embedded Kafka per lesson.
  *
  * <pre>
  *   mvn -pl concurrency-interview-study exec:java -Dexec.args="list"

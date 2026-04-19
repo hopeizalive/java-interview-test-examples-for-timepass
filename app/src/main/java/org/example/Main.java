@@ -1,14 +1,11 @@
 package org.example;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.printf("Hello and welcome!");
-
-        Runnable r = () -> {
-            System.out.println("no idea");
-        };
-
-        Thread t = new Thread(r);
-        t.start();
+        ArrayList s = new ArrayList();
+        LinkedList ld = new LinkedList();
     }
 }

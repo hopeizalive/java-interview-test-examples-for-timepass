@@ -11,13 +11,14 @@ import com.example.concurrency.interview.demos.DemoPc;
 import com.example.concurrency.interview.demos.DemoRace;
 import com.example.concurrency.interview.demos.DemoScheduled;
 import com.example.concurrency.interview.demos.DemoShutdown;
+import com.example.concurrency.interview.demos.DemoStructuredConcurrency;
 import com.example.concurrency.interview.demos.DemoSync;
 import com.example.concurrency.interview.demos.DemoThreads;
 import com.example.concurrency.interview.demos.DemoTuning;
 import com.example.concurrency.interview.study.StudyContext;
 import com.example.concurrency.interview.study.StudyLesson;
 
-/** Sixty interview lessons; runnable from {@link com.example.concurrency.interview.cli.ConcurrencyStudyCli}. */
+/** Sixty-two interview lessons; runnable from {@link com.example.concurrency.interview.cli.ConcurrencyStudyCli}. */
 public enum ConcurrencyLesson implements StudyLesson {
 
     L01(1, "Thread lifecycle: start a worker Thread with Runnable."),
@@ -79,9 +80,11 @@ public enum ConcurrencyLesson implements StudyLesson {
     L57(57, "ThreadPoolTaskScheduler programmatic ticks."),
     L58(58, "Parallel chunks + parallelStream / common pool cautions."),
     L59(59, "Kafka async producer send(callback) and consumer drain."),
-    L60(60, "Kafka consumer group concurrency; batch vs per-record; capstone recap.");
+    L60(60, "Kafka consumer group concurrency; batch vs per-record; capstone recap."),
+    L61(61, "Producer–consumer problem: wait/notify buffer vs BlockingQueue (same bounded condition)."),
+    L62(62, "Structured concurrency: StructuredTaskScope.ShutdownOnFailure — fork, join, cancel peers on failure.");
 
-    public static final int EXPECTED_LESSON_COUNT = 60;
+    public static final int EXPECTED_LESSON_COUNT = 62;
 
     private final int number;
     private final String title;
@@ -164,6 +167,8 @@ public enum ConcurrencyLesson implements StudyLesson {
             case L58 -> DemoChunks.l58(ctx);
             case L59 -> DemoKafka.l59(ctx);
             case L60 -> DemoKafka.l60(ctx);
+            case L61 -> DemoPc.l61(ctx);
+            case L62 -> DemoStructuredConcurrency.l62(ctx);
         }
     }
 }

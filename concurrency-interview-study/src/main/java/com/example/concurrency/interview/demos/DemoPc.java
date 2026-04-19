@@ -104,4 +104,112 @@ public final class DemoPc {
             pool.awaitTermination(5, TimeUnit.SECONDS);
         }
     }
+
+    private static final int L61_CAPACITY = 3;
+    private static final int L61_ITEMS = 8;
+
+    /**
+     * Same bounded producer–consumer scenario twice: (1) explicit {@code wait}/{@code notifyAll} on a ring buffer,
+     * (2) {@link BlockingQueue} — {@link ArrayBlockingQueue#put} / {@link BlockingQueue#take} encode the same
+     * full/empty conditions (blocking when full or empty).
+     */
+    public static void l61(StudyContext ctx) throws Exception {
+        ctx.log("Producer–consumer problem — phase 1: hand-rolled buffer, wait() / notifyAll().");
+        runProducerConsumerWaitNotify(ctx);
+
+        ctx.log("Producer–consumer problem — phase 2: same bounds via BlockingQueue (ArrayBlockingQueue).");
+        runProducerConsumerBlockingQueue(ctx);
+
+        ctx.log("Done — BlockingQueue.put/take are the standard library expression of the same monitor logic.");
+    }
+
+    private static void runProducerConsumerWaitNotify(StudyContext ctx) throws InterruptedException {
+        final Object lock = new Object();
+        final int[] slots = new int[L61_CAPACITY];
+        final int[] count = {0};
+        final int[] putIdx = {0};
+        final int[] takeIdx = {0};
+
+        Runnable put = () -> {
+            try {
+                for (int item = 0; item < L61_ITEMS; item++) {
+                    synchronized (lock) {
+                        while (count[0] == L61_CAPACITY) {
+                            ctx.log("  [monitor] buffer full → producer waits");
+                            lock.wait();
+                        }
+                        slots[putIdx[0]] = item;
+                        putIdx[0] = (putIdx[0] + 1) % L61_CAPACITY;
+                        count[0]++;
+                        ctx.log("  [monitor] put " + item + " (count=" + count[0] + ")");
+                        lock.notifyAll();
+                    }
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        };
+
+        Runnable take = () -> {
+            try {
+                for (int n = 0; n < L61_ITEMS; n++) {
+                    synchronized (lock) {
+                        while (count[0] == 0) {
+                            ctx.log("  [monitor] buffer empty → consumer waits");
+                            lock.wait();
+                        }
+                        int v = slots[takeIdx[0]];
+                        takeIdx[0] = (takeIdx[0] + 1) % L61_CAPACITY;
+                        count[0]--;
+                        ctx.log("  [monitor] take " + v + " (count=" + count[0] + ")");
+                        lock.notifyAll();
+                    }
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        };
+
+        var tp = Thread.ofPlatform().name("pc-monitor-producer").unstarted(put);
+        var tc = Thread.ofPlatform().name("pc-monitor-consumer").unstarted(take);
+        tp.start();
+        tc.start();
+        tp.join();
+        tc.join();
+    }
+
+    private static void runProducerConsumerBlockingQueue(StudyContext ctx) throws Exception {
+        BlockingQueue<Integer> q = new ArrayBlockingQueue<>(L61_CAPACITY);
+
+        Runnable producer = () -> {
+            try {
+                for (int item = 0; item < L61_ITEMS; item++) {
+                    // put blocks while size == capacity — same "full" condition as phase 1
+                    q.put(item);
+                    ctx.log("  [BlockingQueue] put " + item + " (size=" + q.size() + ")");
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        };
+
+        Runnable consumer = () -> {
+            try {
+                for (int n = 0; n < L61_ITEMS; n++) {
+                    // take blocks while empty — same "empty" condition as phase 1
+                    int v = q.take();
+                    ctx.log("  [BlockingQueue] take " + v + " (size=" + q.size() + ")");
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        };
+
+        var p = Thread.ofPlatform().name("pc-bq-producer").unstarted(producer);
+        var c = Thread.ofPlatform().name("pc-bq-consumer").unstarted(consumer);
+        p.start();
+        c.start();
+        p.join();
+        c.join();
+    }
 }
