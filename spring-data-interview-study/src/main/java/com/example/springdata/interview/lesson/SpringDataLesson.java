@@ -7,8 +7,10 @@ import com.example.springdata.interview.support.DataSdBoot;
 import org.springframework.boot.WebApplicationType;
 
 /**
- * Spring Data lessons with runnable persistence code only (no pure narrative slots).
- * Lessons renumbered 1–34 after removing theory-only entries.
+ * Spring Data interview lesson catalog and runtime adapter (lessons 1-34).
+ *
+ * <p>This enum stores lesson metadata while delegating actual runnable behavior to grouped lesson
+ * runner beans inside the `sddata.config` package.
  */
 public enum SpringDataLesson implements StudyLesson {
 
@@ -67,10 +69,19 @@ public enum SpringDataLesson implements StudyLesson {
         return title;
     }
 
+    /**
+     * Lesson dispatch entry for class-based StudyLesson API.
+     *
+     * <p><b>Purpose:</b> Resolve lesson-specific Spring Boot context and invoke the matching runner.
+     * <p><b>Role:</b> Bridges CLI lesson selection to grouped functional lesson implementations.
+     * <p><b>Demonstration:</b> Starts lesson-scoped application context and delegates to `LessonRuntime`.
+     */
     @Override
     public void run(StudyContext ctx) throws Exception {
+        // Story setup: create lesson-specific DB name to isolate data between runs.
         String db = "sd" + String.format("%02d", number);
         WebApplicationType web = number == 8 ? WebApplicationType.SERVLET : WebApplicationType.NONE;
+        // Story action: boot context and run the registered lesson bean for this number.
         try (var c = DataSdBoot.startStudy(db, web)) {
             c.getBean(LessonRuntime.class).runLesson(number, c, ctx);
         }

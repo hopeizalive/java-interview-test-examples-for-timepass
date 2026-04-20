@@ -53,23 +53,46 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.client.RestTemplate;
 
+/**
+ * Spring Data grouped lesson runners for lessons 1-17.
+ *
+ * <p>Each bean method maps to one interview lesson and returns a runnable body that demonstrates
+ * the behavior with real persistence operations.
+ */
 @Configuration
 public class SpringDataLessons01To17Config {
 
+    /**
+     * Lesson 1: JpaRepository versus EntityManager ceremony.
+     *
+     * <p><b>Purpose:</b> Contrast repository convenience with manual EntityManager persistence flow.
+     * <p><b>Role:</b> Entry point for understanding why Spring Data repositories exist.
+     * <p><b>Demonstration:</b> Saves one row via each path and compares resulting ids/count.
+     */
     @Bean
     LessonRunnable lesson01(Sd01DemoService demo) {
         return StudyLessonFactory.lesson(1, (app, ctx) -> {
+            // Story setup: describe the interview comparison before executing both paths.
             ctx.log("Talking point: JpaRepository removes repetitive persist/find code vs EntityManager-only services.");
             long viaRepo = demo.saveViaRepository("via-JpaRepository");
             long viaEm = demo.saveViaEntityManager("via-EntityManager#persist");
+            // Story observation: both persist, but repository path removes plumbing.
             ctx.log("IDs: repository=" + viaRepo + ", entityManager=" + viaEm + ", count=" + demo.countRepository());
         });
     }
 
+    /**
+     * Lesson 2: repository interface hierarchy.
+     *
+     * <p><b>Purpose:</b> Show capability layering from CrudRepository up to JpaRepository.
+     * <p><b>Role:</b> Builds conceptual model of available repository operations.
+     * <p><b>Demonstration:</b> Persists and reads Tag using inherited methods.
+     */
     @Bean
     LessonRunnable lesson02(Sd02TagRepository repo) {
         return StudyLessonFactory.lesson(2, (app, ctx) -> {
             ctx.log("Hierarchy: Repository → CrudRepository → PagingAndSortingRepository → JpaRepository (+ batch, flush, etc.).");
+            // Story action: use standard save/find operations supplied by hierarchy.
             Sd02Tag t = new Sd02Tag();
             t.setName("spring-data");
             repo.save(t);
@@ -77,6 +100,13 @@ public class SpringDataLessons01To17Config {
         });
     }
 
+    /**
+     * Lesson 3: runtime repository proxy model.
+     *
+     * <p><b>Purpose:</b> Explain how Spring Data repositories are generated at runtime.
+     * <p><b>Role:</b> Clarifies implementation mechanics behind interface-only repositories.
+     * <p><b>Demonstration:</b> Prints actual proxy class at runtime.
+     */
     @Bean
     LessonRunnable lesson03(Sd02TagRepository repo) {
         return StudyLessonFactory.lesson(3, (app, ctx) -> {
@@ -85,9 +115,17 @@ public class SpringDataLessons01To17Config {
         });
     }
 
+    /**
+     * Lesson 4: query derivation from method names.
+     *
+     * <p><b>Purpose:</b> Demonstrate convention-based query generation.
+     * <p><b>Role:</b> Introduces declarative query style before explicit JPQL.
+     * <p><b>Demonstration:</b> Runs derived method with case-insensitive and boolean predicates.
+     */
     @Bean
     LessonRunnable lesson04(Sd04CustomerRepository repo) {
         return StudyLessonFactory.lesson(4, (app, ctx) -> {
+            // Story setup: seed one row matching derived query signature.
             Sd04Customer c = new Sd04Customer();
             c.setLastName("Nguyen");
             c.setActive(true);
@@ -97,6 +135,13 @@ public class SpringDataLessons01To17Config {
         });
     }
 
+    /**
+     * Lesson 5: explicit JPQL with @Query.
+     *
+     * <p><b>Purpose:</b> Show when explicit query text is clearer than method-name derivation.
+     * <p><b>Role:</b> Complements derivation with precise query control.
+     * <p><b>Demonstration:</b> Saves Task and queries with repository JPQL method.
+     */
     @Bean
     LessonRunnable lesson05(Sd05TaskRepository repo) {
         return StudyLessonFactory.lesson(5, (app, ctx) -> {
@@ -108,9 +153,17 @@ public class SpringDataLessons01To17Config {
         });
     }
 
+    /**
+     * Lesson 6: native SQL usage in repositories.
+     *
+     * <p><b>Purpose:</b> Demonstrate native query power and paging implications.
+     * <p><b>Role:</b> Introduces portability/dialect trade-offs versus JPQL.
+     * <p><b>Demonstration:</b> Executes paged native query after seeding rows.
+     */
     @Bean
     LessonRunnable lesson06(Sd06PartRepository repo) {
         return StudyLessonFactory.lesson(6, (app, ctx) -> {
+            // Story setup: seed enough rows so paging metadata is meaningful.
             for (int i = 0; i < 5; i++) {
                 Sd06Part p = new Sd06Part();
                 p.setCode("P-" + i);
@@ -121,6 +174,13 @@ public class SpringDataLessons01To17Config {
         });
     }
 
+    /**
+     * Lesson 7: Page versus Slice semantics.
+     *
+     * <p><b>Purpose:</b> Compare count-query overhead against lightweight next-page detection.
+     * <p><b>Role:</b> Helps choose pagination type based on API needs.
+     * <p><b>Demonstration:</b> Runs both page and slice queries on same dataset.
+     */
     @Bean
     LessonRunnable lesson07(Sd07LogEntryRepository repo) {
         return StudyLessonFactory.lesson(7, (app, ctx) -> {
@@ -135,6 +195,13 @@ public class SpringDataLessons01To17Config {
         });
     }
 
+    /**
+     * Lesson 8: Spring MVC Pageable binding.
+     *
+     * <p><b>Purpose:</b> Show that request params map directly to Pageable.
+     * <p><b>Role:</b> Connects repository pagination with web layer integration.
+     * <p><b>Demonstration:</b> Calls HTTP endpoint with page/size/sort params and logs response.
+     */
     @Bean
     LessonRunnable lesson08(Sd08ItemRepository repo, RestTemplateBuilder restTemplateBuilder) {
         return StudyLessonFactory.lesson(8, (app, ctx) -> {
@@ -145,6 +212,7 @@ public class SpringDataLessons01To17Config {
             repo.save(item("beta"));
             int port = web.getWebServer().getPort();
             RestTemplate rt = restTemplateBuilder.build();
+            // Story action: invoke endpoint exactly how clients pass pagination controls.
             String url = "http://127.0.0.1:" + port + "/api/sd08/items?page=0&size=1&sort=name,asc";
             String json = rt.getForObject(url, String.class);
             ctx.log("MVC binds page, size, sort query params to Pageable → sample JSON: " + json);
@@ -157,6 +225,13 @@ public class SpringDataLessons01To17Config {
         return i;
     }
 
+    /**
+     * Lesson 9: dynamic sorting with Sort API.
+     *
+     * <p><b>Purpose:</b> Demonstrate runtime sort selection without hardcoded method variants.
+     * <p><b>Role:</b> Keeps repository interface smaller for sortable APIs.
+     * <p><b>Demonstration:</b> Persists songs and sorts by title asc.
+     */
     @Bean
     LessonRunnable lesson09(Sd09SongRepository repo) {
         return StudyLessonFactory.lesson(9, (app, ctx) -> {
@@ -174,6 +249,13 @@ public class SpringDataLessons01To17Config {
         repo.save(s);
     }
 
+    /**
+     * Lesson 10: Query by Example basics.
+     *
+     * <p><b>Purpose:</b> Show probe + matcher driven search for simple dynamic filters.
+     * <p><b>Role:</b> Alternative to manual criteria for straightforward matching.
+     * <p><b>Demonstration:</b> Uses case-insensitive probe and logs match count.
+     */
     @Bean
     LessonRunnable lesson10(Sd10PersonRepository repo) {
         return StudyLessonFactory.lesson(10, (app, ctx) -> {
@@ -185,11 +267,19 @@ public class SpringDataLessons01To17Config {
             Sd10Person probe = new Sd10Person();
             probe.setLastName("doe");
             ExampleMatcher matcher = ExampleMatcher.matching().withIgnoreCase().withIgnoreNullValues();
+            // Story action: probe defines desired fields; matcher tunes comparison behavior.
             var matches = repo.findAll(Example.of(probe, matcher));
             ctx.log("Query by Example matches=" + matches.size() + " (weak for OR-heavy searches and arbitrary predicates).");
         });
     }
 
+    /**
+     * Lesson 11: interface-based projections.
+     *
+     * <p><b>Purpose:</b> Show partial-column reads through projection interfaces.
+     * <p><b>Role:</b> Reduces over-fetching for read endpoints.
+     * <p><b>Demonstration:</b> Reads projected username only from active accounts query.
+     */
     @Bean
     LessonRunnable lesson11(Sd11AccountRepository repo) {
         return StudyLessonFactory.lesson(11, (app, ctx) -> {
@@ -202,6 +292,13 @@ public class SpringDataLessons01To17Config {
         });
     }
 
+    /**
+     * Lesson 12: DTO constructor projections.
+     *
+     * <p><b>Purpose:</b> Demonstrate class-based read models from JPQL constructor expressions.
+     * <p><b>Role:</b> Supports API-oriented query shaping.
+     * <p><b>Demonstration:</b> Persists a Novel and fetches DTO list by author.
+     */
     @Bean
     LessonRunnable lesson12(Sd12NovelRepository repo) {
         return StudyLessonFactory.lesson(12, (app, ctx) -> {
@@ -213,6 +310,13 @@ public class SpringDataLessons01To17Config {
         });
     }
 
+    /**
+     * Lesson 13: @Modifying bulk update path.
+     *
+     * <p><b>Purpose:</b> Show set-based JPQL update with service transaction boundary.
+     * <p><b>Role:</b> Introduces bulk-write caveats around persistence context synchronization.
+     * <p><b>Demonstration:</b> Adjusts inventory and logs affected rows + refreshed quantity.
+     */
     @Bean
     LessonRunnable lesson13(Sd13InventoryRepository invRepo, Sd13InventoryService svc) {
         return StudyLessonFactory.lesson(13, (app, ctx) -> {
@@ -226,6 +330,13 @@ public class SpringDataLessons01To17Config {
         });
     }
 
+    /**
+     * Lesson 14: @EntityGraph for association fetch planning.
+     *
+     * <p><b>Purpose:</b> Compare lazy association access versus graph-based eager loading.
+     * <p><b>Role:</b> Prepares for N+1 troubleshooting and fetch tuning.
+     * <p><b>Demonstration:</b> Runs same lookup with and without entity graph.
+     */
     @Bean
     LessonRunnable lesson14(Sd14BlogPostRepository repo, Sd14BlogPostDemoService demo) {
         return StudyLessonFactory.lesson(14, (app, ctx) -> {
@@ -237,11 +348,19 @@ public class SpringDataLessons01To17Config {
             repo.save(post);
             int plainCount = demo.commentCountWithoutGraph("Graph demo");
             int graphCount = demo.commentCountWithEntityGraph("Graph demo");
+            // Story observation: compare comment-loading strategy outcomes side by side.
             ctx.log("Inside @Transactional: without @EntityGraph, comments load lazily on access (count=" + plainCount + ").");
             ctx.log("With @EntityGraph, association fetched with the root (count=" + graphCount + "); fewer round-trips for graphs.");
         });
     }
 
+    /**
+     * Lesson 15: LazyInitializationException boundaries.
+     *
+     * <p><b>Purpose:</b> Show failure when lazy collection is accessed outside transaction/session.
+     * <p><b>Role:</b> Reinforces transaction-scoped data access design.
+     * <p><b>Demonstration:</b> Triggers outside-tx access, catches exception, then shows inside-tx fix.
+     */
     @Bean
     LessonRunnable lesson15(Sd15TeamRepository teamRepo, Sd15LazyDemoService lazy) {
         return StudyLessonFactory.lesson(15, (app, ctx) -> {
@@ -251,6 +370,7 @@ public class SpringDataLessons01To17Config {
             p.setNickname("ace");
             team.addPlayer(p);
             Long id = teamRepo.save(team).getId();
+            // Story phase A: intentionally access lazy relation outside transaction boundary.
             try {
                 lazy.countPlayersOutsideTx(id);
                 ctx.log("Unexpected: lazy access succeeded outside session.");
@@ -262,6 +382,13 @@ public class SpringDataLessons01To17Config {
         });
     }
 
+    /**
+     * Lesson 16: service-layer transaction orchestration.
+     *
+     * <p><b>Purpose:</b> Emphasize @Transactional at service boundary for multi-repository work.
+     * <p><b>Role:</b> Keeps repositories focused while service enforces business atomicity.
+     * <p><b>Demonstration:</b> Transfers balance between wallets in one transactional operation.
+     */
     @Bean
     LessonRunnable lesson16(Sd16WalletRepository wallets, Sd16TransferService transfer) {
         return StudyLessonFactory.lesson(16, (app, ctx) -> {
@@ -276,17 +403,26 @@ public class SpringDataLessons01To17Config {
         });
     }
 
+    /**
+     * Lesson 17: save() persist versus merge behavior.
+     *
+     * <p><b>Purpose:</b> Show how entity state (new vs detached) changes save semantics.
+     * <p><b>Role:</b> Deepens understanding of JPA lifecycle behavior behind repository API.
+     * <p><b>Demonstration:</b> Saves new entity, clears context, then saves detached entity again.
+     */
     @Bean
     LessonRunnable lesson17(Sd17PetRepository repo, EntityManager em, PlatformTransactionManager ptm) {
         return StudyLessonFactory.lesson(17, (app, ctx) -> {
             TransactionTemplate transactionTemplate = new TransactionTemplate(ptm);
             transactionTemplate.executeWithoutResult(status -> {
+                // Story phase A: null id entity follows persist path.
                 Sd17Pet pet = new Sd17Pet();
                 pet.setName("new");
                 Sd17Pet saved = repo.save(pet);
                 ctx.log("New entity (null id) → persist path; id=" + saved.getId());
                 em.flush();
                 em.clear();
+                // Story phase B: detached entity save delegates to merge semantics.
                 saved.setName("detached-merge");
                 Sd17Pet merged = repo.save(saved);
                 ctx.log("After clear(), save(detached) follows merge semantics; merged id=" + merged.getId());

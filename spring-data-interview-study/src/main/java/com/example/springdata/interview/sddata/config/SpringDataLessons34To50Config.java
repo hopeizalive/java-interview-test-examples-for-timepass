@@ -19,22 +19,42 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.DataIntegrityViolationException;
 
-/** Lessons 30–34 (renumbered; former narrative-only slots removed). */
+/**
+ * Spring Data grouped lesson runners for lessons 30-34.
+ *
+ * <p>These lessons continue the runnable pattern where each bean body is a single interview lesson
+ * demonstration.
+ */
 @Configuration
 public class SpringDataLessons34To50Config {
 
+    /**
+     * Lesson 30: SpEL in @Query.
+     *
+     * <p><b>Purpose:</b> Show dynamic query expression flexibility and readability trade-off.
+     * <p><b>Role:</b> Advanced query authoring topic after core repository patterns.
+     * <p><b>Demonstration:</b> Persists Snip and runs SpEL-based title search.
+     */
     @Bean
     LessonRunnable lesson30(Sd44SnipRepository repo) {
         return StudyLessonFactory.lesson(30, (app, ctx) -> {
             Sd44Snip a = new Sd44Snip();
             a.setTitle("alpha-demo");
             repo.save(a);
+            // Story action: execute query path that uses SpEL expression support.
             var hits = repo.searchByTitleSpel("demo");
             ctx.log("SpEL in @Query (#{#…}) can inject dynamic fragments; it complicates static analysis and vendor tooling.");
             ctx.log("Matches: " + hits.size());
         });
     }
 
+    /**
+     * Lesson 31: domain events from aggregates.
+     *
+     * <p><b>Purpose:</b> Demonstrate AbstractAggregateRoot event publication lifecycle.
+     * <p><b>Role:</b> Connects persistence save flow to domain event integration.
+     * <p><b>Demonstration:</b> Saves order, marks placed, and confirms listener observation.
+     */
     @Bean
     LessonRunnable lesson31(Sd45OrderRepository orders, Sd45EventListener listener) {
         return StudyLessonFactory.lesson(31, (app, ctx) -> {
@@ -42,11 +62,19 @@ public class SpringDataLessons34To50Config {
             o.setState("NEW");
             o = orders.save(o);
             o.markPlaced();
+            // Story boundary: follow-up save triggers event publication for registered domain event.
             orders.save(o);
             ctx.log("AbstractAggregateRoot registers domain events cleared after publish; listener saw: " + listener.getLast());
         });
     }
 
+    /**
+     * Lesson 32: N+1 mitigation options.
+     *
+     * <p><b>Purpose:</b> Compare naive lazy traversal with entity-graph assisted loading.
+     * <p><b>Role:</b> Practical performance tuning for association-heavy reads.
+     * <p><b>Demonstration:</b> Runs both browse paths and logs comparative totals.
+     */
     @Bean
     LessonRunnable lesson32(Sd46ParentRepository parents, Sd46BrowseService browse) {
         return StudyLessonFactory.lesson(32, (app, ctx) -> {
@@ -61,11 +89,19 @@ public class SpringDataLessons34To50Config {
             parents.save(p);
             int naive = browse.childTagsWithoutGraph();
             int batched = browse.childTagsWithGraph("r");
+            // Story observation: compare naive lazy loading to graph-assisted fetch behavior.
             ctx.log("N+1 risk when lazy collections load per parent row; @EntityGraph batch path sum lengths naive=" + naive
                     + ", graph=" + batched + " (inspect SQL with logging to compare).");
         });
     }
 
+    /**
+     * Lesson 33: indexes and planner alignment.
+     *
+     * <p><b>Purpose:</b> Tie repository query predicates to database index usage.
+     * <p><b>Role:</b> Brings schema-performance thinking into repository design.
+     * <p><b>Demonstration:</b> Persists SKU and queries by indexed code.
+     */
     @Bean
     LessonRunnable lesson33(Sd48SkuRepository repo) {
         return StudyLessonFactory.lesson(33, (app, ctx) -> {
@@ -78,6 +114,13 @@ public class SpringDataLessons34To50Config {
         });
     }
 
+    /**
+     * Lesson 34: unique constraints and idempotent writes.
+     *
+     * <p><b>Purpose:</b> Show database-enforced uniqueness surfacing as Spring exceptions.
+     * <p><b>Role:</b> Final lesson on safe duplicate handling strategy.
+     * <p><b>Demonstration:</b> Attempts duplicate userId and catches DataIntegrityViolationException.
+     */
     @Bean
     LessonRunnable lesson34(Sd49LoginRepository repo) {
         return StudyLessonFactory.lesson(34, (app, ctx) -> {
@@ -87,6 +130,7 @@ public class SpringDataLessons34To50Config {
             Sd49Login dup = new Sd49Login();
             dup.setUserId("pat");
             try {
+                // Story action: force duplicate key path with immediate flush to surface DB error now.
                 repo.saveAndFlush(dup);
                 ctx.log("Unexpected: duplicate accepted");
             } catch (DataIntegrityViolationException ex) {

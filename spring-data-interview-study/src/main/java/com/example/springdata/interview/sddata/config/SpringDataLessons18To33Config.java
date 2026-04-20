@@ -41,12 +41,26 @@ import org.springframework.transaction.support.TransactionTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Spring Data grouped lesson runners for lessons 18-29.
+ *
+ * <p>Each bean encapsulates one lesson flow and logs the interview takeaway from real data access
+ * behavior.
+ */
 @Configuration
 public class SpringDataLessons18To33Config {
 
+    /**
+     * Lesson 18: saveAll and batching.
+     *
+     * <p><b>Purpose:</b> Demonstrate bulk insert workflow with repository batching.
+     * <p><b>Role:</b> Introduces throughput tuning for write-heavy paths.
+     * <p><b>Demonstration:</b> Persists 20 rows via saveAll and logs batch-size guidance.
+     */
     @Bean
     LessonRunnable lesson18(Sd18BatchRowRepository repo) {
         return StudyLessonFactory.lesson(18, (app, ctx) -> {
+            // Story setup: build a batch payload before one repository call.
             List<Sd18BatchRow> rows = new ArrayList<>();
             for (int i = 0; i < 20; i++) {
                 Sd18BatchRow r = new Sd18BatchRow();
@@ -58,6 +72,13 @@ public class SpringDataLessons18To33Config {
         });
     }
 
+    /**
+     * Lesson 19: dynamic filters with Specification.
+     *
+     * <p><b>Purpose:</b> Show composable predicate construction without string concatenation.
+     * <p><b>Role:</b> Scales query complexity beyond method-name derivation.
+     * <p><b>Demonstration:</b> Builds category+score spec and counts matching rows.
+     */
     @Bean
     LessonRunnable lesson19(Sd19FilterRowRepository repo) {
         return StudyLessonFactory.lesson(19, (app, ctx) -> {
@@ -78,10 +99,18 @@ public class SpringDataLessons18To33Config {
         repo.save(r);
     }
 
+    /**
+     * Lesson 20: optimistic locking conflict detection.
+     *
+     * <p><b>Purpose:</b> Demonstrate stale detached state failing against updated version.
+     * <p><b>Role:</b> Reinforces concurrency-safe update strategy.
+     * <p><b>Demonstration:</b> Updates fresh row, then attempts stale save and catches locking error.
+     */
     @Bean
     LessonRunnable lesson20(Sd20LedgerRepository repo, PlatformTransactionManager ptm) {
         TransactionTemplate tt = new TransactionTemplate(ptm);
         return StudyLessonFactory.lesson(20, (app, ctx) -> {
+            // Story setup: create baseline row and keep detached copy for stale-write attempt.
             Long id = tt.execute(status -> repo.save(ledger("main", 0)).getId());
             Sd20Ledger detached = tt.execute(status -> repo.findById(id).orElseThrow());
             tt.execute(status -> {
@@ -95,6 +124,7 @@ public class SpringDataLessons18To33Config {
                 repo.save(detached);
                 ctx.log("Unexpected: stale write succeeded");
             } catch (OptimisticLockingFailureException ex) {
+                // Story observation: @Version detects stale state and rejects update.
                 ctx.log("@Version + stale state → " + ex.getClass().getSimpleName());
             }
         });
@@ -107,6 +137,13 @@ public class SpringDataLessons18To33Config {
         return l;
     }
 
+    /**
+     * Lesson 21: explicit flush semantics.
+     *
+     * <p><b>Purpose:</b> Show SQL synchronization before transaction commit.
+     * <p><b>Role:</b> Clarifies write timing inside one transactional boundary.
+     * <p><b>Demonstration:</b> Calls flush after save and explains visibility implication.
+     */
     @Bean
     LessonRunnable lesson21(Sd21FlushEntityRepository repo, EntityManager em, PlatformTransactionManager ptm) {
         TransactionTemplate tt = new TransactionTemplate(ptm);
@@ -121,6 +158,13 @@ public class SpringDataLessons18To33Config {
         });
     }
 
+    /**
+     * Lesson 22: read-only transactions.
+     *
+     * <p><b>Purpose:</b> Explain provider optimization hint for read-heavy service methods.
+     * <p><b>Role:</b> Adds transaction tuning beyond simple read/write split.
+     * <p><b>Demonstration:</b> Persists one row and reads count through read-only service.
+     */
     @Bean
     LessonRunnable lesson22(Sd22ReportRowRepository rows, Sd22ReportService report) {
         return StudyLessonFactory.lesson(22, (app, ctx) -> {
@@ -136,6 +180,13 @@ public class SpringDataLessons18To33Config {
         return r;
     }
 
+    /**
+     * Lesson 23: getReferenceById versus findById.
+     *
+     * <p><b>Purpose:</b> Contrast lazy proxy retrieval with immediate Optional-based lookup.
+     * <p><b>Role:</b> Helps pick repository APIs based on access pattern.
+     * <p><b>Demonstration:</b> Loads proxy, triggers initialization, then compares findById.
+     */
     @Bean
     LessonRunnable lesson23(Sd23GhostRepository repo, EntityManager em, PlatformTransactionManager ptm) {
         TransactionTemplate tt = new TransactionTemplate(ptm);
@@ -146,14 +197,23 @@ public class SpringDataLessons18To33Config {
                 Long id = repo.save(g).getId();
                 em.flush();
                 em.clear();
+                // Story phase A: getReferenceById gives proxy and may defer SELECT.
                 var ref = repo.getReferenceById(id);
                 ctx.log("getReferenceById returns a lazy proxy (may not SELECT until use): " + ref.getClass().getSimpleName());
+                // Story phase B: touching field forces row load.
                 ctx.log("Touching proxy loads row: label=" + ref.getLabel());
                 ctx.log("findById after clear: " + repo.findById(id));
             });
         });
     }
 
+    /**
+     * Lesson 24: cascade and orphan removal.
+     *
+     * <p><b>Purpose:</b> Show aggregate-root delete behavior for child entities.
+     * <p><b>Role:</b> Reinforces lifecycle ownership rules in domain modeling.
+     * <p><b>Demonstration:</b> Saves cart with line, deletes cart, and logs cascade outcome.
+     */
     @Bean
     LessonRunnable lesson24(Sd24CartRepository carts) {
         return StudyLessonFactory.lesson(24, (app, ctx) -> {
@@ -168,6 +228,13 @@ public class SpringDataLessons18To33Config {
         });
     }
 
+    /**
+     * Lesson 25: JPA auditing fields.
+     *
+     * <p><b>Purpose:</b> Demonstrate auto-maintained create/update timestamps.
+     * <p><b>Role:</b> Adds persistence metadata automation pattern.
+     * <p><b>Demonstration:</b> Saves document and prints auditing fields.
+     */
     @Bean
     LessonRunnable lesson25(Sd25DocRepository repo) {
         return StudyLessonFactory.lesson(25, (app, ctx) -> {
@@ -178,6 +245,13 @@ public class SpringDataLessons18To33Config {
         });
     }
 
+    /**
+     * Lesson 26: custom repository fragment implementation.
+     *
+     * <p><b>Purpose:</b> Show extending repository API with custom behavior.
+     * <p><b>Role:</b> Balances generated repository methods with hand-written domain queries.
+     * <p><b>Demonstration:</b> Invokes custom bulk JPQL method from fragment implementation.
+     */
     @Bean
     LessonRunnable lesson26(Sd26BookRepository books) {
         return StudyLessonFactory.lesson(26, (app, ctx) -> {
@@ -191,6 +265,13 @@ public class SpringDataLessons18To33Config {
         });
     }
 
+    /**
+     * Lesson 27: set-based bulk update via EntityManager.
+     *
+     * <p><b>Purpose:</b> Demonstrate executeUpdate path for mass state changes.
+     * <p><b>Role:</b> Complements repository CRUD with efficient bulk operations.
+     * <p><b>Demonstration:</b> Flags all rows through service bulk JPQL call.
+     */
     @Bean
     LessonRunnable lesson27(Sd27BulkRowRepository rows, Sd27BulkService bulk) {
         return StudyLessonFactory.lesson(27, (app, ctx) -> {
@@ -204,6 +285,13 @@ public class SpringDataLessons18To33Config {
         });
     }
 
+    /**
+     * Lesson 28: pagination with join-fetch caveats.
+     *
+     * <p><b>Purpose:</b> Show duplicate parent rows caused by join fetch collections.
+     * <p><b>Role:</b> Prevents incorrect paging/count assumptions on graph queries.
+     * <p><b>Demonstration:</b> Persists one author with two books and inspects joined result size.
+     */
     @Bean
     LessonRunnable lesson28(Sd30AuthorRepository authors) {
         return StudyLessonFactory.lesson(28, (app, ctx) -> {
@@ -216,12 +304,20 @@ public class SpringDataLessons18To33Config {
             a.addBook(b1);
             a.addBook(b2);
             authors.save(a);
+            // Story observation: one logical parent may appear multiple times without DISTINCT.
             List<Sd30Author> flat = authors.findAllJoinBooks();
             ctx.log("Join fetch without DISTINCT can duplicate parent rows in the List (size=" + flat.size()
                     + " for one logical author). Use DISTINCT / DTO projection / separate countQuery for Page APIs.");
         });
     }
 
+    /**
+     * Lesson 29: Spring Data JDBC positioning.
+     *
+     * <p><b>Purpose:</b> Highlight explicit aggregate persistence model without lazy navigation.
+     * <p><b>Role:</b> Contrasts JDBC module philosophy with JPA ORM behavior.
+     * <p><b>Demonstration:</b> Saves JDBC shipment aggregate and logs id.
+     */
     @Bean
     LessonRunnable lesson29(Sd31JdbcShipmentRepository jdbcRepo) {
         return StudyLessonFactory.lesson(29, (app, ctx) -> {
