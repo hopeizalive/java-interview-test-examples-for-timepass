@@ -8,15 +8,27 @@ import org.springframework.boot.web.servlet.context.ServletWebServerApplicationC
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.client.RestClient;
 
-/** @SpringBootTest(web=RANDOM_PORT) analog: full servlet context + RestClient call. */
+/**
+ * Lesson 47 demonstrates full-stack integration testing on random port.
+ *
+ * <p>The lesson boots complete servlet context and validates endpoint behavior through HTTP call.
+ */
 public final class Lesson47 extends AbstractMicroLesson {
 
     public Lesson47() {
         super(42, "@SpringBootTest random port analog: Boot web app on port 0 + RestClient integration call.");
     }
 
+    /**
+     * Lesson 42/47: full application integration test pattern.
+     *
+     * <p><b>Purpose:</b> Show end-to-end verification with full Boot auto-configuration.
+     * <p><b>Role:</b> Highest-confidence test layer after slices and unit tests.
+     * <p><b>Demonstration:</b> Starts app on port 0 and calls `/hello` via RestClient.
+     */
     @Override
     public void run(MicroservicesStudyContext ctx) {
+        // Story setup: start complete web app with random free port.
         SpringApplication app = new SpringApplication(L29Application.class);
         app.setDefaultProperties(java.util.Map.of(
                 "server.port", "0",

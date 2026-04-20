@@ -9,15 +9,28 @@ import org.springframework.boot.web.servlet.context.ServletWebServerApplicationC
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.client.RestClient;
 
-/** Two Boot servlet apps in one JVM: service A calls service B over HTTP. */
+/**
+ * Lesson 45/50 runs an end-to-end two-service hop in one JVM.
+ *
+ * <p>Service B is started first, service A receives B's URL, and a request to A verifies downstream
+ * delegation to B.
+ */
 public final class Lesson50 extends AbstractMicroLesson {
 
     public Lesson50() {
         super(45, "End-to-end smoke: two Spring Boot apps (ms50b then ms50a) with RestClient hop.");
     }
 
+    /**
+     * Lesson 45: end-to-end inter-service HTTP call.
+     *
+     * <p><b>Purpose:</b> Demonstrate service-to-service communication and startup dependency wiring.
+     * <p><b>Role:</b> Capstone runtime smoke test for the microservice lesson set.
+     * <p><b>Demonstration:</b> Boots two apps, calls A `/via-b`, and logs combined response.
+     */
     @Override
     public void run(MicroservicesStudyContext ctx) {
+        // Story setup: start downstream service B first and capture random port.
         SpringApplication bApp = new SpringApplication(Ms50SvcBApplication.class);
         bApp.setDefaultProperties(java.util.Map.of(
                 "server.port", "0",
@@ -28,6 +41,7 @@ public final class Lesson50 extends AbstractMicroLesson {
         ConfigurableApplicationContext b = bApp.run();
         try {
             int bPort = ((ServletWebServerApplicationContext) b).getWebServer().getPort();
+            // Story action: start service A with B endpoint injected as peer URL.
             SpringApplication aApp = new SpringApplication(Ms50SvcAApplication.class);
             aApp.setDefaultProperties(java.util.Map.of(
                     "server.port", "0",
@@ -39,6 +53,7 @@ public final class Lesson50 extends AbstractMicroLesson {
             ConfigurableApplicationContext a = aApp.run();
             try {
                 int aPort = ((ServletWebServerApplicationContext) a).getWebServer().getPort();
+                // Story observation: calling A proves the A -> B hop is functional.
                 String body = RestClient.create().get()
                         .uri("http://127.0.0.1:" + aPort + "/via-b")
                         .retrieve()

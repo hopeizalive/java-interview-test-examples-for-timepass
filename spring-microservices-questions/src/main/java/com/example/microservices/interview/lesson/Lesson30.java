@@ -6,15 +6,27 @@ import okhttp3.mockwebserver.MockWebServer;
 import org.springframework.http.MediaType;
 import org.springframework.web.client.RestClient;
 
-/** Stub a downstream with MockWebServer (same role as WireMock in integration tests). */
+/**
+ * Lesson 30 demonstrates downstream stubbing with MockWebServer.
+ *
+ * <p>The service client is exercised against a fake HTTP peer for deterministic integration tests.
+ */
 public final class Lesson30 extends AbstractMicroLesson {
 
     public Lesson30() {
         super(30, "HTTP stub: MockWebServer returns JSON; RestClient exercises the fake downstream.");
     }
 
+    /**
+     * Lesson 30: HTTP stub testing pattern.
+     *
+     * <p><b>Purpose:</b> Show isolated client testing without real downstream dependency.
+     * <p><b>Role:</b> Foundation for reliable consumer-side contract tests.
+     * <p><b>Demonstration:</b> Returns stubbed JSON and logs body fetched by RestClient.
+     */
     @Override
     public void run(MicroservicesStudyContext ctx) throws Exception {
+        // Story setup: enqueue deterministic JSON response before making client request.
         try (MockWebServer server = new MockWebServer()) {
             server.enqueue(new MockResponse()
                     .addHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)

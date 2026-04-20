@@ -8,15 +8,27 @@ import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 import java.time.Duration;
 import java.util.function.Supplier;
 
-/** Circuit breaker fail-fast after error threshold. */
+/**
+ * Lesson 25 demonstrates circuit breaker fail-fast protection.
+ *
+ * <p>After repeated failures, the breaker opens and rejects new calls before hitting the dependency.
+ */
 public final class Lesson25 extends AbstractMicroLesson {
 
     public Lesson25() {
         super(25, "Circuit breaker: opens after failures, rejects fast while half-open probes recover.");
     }
 
+    /**
+     * Lesson 25: circuit breaker state transitions.
+     *
+     * <p><b>Purpose:</b> Show load-shedding behavior for unhealthy dependencies.
+     * <p><b>Role:</b> Complements retries to avoid retry storms on persistent failures.
+     * <p><b>Demonstration:</b> Triggers failures, observes open state, catches CallNotPermittedException.
+     */
     @Override
     public void run(MicroservicesStudyContext ctx) {
+        // Story setup: configure small window so open state is reached quickly in demo.
         CircuitBreakerConfig cfg = CircuitBreakerConfig.custom()
                 .failureRateThreshold(50)
                 .waitDurationInOpenState(Duration.ofMillis(100))

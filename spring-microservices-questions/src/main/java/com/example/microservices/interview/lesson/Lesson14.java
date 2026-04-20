@@ -7,13 +7,24 @@ import com.example.microservices.interview.msdata.l14.L14PersonRepository;
 import com.example.microservices.interview.study.MicroservicesStudyContext;
 import com.example.microservices.interview.support.MicroBoot;
 
-/** Interface projections for read-optimized queries. */
+/**
+ * Lesson 14 demonstrates interface projections for read-optimized responses.
+ *
+ * <p>It highlights fetching only required columns instead of loading full entities for simple views.
+ */
 public final class Lesson14 extends AbstractMicroLesson {
 
     public Lesson14() {
         super(14, "Spring Data interface projections: fetch only columns needed for a read model.");
     }
 
+    /**
+     * Lesson 14: projection-based query shaping.
+     *
+     * <p><b>Purpose:</b> Show over-fetch reduction with interface projections.
+     * <p><b>Role:</b> Supports API payload minimization and query efficiency.
+     * <p><b>Demonstration:</b> Saves one person and reads projection containing name only.
+     */
     @Override
     public void run(MicroservicesStudyContext ctx) {
         try (var c = MicroBoot.start(L14Application.class, "ms14")) {
@@ -22,6 +33,7 @@ public final class Lesson14 extends AbstractMicroLesson {
             p.setName("public");
             p.setSecretNote("hidden");
             repo.save(p);
+            // Story observation: projection hides fields not exposed on interface contract.
             for (L14NameOnly row : repo.findAllBy()) {
                 ctx.log("Projection name=" + row.getName() + " (secret not mapped on interface)");
             }

@@ -19,15 +19,27 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/** API gateway role (minimal): edge filter adds routing/auth-style metadata headers. */
+/**
+ * Lesson 27 demonstrates a minimal API-gateway edge concern.
+ *
+ * <p>An edge filter stamps response metadata before requests reach downstream controllers.
+ */
 public final class Lesson27 extends AbstractMicroLesson {
 
     public Lesson27() {
         super(27, "API Gateway pattern: edge OncePerRequestFilter stamps X-Gateway-Route before controllers.");
     }
 
+    /**
+     * Lesson 27: gateway-style request interception.
+     *
+     * <p><b>Purpose:</b> Show cross-cutting edge logic applied once at entry.
+     * <p><b>Role:</b> Introduces gateway responsibilities before BFF specialization.
+     * <p><b>Demonstration:</b> Calls endpoint and verifies gateway header was injected.
+     */
     @Override
     public void run(MicroservicesStudyContext ctx) throws Exception {
+        // Story action: execute request through filter chain and assert edge-side header.
         try (SimpleWebHarness h = new SimpleWebHarness(WebConfig.class)) {
             h.mockMvc().perform(get("/upstream/ping"))
                     .andExpect(status().isOk())

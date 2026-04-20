@@ -24,7 +24,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/** Correlation id: filter sets MDC + response header for cross-service tracing. */
+/**
+ * Lesson 10 introduces correlation-id propagation for distributed tracing.
+ *
+ * <p>A servlet filter stores request id in MDC and echoes it in response headers so logs from
+ * multiple services can be stitched together.
+ */
 public final class Lesson10 extends AbstractMicroLesson {
 
     private static final Logger log = LoggerFactory.getLogger(Lesson10.class);
@@ -33,14 +38,23 @@ public final class Lesson10 extends AbstractMicroLesson {
         super(10, "Correlation ID: OncePerRequestFilter sets MDC and echoes X-Correlation-Id on the response.");
     }
 
+    /**
+     * Lesson 10: correlation IDs across service hops.
+     *
+     * <p><b>Purpose:</b> Demonstrate request-scoped trace identity in logs and headers.
+     * <p><b>Role:</b> Foundation for observability in multi-service request paths.
+     * <p><b>Demonstration:</b> Sends request with `X-Correlation-Id` and verifies response echo.
+     */
     @Override
     public void run(MicroservicesStudyContext ctx) throws Exception {
+        // Story action: call endpoint with client-supplied correlation id and verify propagation.
         try (SimpleWebHarness h = new SimpleWebHarness(WebConfig.class)) {
             h.mockMvc().perform(get("/trace-demo").header("X-Correlation-Id", "client-123"))
                     .andExpect(status().isOk())
                     .andExpect(content().string("ok"))
                     .andExpect(header().string("X-Correlation-Id", "client-123"));
         }
+        // Story takeaway: this id should be forwarded on outbound HTTP clients too.
         ctx.log("Talking point: propagate the same id on RestClient/WebClient headers for distributed tracing.");
     }
 

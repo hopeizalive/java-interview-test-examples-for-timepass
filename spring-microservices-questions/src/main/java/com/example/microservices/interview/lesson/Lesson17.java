@@ -9,15 +9,27 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 import javax.sql.DataSource;
 
-/** Database-per-service vs shared database anti-pattern. */
+/**
+ * Lesson 17 demonstrates database-per-service boundaries.
+ *
+ * <p>It creates two independent DataSources to model service ownership and deployment decoupling.
+ */
 public final class Lesson17 extends AbstractMicroLesson {
 
     public Lesson17() {
         super(17, "Database-per-service: separate DataSource beans model independent schemas.");
     }
 
+    /**
+     * Lesson 17: separate databases per service.
+     *
+     * <p><b>Purpose:</b> Show hard data-boundary separation between domains.
+     * <p><b>Role:</b> Reinforces architectural autonomy and change isolation.
+     * <p><b>Demonstration:</b> Boots two H2 sources and logs distinct JDBC URLs.
+     */
     @Override
     public void run(MicroservicesStudyContext ctx) throws Exception {
+        // Story setup: initialize separate order and billing data sources.
         try (var c = new AnnotationConfigApplicationContext(TwoDbConfig.class)) {
             DataSource orders = c.getBean("ordersDataSource", DataSource.class);
             DataSource billing = c.getBean("billingDataSource", DataSource.class);

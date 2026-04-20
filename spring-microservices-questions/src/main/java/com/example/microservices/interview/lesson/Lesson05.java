@@ -23,21 +23,36 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/** REST resources, status codes, idempotent PUT/DELETE semantics. */
+/**
+ * Lesson 5 focuses on REST status codes and idempotent semantics.
+ *
+ * <p>It validates common interview scenarios: create-vs-update with PUT, missing reads, and safe
+ * repeated DELETE calls.
+ */
 public final class Lesson05 extends AbstractMicroLesson {
 
     public Lesson05() {
         super(5, "REST API: 201 on create semantics, 404 missing resource, idempotent PUT/DELETE.");
     }
 
+    /**
+     * Lesson 5: resource semantics and HTTP status behavior.
+     *
+     * <p><b>Purpose:</b> Demonstrate predictable REST behavior for create/read/delete lifecycle.
+     * <p><b>Role:</b> Grounds API contract discussions in concrete request-response outcomes.
+     * <p><b>Demonstration:</b> Exercises PUT/GET/DELETE paths and asserts expected status codes.
+     */
     @Override
     public void run(MicroservicesStudyContext ctx) throws Exception {
+        // Story setup: use in-memory API to validate status semantics deterministically.
         try (SimpleWebHarness h = new SimpleWebHarness(MinimalJacksonWebConfig.class, WebConfig.class)) {
             var mvc = h.mockMvc();
+            // Story phase A: first PUT creates resource, second PUT updates idempotently.
             mvc.perform(put("/items/1").contentType("application/json").content("{\"name\":\"a\"}"))
                     .andExpect(status().isCreated());
             mvc.perform(put("/items/1").contentType("application/json").content("{\"name\":\"a\"}"))
                     .andExpect(status().isOk());
+            // Story phase B: missing GET and repeated DELETE show client-safe behavior.
             mvc.perform(get("/items/99")).andExpect(status().isNotFound());
             mvc.perform(delete("/items/1")).andExpect(status().isNoContent());
             mvc.perform(delete("/items/1")).andExpect(status().isNoContent());

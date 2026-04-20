@@ -14,21 +14,35 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/** Layering: controller → service → repository; expose DTO not JPA entity. */
+/**
+ * Lesson 4 demonstrates service layering and DTO-first API contracts.
+ *
+ * <p>The exercise shows controller -> service -> repository flow while keeping internal entity
+ * fields out of HTTP responses.
+ */
 public final class Lesson04 extends AbstractMicroLesson {
 
     public Lesson04() {
         super(4, "Layering: REST returns a record DTO; domain entity stays inside the service layer.");
     }
 
+    /**
+     * Lesson 4: API DTO boundary across layers.
+     *
+     * <p><b>Purpose:</b> Show why HTTP payloads should decouple from persistence entities.
+     * <p><b>Role:</b> Establishes contract stability patterns before inter-service APIs.
+     * <p><b>Demonstration:</b> Calls `/users/{id}` and asserts DTO response fields only.
+     */
     @Override
     public void run(MicroservicesStudyContext ctx) throws Exception {
+        // Story setup: boot minimal MVC stack for isolated endpoint verification.
         try (SimpleWebHarness h = new SimpleWebHarness(MinimalJacksonWebConfig.class, WebConfig.class)) {
             h.mockMvc().perform(get("/users/1"))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.id").value(1))
                     .andExpect(jsonPath("$.name").value("alice"));
         }
+        // Story takeaway: entity leakage couples API to ORM internals.
         ctx.log("Talking point: do not leak JPA entities over HTTP—versioning, lazy fields, and API stability suffer.");
     }
 

@@ -7,15 +7,27 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.StandardEnvironment;
 
-/** Centralized config story: Spring profiles + Environment (Spring Cloud Config is the hosted variant). */
+/**
+ * Lesson 44 demonstrates profile-driven configuration selection.
+ *
+ * <p>It activates one region profile to show environment-controlled bean wiring.
+ */
 public final class Lesson44 extends AbstractMicroLesson {
 
     public Lesson44() {
         super(39, "Centralized config: profiles activate feature beans; Spring Cloud Config serves Git-backed layers.");
     }
 
+    /**
+     * Lesson 39/44: centralized config concepts with profiles.
+     *
+     * <p><b>Purpose:</b> Show runtime configuration differences without code changes.
+     * <p><b>Role:</b> Config governance topic for multi-environment microservice fleets.
+     * <p><b>Demonstration:</b> Activates `eu` profile and logs selected config bean.
+     */
     @Override
     public void run(MicroservicesStudyContext ctx) {
+        // Story setup: activate target deployment profile before context refresh.
         var env = new StandardEnvironment();
         env.setActiveProfiles("eu");
         try (var c = new AnnotationConfigApplicationContext()) {

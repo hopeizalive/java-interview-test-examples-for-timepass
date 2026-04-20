@@ -8,15 +8,27 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.testcontainers.containers.RabbitMQContainer;
 import org.testcontainers.utility.DockerImageName;
 
-/** RabbitMQ + Spring AMQP: declare queue, send, receive (DLQ pattern described in log). */
+/**
+ * Lesson 33 demonstrates RabbitMQ messaging with Spring AMQP.
+ *
+ * <p>It declares a queue, sends one message, and receives it to show core queue workflow.
+ */
 public final class Lesson33 extends AbstractMicroLesson {
 
     public Lesson33() {
         super(32, "RabbitMQ Testcontainer: RabbitTemplate send/receive; DLQ via dead-letter exchange in real systems.");
     }
 
+    /**
+     * Lesson 32/33: RabbitTemplate send/receive basics.
+     *
+     * <p><b>Purpose:</b> Show queue messaging primitives with real broker container.
+     * <p><b>Role:</b> Complements Kafka lesson with AMQP style messaging.
+     * <p><b>Demonstration:</b> Declares queue, sends payload, receives and logs message.
+     */
     @Override
     public void run(MicroservicesStudyContext ctx) {
+        // Story boundary: skip broker demo when Docker runtime is unavailable.
         if (!ctx.dockerAvailable()) {
             ctx.log("Skip: Docker not available for RabbitMQ Testcontainer.");
             return;

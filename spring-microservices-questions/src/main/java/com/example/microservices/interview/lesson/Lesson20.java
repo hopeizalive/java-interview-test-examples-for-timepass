@@ -9,15 +9,28 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
-/** Testcontainers + Spring Data vs in-memory H2 fallback. */
+/**
+ * Lesson 20 compares real-engine integration testing with lightweight fallback.
+ *
+ * <p>It prefers Testcontainers PostgreSQL when available and falls back to H2 smoke checks when
+ * Docker is unavailable.
+ */
 public final class Lesson20 extends AbstractMicroLesson {
 
     public Lesson20() {
         super(20, "Testcontainers PostgreSQL when Docker is available; otherwise H2 MicroBoot sanity check.");
     }
 
+    /**
+     * Lesson 20: Testcontainers-first integration test strategy.
+     *
+     * <p><b>Purpose:</b> Show production-like DB testing path and local fallback path.
+     * <p><b>Role:</b> Connects microservice testing quality to environment capabilities.
+     * <p><b>Demonstration:</b> Runs PostgreSQL container path or H2 fallback and logs row/count result.
+     */
     @Override
     public void run(MicroservicesStudyContext ctx) throws Exception {
+        // Story boundary: choose real-engine path when Docker runtime is available.
         if (ctx.dockerAvailable()) {
             try (PostgreSQLContainer<?> pg = new PostgreSQLContainer<>(DockerImageName.parse("postgres:16-alpine"))) {
                 pg.start();
@@ -28,6 +41,7 @@ public final class Lesson20 extends AbstractMicroLesson {
                 JdbcTemplate jdbc = new JdbcTemplate(ds);
                 jdbc.execute("create table demo (id serial primary key, name text)");
                 jdbc.update("insert into demo(name) values (?)", "from-testcontainers");
+                // Story observation: successful query proves full integration stack works.
                 ctx.log("Rows in demo via JDBC/Testcontainers: " + jdbc.queryForObject("select count(*) from demo", Integer.class));
             } catch (Throwable ex) {
                 ctx.log("Testcontainers PostgreSQL failed: " + ex.getMessage());

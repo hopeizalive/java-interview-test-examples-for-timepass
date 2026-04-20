@@ -17,15 +17,27 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-/** Kafka via Testcontainers: producer + consumer read one record. */
+/**
+ * Lesson 32 demonstrates Kafka producer/consumer flow with Testcontainers.
+ *
+ * <p>It sends one record and consumes it to illustrate event transport basics in microservices.
+ */
 public final class Lesson32 extends AbstractMicroLesson {
 
     public Lesson32() {
         super(31, "Kafka + Testcontainers: producer sends to topic; consumer with groupId reads one poll.");
     }
 
+    /**
+     * Lesson 31/32: Kafka integration smoke flow.
+     *
+     * <p><b>Purpose:</b> Show end-to-end publish and consume against a real broker container.
+     * <p><b>Role:</b> Introduces event-driven messaging infrastructure in lessons.
+     * <p><b>Demonstration:</b> Produces one record and logs consumer poll count.
+     */
     @Override
     public void run(MicroservicesStudyContext ctx) throws Exception {
+        // Story boundary: skip gracefully when Docker is unavailable.
         if (!ctx.dockerAvailable()) {
             ctx.log("Skip: Docker not available for Kafka Testcontainer.");
             return;

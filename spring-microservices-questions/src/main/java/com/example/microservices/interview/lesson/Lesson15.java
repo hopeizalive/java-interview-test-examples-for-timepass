@@ -6,17 +6,29 @@ import com.example.microservices.interview.msdata.l15.L15TodoRepository;
 import com.example.microservices.interview.study.MicroservicesStudyContext;
 import com.example.microservices.interview.support.MicroBoot;
 
-/** Derived finder vs explicit @Query. */
+/**
+ * Lesson 15 compares derived repository methods with explicit JPQL queries.
+ *
+ * <p>The lesson shows when naming conventions stay readable and when `@Query` improves clarity.
+ */
 public final class Lesson15 extends AbstractMicroLesson {
 
     public Lesson15() {
         super(15, "Derived query methods vs @Query JPQL for flexible read patterns.");
     }
 
+    /**
+     * Lesson 15: derived finder methods versus @Query.
+     *
+     * <p><b>Purpose:</b> Demonstrate two common repository query styles.
+     * <p><b>Role:</b> Helps choose maintainable query definitions as complexity grows.
+     * <p><b>Demonstration:</b> Executes done=false derived query and title search via JPQL.
+     */
     @Override
     public void run(MicroservicesStudyContext ctx) {
         try (var c = MicroBoot.start(L15Application.class, "ms15")) {
             L15TodoRepository repo = c.getBean(L15TodoRepository.class);
+            // Story setup: seed open and completed tasks to compare query styles.
             L15Todo a = new L15Todo();
             a.setTitle("Buy milk");
             a.setDone(false);

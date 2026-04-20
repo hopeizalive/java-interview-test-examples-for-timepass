@@ -31,7 +31,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/** OAuth2 resource server: JWT Bearer validated by NimbusJwtDecoder (HS256 demo). */
+/**
+ * Lesson 39 demonstrates OAuth2 resource-server JWT validation.
+ *
+ * <p>A signed token is minted and verified through Spring Security resource-server flow.
+ */
 public final class Lesson39 extends AbstractMicroLesson {
 
     private static final String SECRET = "0123456789abcdef0123456789abcdef";
@@ -40,8 +44,16 @@ public final class Lesson39 extends AbstractMicroLesson {
         super(35, "OAuth2 resource server: JWT Bearer token validated with JwtDecoder + oauth2ResourceServer().");
     }
 
+    /**
+     * Lesson 35/39: Bearer token validation flow.
+     *
+     * <p><b>Purpose:</b> Show protected endpoint access with valid JWT.
+     * <p><b>Role:</b> Security baseline for service-to-service and client-to-service calls.
+     * <p><b>Demonstration:</b> Sends Bearer token to secured endpoint and asserts success.
+     */
     @Override
     public void run(MicroservicesStudyContext ctx) throws Exception {
+        // Story setup: mint short-lived demo token matching decoder settings.
         String token = mintHs256Jwt();
         try (SecurityWebHarness h = new SecurityWebHarness(WebConfig.class)) {
             h.mockMvc().perform(get("/api/who").header(HttpHeaders.AUTHORIZATION, "Bearer " + token))

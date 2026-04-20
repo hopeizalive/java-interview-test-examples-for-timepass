@@ -5,15 +5,27 @@ import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import org.springframework.web.client.RestClient;
 
-/** Contract-style check: assert downstream received expected number of calls. */
+/**
+ * Lesson 49 demonstrates a consumer-side contract testing sketch.
+ *
+ * <p>Request count on a stubbed downstream is used as a simple behavioral contract assertion.
+ */
 public final class Lesson49 extends AbstractMicroLesson {
 
     public Lesson49() {
         super(44, "Contract testing sketch: MockWebServer records request count for consumer calls.");
     }
 
+    /**
+     * Lesson 44/49: contract-verification style stub assertions.
+     *
+     * <p><b>Purpose:</b> Show deterministic verification of outbound consumer behavior.
+     * <p><b>Role:</b> Bridges simple stubs to formal contract-testing tooling.
+     * <p><b>Demonstration:</b> Issues two calls and verifies stub request count.
+     */
     @Override
     public void run(MicroservicesStudyContext ctx) throws Exception {
+        // Story setup: enqueue two downstream responses and track consumed requests.
         try (MockWebServer server = new MockWebServer()) {
             server.enqueue(new MockResponse().setBody("9.99"));
             server.enqueue(new MockResponse().setBody("9.99"));

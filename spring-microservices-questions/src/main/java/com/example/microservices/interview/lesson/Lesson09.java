@@ -11,15 +11,28 @@ import org.springframework.core.env.MutablePropertySources;
 import org.springframework.core.env.StandardEnvironment;
 import org.springframework.web.client.RestClient;
 
-/** Static downstream URL from configuration vs dynamic discovery (concept). */
+/**
+ * Lesson 9 demonstrates downstream endpoint resolution from environment configuration.
+ *
+ * <p>It models static URL configuration used in local/test setups and contrasts it with discovery
+ * mechanisms used in production.
+ */
 public final class Lesson09 extends AbstractMicroLesson {
 
     public Lesson09() {
         super(9, "Service discovery vs static URLs: RestClient baseUrl from Spring Environment property.");
     }
 
+    /**
+     * Lesson 9: configured downstream base URLs.
+     *
+     * <p><b>Purpose:</b> Show service client wiring from externalized properties.
+     * <p><b>Role:</b> Connects runtime config management to inter-service communication.
+     * <p><b>Demonstration:</b> Injects `peer.url`, calls mock downstream `/ping`, and logs response.
+     */
     @Override
     public void run(MicroservicesStudyContext ctx) throws Exception {
+        // Story setup: start mock downstream and publish URL through environment property.
         try (MockWebServer server = new MockWebServer()) {
             server.enqueue(new MockResponse().setBody("pong"));
             server.start();
@@ -31,6 +44,7 @@ public final class Lesson09 extends AbstractMicroLesson {
                 c.register(ClientConfig.class);
                 c.refresh();
                 String body = c.getBean(RestClient.class).get().uri("/ping").retrieve().body(String.class);
+                // Story observation: client baseUrl came from environment, not hardcoded code path.
                 ctx.log("Downstream said: " + body);
             }
         }

@@ -15,7 +15,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/** BFF aggregates multiple downstream HTTP calls into one response. */
+/**
+ * Lesson 28 demonstrates Backend-for-Frontend (BFF) response composition.
+ *
+ * <p>The BFF endpoint calls user and order services and returns one client-shaped payload.
+ */
 public final class Lesson28 extends AbstractMicroLesson {
 
     private static final String P_USERS = "lesson28.users";
@@ -25,8 +29,16 @@ public final class Lesson28 extends AbstractMicroLesson {
         super(28, "Backend-for-frontend: one controller composes two MockWebServer downstreams via RestClient.");
     }
 
+    /**
+     * Lesson 28: BFF aggregation flow.
+     *
+     * <p><b>Purpose:</b> Show client-specific aggregation from multiple downstream services.
+     * <p><b>Role:</b> Distinguishes BFF from generic edge routing.
+     * <p><b>Demonstration:</b> Stubs two services and verifies composed `/mobile/me-summary` response.
+     */
     @Override
     public void run(MicroservicesStudyContext ctx) throws Exception {
+        // Story setup: prepare independent downstream stubs for user and order data.
         try (MockWebServer users = new MockWebServer(); MockWebServer orders = new MockWebServer()) {
             users.enqueue(new MockResponse().setBody("alice"));
             orders.enqueue(new MockResponse().setBody("ORD-9"));

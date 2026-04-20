@@ -21,21 +21,35 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/** Problem Details style errors via ErrorResponseException (RFC 9457-style). */
+/**
+ * Lesson 8 demonstrates standardized ProblemDetail error payloads.
+ *
+ * <p>It uses centralized exception mapping so services can return consistent machine-readable
+ * errors across endpoints.
+ */
 public final class Lesson08 extends AbstractMicroLesson {
 
     public Lesson08() {
         super(8, "Error handling: ProblemDetail / ErrorResponseException for consistent service errors.");
     }
 
+    /**
+     * Lesson 8: consistent error contracts with ProblemDetail.
+     *
+     * <p><b>Purpose:</b> Show how to return structured HTTP errors for clients.
+     * <p><b>Role:</b> Establishes cross-service error-shape consistency.
+     * <p><b>Demonstration:</b> Triggers conflict endpoint and verifies ProblemDetail JSON fields.
+     */
     @Override
     public void run(MicroservicesStudyContext ctx) throws Exception {
+        // Story action: provoke a known conflict and assert normalized problem payload.
         try (SimpleWebHarness h = new SimpleWebHarness(MinimalJacksonWebConfig.class, WebConfig.class)) {
             h.mockMvc().perform(get("/boom"))
                     .andExpect(status().isConflict())
                     .andExpect(jsonPath("$.title").value("inventory-lock"))
                     .andExpect(jsonPath("$.status").value(409));
         }
+        // Story takeaway: controller advice keeps error mapping centralized and reusable.
         ctx.log("Talking point: align error bodies across services; @ControllerAdvice centralizes mapping.");
     }
 

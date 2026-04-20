@@ -15,15 +15,27 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/** @WebMvcTest-style slice: only web layer + mocked collaborator (manual MockMvc harness). */
+/**
+ * Lesson 45 demonstrates web-layer slice testing with mocked collaborators.
+ *
+ * <p>The endpoint is tested without full application startup by mocking service dependency.
+ */
 public final class Lesson45 extends AbstractMicroLesson {
 
     public Lesson45() {
         super(40, "@WebMvcTest analog: MockMvc with mocked OrderService bean (no full Spring Boot context).");
     }
 
+    /**
+     * Lesson 40/45: controller slice test pattern.
+     *
+     * <p><b>Purpose:</b> Show fast web contract checks isolated from persistence layer.
+     * <p><b>Role:</b> Testing strategy for quick feedback in service teams.
+     * <p><b>Demonstration:</b> Calls `/orders/7` and verifies mocked service response.
+     */
     @Override
     public void run(MicroservicesStudyContext ctx) throws Exception {
+        // Story action: execute endpoint through MockMvc with mocked OrderService bean.
         try (SimpleWebHarness h = new SimpleWebHarness(WebConfig.class)) {
             h.mockMvc().perform(get("/orders/7")).andExpect(status().isOk()).andExpect(content().string("mock-7"));
         }

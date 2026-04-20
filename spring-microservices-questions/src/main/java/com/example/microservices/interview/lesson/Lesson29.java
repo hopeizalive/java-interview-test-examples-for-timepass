@@ -8,15 +8,27 @@ import org.springframework.boot.web.servlet.context.ServletWebServerApplicationC
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.client.RestClient;
 
-/** springdoc OpenAPI exposes machine-readable contract at /v3/api-docs. */
+/**
+ * Lesson 29 demonstrates OpenAPI contract publication with springdoc.
+ *
+ * <p>It fetches `/v3/api-docs` from a running app to show machine-readable API contracts.
+ */
 public final class Lesson29 extends AbstractMicroLesson {
 
     public Lesson29() {
         super(29, "OpenAPI: springdoc serves /v3/api-docs from a minimal Boot web app.");
     }
 
+    /**
+     * Lesson 29: OpenAPI endpoint exposure.
+     *
+     * <p><b>Purpose:</b> Show contract discovery for consumers and tooling.
+     * <p><b>Role:</b> Supports contract-first and consumer-driven testing practices.
+     * <p><b>Demonstration:</b> Boots app on random port and reads `/v3/api-docs` JSON.
+     */
     @Override
     public void run(MicroservicesStudyContext ctx) {
+        // Story setup: start minimal web app with springdoc enabled.
         SpringApplication app = new SpringApplication(L29Application.class);
         app.setDefaultProperties(java.util.Map.of(
                 "server.port", "0",

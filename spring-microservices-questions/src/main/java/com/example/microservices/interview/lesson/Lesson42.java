@@ -5,15 +5,27 @@ import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.Metrics;
 import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 
-/** Micrometer counter + RED metrics framing. */
+/**
+ * Lesson 42 demonstrates Micrometer counters for service observability.
+ *
+ * <p>It increments a tagged counter and frames RED metrics interpretation.
+ */
 public final class Lesson42 extends AbstractMicroLesson {
 
     public Lesson42() {
         super(37, "Micrometer: SimpleMeterRegistry counter increment; bind to global composite for Actuator export.");
     }
 
+    /**
+     * Lesson 37/42: basic metrics instrumentation.
+     *
+     * <p><b>Purpose:</b> Show collecting request-rate style telemetry.
+     * <p><b>Role:</b> Observability foundation before tracing and alerting.
+     * <p><b>Demonstration:</b> Registers counter, increments twice, logs final count.
+     */
     @Override
     public void run(MicroservicesStudyContext ctx) {
+        // Story setup: bind local meter registry for isolated lesson metrics.
         SimpleMeterRegistry reg = new SimpleMeterRegistry();
         Metrics.addRegistry(reg);
         try {

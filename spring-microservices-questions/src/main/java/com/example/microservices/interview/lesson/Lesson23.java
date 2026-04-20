@@ -9,15 +9,27 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.context.ConfigurableApplicationContext;
 
-/** OpenFeign declarative HTTP client. */
+/**
+ * Lesson 23 demonstrates declarative HTTP calls with OpenFeign.
+ *
+ * <p>Feign interface wiring is shown with a stubbed downstream URL to keep behavior deterministic.
+ */
 public final class Lesson23 extends AbstractMicroLesson {
 
     public Lesson23() {
         super(23, "OpenFeign: @FeignClient interface backed by MockWebServer URL property.");
     }
 
+    /**
+     * Lesson 23: @FeignClient invocation flow.
+     *
+     * <p><b>Purpose:</b> Show interface-driven client calls without manual HTTP boilerplate.
+     * <p><b>Role:</b> Adds declarative client option to outbound call toolbox.
+     * <p><b>Demonstration:</b> Boots app with mock peer URL and invokes Feign method.
+     */
     @Override
     public void run(MicroservicesStudyContext ctx) throws Exception {
+        // Story setup: stand up stubbed peer and inject base URL property.
         try (MockWebServer server = new MockWebServer()) {
             server.enqueue(new MockResponse().setBody("feign-ok"));
             server.start();
