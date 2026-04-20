@@ -22,6 +22,7 @@ Each interview study module keeps **one** markdown guide so you can read **what*
 | Spring Data (repositories, Spring integration; 34 runnable lessons) | [spring-data-interview-study/docs/STUDY_GUIDE.md](spring-data-interview-study/docs/STUDY_GUIDE.md) |
 | JPA / Hibernate mechanics | [jpa-interview-study/docs/STUDY_GUIDE.md](jpa-interview-study/docs/STUDY_GUIDE.md) |
 | Concurrency | [concurrency-interview-study/docs/STUDY_GUIDE.md](concurrency-interview-study/docs/STUDY_GUIDE.md) |
+| Java DS / collections (20 runnable comparison lessons) | [java-ds-interview-study/docs/STUDY_GUIDE.md](java-ds-interview-study/docs/STUDY_GUIDE.md) |
 | Spring Security | [spring-security-questions/LESSONS.md](spring-security-questions/LESSONS.md) (lesson list + topics) |
 | Spring Microservices (45 runnable lessons; pure narrative entries removed) | `spring-microservices-questions` CLI + catalog; optional plan under `.cursor/plans/` |
 
@@ -29,7 +30,7 @@ Each interview study module keeps **one** markdown guide so you can read **what*
 
 ## Interview study CLI contract (`run-all`)
 
-All **interview study** modules (JPA, Spring Data, Concurrency, Security, Microservices) share the same expectations for `run-all` so CI and local smoke runs behave consistently.
+All **interview study** modules (JPA, Spring Data, Concurrency, Java DS, Security, Microservices) share the same expectations for `run-all` so CI and local smoke runs behave consistently.
 
 ### Shared library
 
@@ -77,3 +78,7 @@ Microservices **also** writes a timestamped PASS/FAIL **report** under `target/m
 
 ### JPA Study
 - `run-all` follows the same contract; default stack trace log: `jpa-study-run-all-errors.log` in the working directory.
+
+### Java DS / collections study
+- `mvn -pl java-ds-interview-study exec:java -Dexec.args="list"` (or `run N`, `run-all`)
+- Default stack trace log for `run-all`: `java-ds-study-run-all-errors.log` in the working directory.
