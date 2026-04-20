@@ -28,6 +28,8 @@ Each interview study module keeps **one** markdown guide so you can read **what*
 
 **Convention for new study modules:** add `your-module/docs/STUDY_GUIDE.md` and link it from this section.
 
+Commenting/teaching standard for all modules: [CODE_COMMENT_GUIDE.md](CODE_COMMENT_GUIDE.md)
+
 ## Interview study CLI contract (`run-all`)
 
 All **interview study** modules (JPA, Spring Data, Concurrency, Java DS, Security, Microservices) share the same expectations for `run-all` so CI and local smoke runs behave consistently.

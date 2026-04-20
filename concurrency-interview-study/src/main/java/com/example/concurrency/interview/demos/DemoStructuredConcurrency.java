@@ -13,9 +13,16 @@ public final class DemoStructuredConcurrency {
 
     private DemoStructuredConcurrency() {}
 
+    /**
+     * Lesson 62: structured concurrency happy-path and failure-path in one runnable story.
+     *
+     * <p><b>Execution story:</b> first scope shows successful fan-out/fan-in; second scope shows fail-fast cancellation
+     * where a peer failure interrupts in-flight sibling work.
+     */
     public static void l62(StudyContext ctx) throws Exception {
         ctx.log("StructuredTaskScope.ShutdownOnFailure: fork subtasks, join() as one deadline, throwIfFailed().");
 
+        // Story phase A: both forks succeed, then values are joined as one unit.
         try (var scope = new StructuredTaskScope.ShutdownOnFailure()) {
             var a = scope.fork(() -> delayedValue(40, 7));
             var b = scope.fork(() -> delayedValue(15, 5));
@@ -25,6 +32,7 @@ public final class DemoStructuredConcurrency {
         }
 
         ctx.log("Same scope: one fork fails → ShutdownOnFailure interrupts the other fork (no orphan work).");
+        // Story phase B: fast failing fork cancels slow peer; caller receives one aggregated failure signal.
         try (var scope = new StructuredTaskScope.ShutdownOnFailure()) {
             scope.fork(() -> {
                 try {

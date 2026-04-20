@@ -17,6 +17,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * Scheduling examples for plain JDK and Spring schedulers (lessons 55-57).
+ */
 public final class DemoScheduled {
 
     /** Set before starting Spring context for lesson 56 (scheduled bean reads this). */
@@ -24,12 +27,15 @@ public final class DemoScheduled {
 
     private DemoScheduled() {}
 
+    /** Shared state container so lesson-56 scheduled bean can log into the active lesson context. */
     record Lesson56State(StudyContext ctx, CountDownLatch latch) {}
 
+    /** Lesson 55: periodic ticks with {@code ScheduledExecutorService} outside Spring. */
     public static void l55(StudyContext ctx) throws Exception {
         ctx.log("ScheduledExecutorService: fixed-rate ticks without Spring.");
         try (var ex = Executors.newScheduledThreadPool(2)) {
             var latch = new CountDownLatch(3);
+            // Execution story: schedule periodic task, capture first three ticks, then stop waiting.
             ex.scheduleAtFixedRate(() -> {
                 ctx.log("  tick");
                 latch.countDown();
@@ -38,9 +44,11 @@ public final class DemoScheduled {
         }
     }
 
+    /** Lesson 56: Spring {@code @Scheduled} method lifecycle inside a temporary application context. */
     public static void l56(StudyContext ctx) throws Exception {
         ctx.log("@Scheduled on a Spring bean (extra @Configuration only for this lesson).");
         CountDownLatch latch = new CountDownLatch(3);
+        // Execution story step 1: publish current lesson context so scheduled bean can log into this run.
         L56_STATE.set(new Lesson56State(ctx, latch));
         SpringApplication app = new SpringApplication(ConcurrencyStudyApplication.class, Lesson56Config.class);
         app.setWebApplicationType(WebApplicationType.NONE);
@@ -49,8 +57,10 @@ public final class DemoScheduled {
                 "spring.jmx.enabled", "false",
                 "logging.level.root", "warn"));
         try (ConfigurableApplicationContext c = app.run()) {
+            // Execution story step 2: wait until scheduled method fires enough times.
             latch.await(5, TimeUnit.SECONDS);
         } finally {
+            // Cleanup matters so later lessons do not accidentally reuse stale state.
             L56_STATE.set(null);
         }
     }
@@ -75,6 +85,7 @@ public final class DemoScheduled {
         }
     }
 
+    /** Lesson 57: programmatic scheduling with {@link ThreadPoolTaskScheduler}. */
     public static void l57(StudyContext ctx) throws Exception {
         ctx.log("ThreadPoolTaskScheduler: explicit Spring scheduler bean for programmatic scheduling.");
         var ts = new ThreadPoolTaskScheduler();
@@ -82,6 +93,7 @@ public final class DemoScheduled {
         ts.setThreadNamePrefix("lesson57-");
         ts.initialize();
         var latch = new CountDownLatch(2);
+        // Execution story: start fixed-rate schedule, observe two ticks, then shut scheduler down explicitly.
         ts.scheduleAtFixedRate(
                 () -> {
                     ctx.log("  TaskScheduler tick");

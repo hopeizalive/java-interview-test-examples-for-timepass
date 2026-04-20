@@ -22,10 +22,14 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Kafka-backed concurrency lessons showing async send, batch poll, and consumer-group parallelism (59-60).
+ */
 public final class DemoKafka {
 
     private DemoKafka() {}
 
+    /** Lesson 59: async producer callback flow plus consumer drain verification. */
     public static void l59(StudyContext ctx) throws Exception {
         ctx.log("Kafka producer send(callback): async; metadata ack runs on sender thread — offload heavy work.");
         String topic = "study.l59.async";
@@ -38,6 +42,7 @@ public final class DemoKafka {
             props.put(ProducerConfig.ACKS_CONFIG, "all");
             var ackLatch = new CountDownLatch(5);
             try (var producer = new KafkaProducer<String, String>(props)) {
+                // Story step 1: send 5 records asynchronously; callback records success/failure metadata.
                 for (int i = 0; i < 5; i++) {
                     int n = i;
                     producer.send(
@@ -52,6 +57,7 @@ public final class DemoKafka {
                             });
                 }
                 producer.flush();
+                // Story step 2: wait for all acknowledgements so logs reflect complete producer outcome.
                 ackLatch.await(15, TimeUnit.SECONDS);
             }
             ctx.log("Consumer group reads the same topic (one partition may be idle with one consumer).");
@@ -60,6 +66,7 @@ public final class DemoKafka {
                 consumer.subscribe(Collections.singletonList(topic));
                 int seen = 0;
                 long deadline = System.nanoTime() + TimeUnit.SECONDS.toNanos(10);
+                // Story step 3: poll loop confirms consumer observes the produced records.
                 while (seen < 5 && System.nanoTime() < deadline) {
                     ConsumerRecords<String, String> recs = consumer.poll(Duration.ofMillis(300));
                     seen += recs.count();
@@ -69,16 +76,19 @@ public final class DemoKafka {
         }
     }
 
+    /** Lesson 60: multi-consumer same-group processing and per-poll batch handling. */
     public static void l60(StudyContext ctx) throws Exception {
         ctx.log("Consumer concurrency: same group.id, multiple threads each with their own KafkaConsumer.");
         ctx.log("Batch vs per-record: poll() returns ConsumerRecords (a batch); Spring @KafkaListener can map both styles.");
         String topic = "study.l60.batch";
         try (KafkaEmbedded kafka = KafkaEmbedded.start(4, topic)) {
             String bs = kafka.bootstrapServers();
+            // Story step 1: seed topic with deterministic message volume.
             produceBatch(bs, topic, ctx);
             String groupId = "g60-" + UUID.randomUUID();
             AtomicInteger remaining = new AtomicInteger(12);
             try (ExecutorService workers = Executors.newFixedThreadPool(2)) {
+                // Story step 2: two consumer threads in same group split partitions/work.
                 Future<?> f1 = workers.submit(() -> runConsumer(bs, groupId, "client-a", topic, ctx, remaining));
                 Future<?> f2 = workers.submit(() -> runConsumer(bs, groupId, "client-b", topic, ctx, remaining));
                 f1.get(20, TimeUnit.SECONDS);
@@ -111,6 +121,7 @@ public final class DemoKafka {
             try (var consumer = new KafkaConsumer<String, String>(cp)) {
                 consumer.subscribe(Collections.singletonList(topic));
                 long deadline = System.nanoTime() + TimeUnit.SECONDS.toNanos(18);
+                // Keep polling until all expected messages are observed or timeout is reached.
                 while (remaining.get() > 0 && System.nanoTime() < deadline) {
                     ConsumerRecords<String, String> batch = consumer.poll(Duration.ofMillis(400));
                     if (batch.isEmpty()) {

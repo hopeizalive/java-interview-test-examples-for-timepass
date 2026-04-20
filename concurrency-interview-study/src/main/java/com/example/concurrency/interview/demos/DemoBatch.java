@@ -9,14 +9,19 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Batch and throughput patterns (lessons 27-31).
+ */
 public final class DemoBatch {
 
     private DemoBatch() {}
 
     private static final int RECORDS = 1200;
 
+    /** Lesson 27: fixed-pool processing of many independent records. */
     public static void l27(StudyContext ctx) throws Exception {
         ctx.log("Batch: process " + RECORDS + " records with a fixed pool (typical worker-queue pattern).");
+        // Execution story: submit one task per record, then wait for every Future as a completion barrier.
         long t0 = System.nanoTime();
         try (var pool = Executors.newFixedThreadPool(8)) {
             var futures = new ArrayList<Future<String>>();
@@ -33,9 +38,11 @@ public final class DemoBatch {
         ctx.log("  elapsed ms: " + TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - t0));
     }
 
+    /** Lesson 28: chunking work to reduce scheduling overhead. */
     public static void l28(StudyContext ctx) throws Exception {
         ctx.log("Chunking: slice IDs into batches per task to reduce task submission overhead.");
         int chunk = 200;
+        // Execution story: fewer coarse-grained tasks reduce scheduler pressure vs 1200 tiny tasks.
         long t0 = System.nanoTime();
         try (var pool = Executors.newFixedThreadPool(4)) {
             List<Callable<Integer>> tasks = new ArrayList<>();
@@ -59,8 +66,10 @@ public final class DemoBatch {
         ctx.log("  elapsed ms: " + TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - t0));
     }
 
+    /** Lesson 29: invokeAll as an explicit batch completion barrier. */
     public static void l29(StudyContext ctx) throws Exception {
         ctx.log("invokeAll on a batch of Callables: barrier after the whole batch completes.");
+        // Execution story: construct deterministic batch, invoke all at once, aggregate after full completion.
         List<Callable<Integer>> batch = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
             int n = i;
@@ -76,8 +85,10 @@ public final class DemoBatch {
         }
     }
 
+    /** Lesson 30: simple throughput comparison across pool sizes. */
     public static void l30(StudyContext ctx) throws Exception {
         ctx.log("Throughput: pool size vs task count — measure before tuning in production.");
+        // Execution story: run same synthetic CPU workload with different pool sizes and compare elapsed time.
         for (int threads : List.of(2, 8, 32)) {
             long t0 = System.nanoTime();
             try (var pool = Executors.newFixedThreadPool(threads)) {
@@ -100,8 +111,10 @@ public final class DemoBatch {
         }
     }
 
+    /** Lesson 31: bridge from batched tasks to CompletableFuture.allOf composition. */
     public static void l31(StudyContext ctx) throws Exception {
         ctx.log("Batch + CompletableFuture.allOf: async stages then join (see also CF lessons).");
+        // Execution story: fan-out async stages first, then single join point via allOf for fan-in.
         try (var pool = Executors.newFixedThreadPool(6)) {
             var cfs = new java.util.concurrent.CompletableFuture<?>[10];
             for (int i = 0; i < cfs.length; i++) {

@@ -9,13 +9,18 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Producer-consumer and queue coordination lessons (32-35, 61).
+ */
 public final class DemoPc {
 
     private DemoPc() {}
 
+    /** Lesson 32: bounded {@link ArrayBlockingQueue} producer-consumer baseline. */
     public static void l32(StudyContext ctx) throws Exception {
         ctx.log("Producer–consumer with ArrayBlockingQueue: bounded buffer = natural backpressure.");
         BlockingQueue<Integer> q = new ArrayBlockingQueue<>(5);
+        // Story step 1: producer pushes 12 items; put() blocks automatically if queue reaches capacity.
         var producer = Thread.ofPlatform().start(() -> {
             try {
                 for (int i = 0; i < 12; i++) {
@@ -26,16 +31,19 @@ public final class DemoPc {
                 Thread.currentThread().interrupt();
             }
         });
+        // Story step 2: consumer drains the same 12 items with take(), blocking only when queue is empty.
         for (int i = 0; i < 12; i++) {
             ctx.log("  consumed " + q.take());
         }
         producer.join();
     }
 
+    /** Lesson 33: {@link LinkedBlockingQueue} producer-consumer variant. */
     public static void l33(StudyContext ctx) throws Exception {
         ctx.log("LinkedBlockingQueue: optionally bounded; higher throughput for some workloads.");
         BlockingQueue<String> q = new LinkedBlockingQueue<>(100);
         try (var ex = java.util.concurrent.Executors.newFixedThreadPool(2)) {
+            // Story: one task produces a small message batch while the other polls and collects it.
             ex.submit(() -> {
                 for (int i = 0; i < 8; i++) {
                     q.offer("m" + i, 1, TimeUnit.SECONDS);
@@ -53,10 +61,12 @@ public final class DemoPc {
         }
     }
 
+    /** Lesson 34: poison-pill sentinel shutdown pattern. */
     public static void l34(StudyContext ctx) throws Exception {
         ctx.log("Poison pill: sentinel value tells consumers to exit (graceful shutdown pattern).");
         BlockingQueue<String> q = new LinkedBlockingQueue<>();
         final String POISON = "__POISON__";
+        // Story step 1: consumer loop processes normal messages until sentinel appears.
         var consumer = Thread.ofPlatform().start(() -> {
             try {
                 while (true) {
@@ -71,18 +81,21 @@ public final class DemoPc {
                 Thread.currentThread().interrupt();
             }
         });
+        // Story step 2: producer sends regular payload then poison pill to terminate cleanly.
         q.put("a");
         q.put("b");
         q.put(POISON);
         consumer.join();
     }
 
+    /** Lesson 35: competing consumers sharing one queue. */
     public static void l35(StudyContext ctx) throws Exception {
         ctx.log("Multiple consumers compete on one queue — increase parallelism safely.");
         BlockingQueue<Integer> q = new LinkedBlockingQueue<>();
         int consumers = 3;
         var pool = java.util.concurrent.Executors.newFixedThreadPool(consumers);
         try {
+            // Story step 1: start 3 competing consumers; each takes 4 items.
             for (int c = 0; c < consumers; c++) {
                 int id = c;
                 pool.submit(() -> {
@@ -96,6 +109,7 @@ public final class DemoPc {
                     }
                 });
             }
+            // Story step 2: producer enqueues 12 items; load distributes across consumer threads.
             for (int i = 0; i < 12; i++) {
                 q.put(i);
             }
@@ -130,6 +144,7 @@ public final class DemoPc {
         final int[] putIdx = {0};
         final int[] takeIdx = {0};
 
+        // Producer side for explicit monitor-based buffer.
         Runnable put = () -> {
             try {
                 for (int item = 0; item < L61_ITEMS; item++) {
@@ -150,6 +165,7 @@ public final class DemoPc {
             }
         };
 
+        // Consumer side for explicit monitor-based buffer.
         Runnable take = () -> {
             try {
                 for (int n = 0; n < L61_ITEMS; n++) {
