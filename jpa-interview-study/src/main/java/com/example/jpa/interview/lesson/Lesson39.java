@@ -7,7 +7,10 @@ import jakarta.persistence.EntityManager;
 import java.time.LocalDateTime;
 
 /**
- * Can you explain the process of auditing entity changes in JPA?
+ * Lesson 39 demonstrates auditing entity modifications via lifecycle callbacks.
+ *
+ * <p>It performs create and update phases, then verifies that callback-driven metadata is stamped
+ * on mutation.
  */
 public final class Lesson39 extends AbstractLesson {
 
@@ -15,8 +18,16 @@ public final class Lesson39 extends AbstractLesson {
         super(39, "Can you explain the process of auditing entity changes in JPA?");
     }
 
+    /**
+     * Lesson 39: auditing entity changes.
+     *
+     * <p><b>Purpose:</b> Show automatic update-time metadata handling.
+     * <p><b>Role:</b> Builds practical understanding of callback-based audit fields.
+     * <p><b>Demonstration:</b> Persists and updates Invoice, then prints callback-populated `lastModified`.
+     */
     @Override
     public void run(StudyContext ctx) {
+        // Story phase A: create invoice and capture its id.
         final Long[] id = new Long[1];
         ctx.withTransaction(em -> {
             Invoice inv = new Invoice("INV-1");
@@ -24,12 +35,14 @@ public final class Lesson39 extends AbstractLesson {
             id[0] = inv.getId();
         });
 
+        // Story phase B: modify entity to trigger pre-update auditing callback.
         ctx.withTransaction(em -> {
             Invoice inv = em.find(Invoice.class, id[0]);
             inv.setCode("INV-1-revised");
             em.flush();
         });
 
+        // Story observation: reload and inspect audited timestamp set by listener.
         EntityManager em = ctx.studyEmf().createEntityManager();
         Invoice loaded = em.find(Invoice.class, id[0]);
         em.close();
