@@ -19,6 +19,7 @@ Run all study module scripts in sequence:
   spring-data-study.sh
   java-ds-study.sh
   spring-annotation-study.sh
+  java-design-patterns-study.sh
 EOF
   exit 1
 fi
@@ -30,6 +31,7 @@ SCRIPTS=(
   "./spring-data-study.sh"
   "./java-ds-study.sh"
   "./spring-annotation-study.sh"
+  "./java-design-patterns-study.sh"
 )
 
 echo "Running all study modules from $DIR"

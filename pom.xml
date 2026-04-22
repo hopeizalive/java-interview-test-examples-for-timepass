@@ -20,6 +20,7 @@
         <module>concurrency-interview-study</module>
         <module>java-ds-interview-study</module>
         <module>spring-annotation-interview-study</module>
+        <module>java-design-patterns-interview-study</module>
     </modules>
 
     <properties>
