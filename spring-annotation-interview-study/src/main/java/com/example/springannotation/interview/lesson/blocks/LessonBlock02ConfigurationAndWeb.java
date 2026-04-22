@@ -74,7 +74,7 @@ public final class LessonBlock02ConfigurationAndWeb {
         ctx.log("Story: profiles partition environments; properties toggle features.");
         ctx.log("@Profile targets env partitioning (dev/test/prod).");
         ctx.log("@ConditionalOnProperty targets feature flags (on/off).");
-        ctx.log("Takeaway: do not overload profiles for feature flags—property switches stay finer-grained.");
+        ctx.log("Takeaway: do not overload profiles for feature flags; property switches stay finer-grained.");
     }
 
     private static void lesson15(StudyContext ctx) {
@@ -101,7 +101,7 @@ public final class LessonBlock02ConfigurationAndWeb {
     }
 
     private static void lesson18(StudyContext ctx) {
-        ctx.log("Story: contrast classic @PropertySource with Boot’s layered Environment.");
+        ctx.log("Story: contrast classic @PropertySource with Boot's layered Environment.");
         ctx.log("@PropertySource attaches one file manually.");
         ctx.log("Boot model merges env vars, command args, profiles, and files.");
         ctx.log("Takeaway: prefer externalized config + relaxed binding for services.");
@@ -115,7 +115,7 @@ public final class LessonBlock02ConfigurationAndWeb {
         ctx.log("RestController class-level composed: "
                 + WebMvcControllerFixtures.RestApiController.class.isAnnotationPresent(
                 org.springframework.web.bind.annotation.RestController.class));
-        ctx.log("Takeaway: APIs return bodies; MVC pages return view names—do not mix accidentally.");
+        ctx.log("Takeaway: APIs return bodies; MVC pages return view names - do not mix accidentally.");
     }
 
     private static void lesson20(StudyContext ctx) throws Exception {

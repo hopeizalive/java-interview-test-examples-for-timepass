@@ -118,7 +118,7 @@ public final class LessonBlock03WebBindingAndTransactions {
                 TransactionAnnotationFixtures.TxService.class.getMethod("fastRead").getAnnotation(Transactional.class);
         ctx.log("class readOnly: " + classTx.readOnly());
         ctx.log("method readOnly override: " + methodTx.readOnly());
-        ctx.log("Takeaway: most-specific wins—same rule as many Spring annotation models.");
+        ctx.log("Takeaway: most-specific wins - same rule as many Spring annotation models.");
     }
 
     private static void lesson29(StudyContext ctx) throws Exception {
@@ -133,7 +133,7 @@ public final class LessonBlock03WebBindingAndTransactions {
     }
 
     private static void lesson30(StudyContext ctx) throws Exception {
-        ctx.log("Story: propagation metadata answers “join or suspend?” when nested calls occur.");
+        ctx.log("Story: propagation metadata answers join-or-suspend when nested calls occur.");
         var req = TransactionAnnotationFixtures.TxService.class.getMethod("required").getAnnotation(Transactional.class).propagation();
         var reqNew =
                 TransactionAnnotationFixtures.TxService.class.getMethod("requiresNew").getAnnotation(Transactional.class).propagation();

@@ -69,7 +69,7 @@ public final class LessonBlock05AsyncCachingAndRetry {
                 org.springframework.scheduling.annotation.EnableAsync.class));
         Method m = AsyncSchedulingCacheRetryFixtures.AsyncService.class.getMethod("fireAndForget");
         ctx.log("method has @Async: " + m.isAnnotationPresent(org.springframework.scheduling.annotation.Async.class));
-        ctx.log("Takeaway: self-invocation bypasses async proxy—same lesson as transactions.");
+        ctx.log("Takeaway: self-invocation bypasses async proxy - same lesson as transactions.");
     }
 
     private static void lesson46(StudyContext ctx) throws Exception {
@@ -83,7 +83,7 @@ public final class LessonBlock05AsyncCachingAndRetry {
         ctx.log("fixedRate value: " + s1.fixedRate());
         ctx.log("fixedDelay value: " + s2.fixedDelay());
         ctx.log("cron value: " + s3.cron());
-        ctx.log("Takeaway: misconfigured schedules overload pools—always size the executor.");
+        ctx.log("Takeaway: misconfigured schedules overload pools - always size the executor.");
     }
 
     private static void lesson47(StudyContext ctx) throws Exception {
@@ -94,7 +94,7 @@ public final class LessonBlock05AsyncCachingAndRetry {
         ctx.log("has @Cacheable: " + get.isAnnotationPresent(org.springframework.cache.annotation.Cacheable.class));
         ctx.log("has @CachePut: " + put.isAnnotationPresent(org.springframework.cache.annotation.CachePut.class));
         ctx.log("has @CacheEvict: " + evict.isAnnotationPresent(org.springframework.cache.annotation.CacheEvict.class));
-        ctx.log("Takeaway: @CachePut still executes the method—use when writes must refresh cache entries.");
+        ctx.log("Takeaway: @CachePut still executes the method - use when writes must refresh cache entries.");
     }
 
     private static void lesson48(StudyContext ctx) {

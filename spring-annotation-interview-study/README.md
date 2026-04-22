@@ -14,6 +14,8 @@ Runnable, code-first Spring Boot annotation comparison lessons for interview pre
 ## Design
 
 - Standalone root module.
-- Grouped lesson implementation in a single enum (`AnnotationLesson`).
+- `AnnotationLesson` enum: titles and numbers only; `run` delegates to `AnnotationLessonDispatch`.
+- Five **lesson blocks** (`lesson.blocks.LessonBlock01*` … `LessonBlock05*`), ten lessons each, with chapter-level Javadoc plus per-lesson **Story** / **Takeaway** logs.
+- Spring fixture types live under `lesson.fixtures` (grouped by concern), kept `public static` where CGLIB must enhance `@Configuration`.
 - No per-lesson `LessonXX` classes.
 - Every lesson is executable and demonstrates annotation behavior with logs.

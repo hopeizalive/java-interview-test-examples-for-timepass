@@ -59,10 +59,10 @@ public final class LessonBlock04ValidationAndTestingNarrative {
     }
 
     private static void lesson33(StudyContext ctx) {
-        ctx.log("Story: internal this.method() calls skip Spring’s proxy; @Transactional on inner callee may never start.");
+        ctx.log("Story: internal this.method() calls skip Spring's proxy; @Transactional on inner callee may never start.");
         ctx.log("this.innerTxCall() bypasses proxy interception path.");
         ctx.log("Move method to another bean or self-inject proxied bean.");
-        ctx.log("Takeaway: interviewers love this trap—know the fix patterns.");
+        ctx.log("Takeaway: interviewers love this trap - know the fix patterns.");
     }
 
     private static void lesson34(StudyContext ctx) {
@@ -84,13 +84,13 @@ public final class LessonBlock04ValidationAndTestingNarrative {
     }
 
     private static void lesson36(StudyContext ctx) {
-        ctx.log("Story: null vs blank vs empty differ for strings—constraints encode precise semantics.");
+        ctx.log("Story: null vs blank vs empty differ for strings; constraints encode precise semantics.");
         Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
         int nullCount = validator.validate(new ValidationAnnotationFixtures.TripleConstraints(null, null, null)).size();
         int emptyCount = validator.validate(new ValidationAnnotationFixtures.TripleConstraints("", "", "")).size();
         ctx.log("violations with null fields: " + nullCount);
         ctx.log("violations with empty fields: " + emptyCount);
-        ctx.log("Takeaway: @NotBlank implies @NotNull for strings—do not stack redundantly in APIs.");
+        ctx.log("Takeaway: @NotBlank implies @NotNull for strings - do not stack redundantly in APIs.");
     }
 
     private static void lesson37(StudyContext ctx) {
@@ -109,7 +109,7 @@ public final class LessonBlock04ValidationAndTestingNarrative {
     }
 
     private static void lesson39(StudyContext ctx) {
-        ctx.log("Story: slice tests trade fidelity for speed—describe the slices without booting each here.");
+        ctx.log("Story: slice tests trade fidelity for speed; describe the slices without booting each here.");
         ctx.log("@SpringBootTest: loads full context (slowest, widest).");
         ctx.log("@WebMvcTest: controller/web slice only (faster, narrower).");
         ctx.log("Takeaway: pick the narrowest slice that still proves the behavior under test.");
