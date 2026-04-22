@@ -70,7 +70,7 @@ Microservices **also** writes a timestamped PASS/FAIL **report** under `target/m
 - Run with JAR: First build `./mvnw -pl spring-security-questions package`, then `./security-study-jar.sh`
 
 ### Spring Data Study
-- Run with Maven: `./spring-data-study.sh`
+- Run with Maven: `./spring-data-study.sh` (Linux/macOS) or `spring-data-study.cmd` (Windows)
 - Run with JAR: First build `./mvnw -pl spring-data-interview-study package`, then `./spring-data-study-jar.sh`
 
 ### Concurrency Study
@@ -82,5 +82,9 @@ Microservices **also** writes a timestamped PASS/FAIL **report** under `target/m
 - `run-all` follows the same contract; default stack trace log: `jpa-study-run-all-errors.log` in the working directory.
 
 ### Java DS / collections study
-- `mvn -pl java-ds-interview-study exec:java -Dexec.args="list"` (or `run N`, `run-all`)
+- Run from repo root: `./java-ds-study.sh` (Linux/macOS) or `java-ds-study.cmd` (Windows); same args as other studies (`list`, `run N`, `run-all`).
+- Or with Maven directly: `./mvnw -pl java-ds-interview-study exec:java -Dexec.args="list"` (or `run N`, `run-all`)
 - Default stack trace log for `run-all`: `java-ds-study-run-all-errors.log` in the working directory.
+
+### Spring annotation study
+- Run from repo root: `./spring-annotation-study.sh` (Linux/macOS) or `spring-annotation-study.cmd` (Windows).

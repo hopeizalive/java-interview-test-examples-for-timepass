@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 /**
- * Java data structures / collections interview lessons (1–20), JDK-only runnable comparisons.
+ * Java data structures / collections interview lessons (1–40), JDK-only runnable comparisons.
  *
  * <pre>
  *   mvn -pl java-ds-interview-study exec:java -Dexec.args="list"

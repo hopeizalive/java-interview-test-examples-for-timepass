@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # run-all-study-modules.sh
-# Run all four study module launcher scripts in one sequence.
+# Run all study module launcher scripts (.sh) in one sequence.
 # This makes it easy to test all modules in one go.
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
@@ -12,11 +12,13 @@ if [[ $# -ne 1 || "$1" != "run-all" ]]; then
   cat <<EOF
 Usage: $0 run-all
 
-Run all four study module scripts in sequence:
+Run all study module scripts in sequence:
   concurrency-study.sh
   microservices-study.sh
   security-study.sh
   spring-data-study.sh
+  java-ds-study.sh
+  spring-annotation-study.sh
 EOF
   exit 1
 fi
@@ -26,6 +28,8 @@ SCRIPTS=(
   "./microservices-study.sh"
   "./security-study.sh"
   "./spring-data-study.sh"
+  "./java-ds-study.sh"
+  "./spring-annotation-study.sh"
 )
 
 echo "Running all study modules from $DIR"
