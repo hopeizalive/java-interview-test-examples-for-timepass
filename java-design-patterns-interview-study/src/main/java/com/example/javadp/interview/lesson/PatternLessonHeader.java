@@ -24,4 +24,16 @@ public final class PatternLessonHeader {
         ctx.log("This runnable snippet shows: " + codeDemonstrates);
         ctx.log("");
     }
+
+    /**
+     * One concrete “where you’ve seen this” anchor for interview answers: domain, recognizable system, and how to tie
+     * it back to the pattern.
+     */
+    public static void printRealWorldExample(
+            StudyContext ctx, int index, String scenario, String whereYouSeeIt, String interviewAngle) {
+        ctx.log("Real-world example " + index + ": " + scenario);
+        ctx.log("  Where: " + whereYouSeeIt);
+        ctx.log("  Interview angle: " + interviewAngle);
+        ctx.log("");
+    }
 }

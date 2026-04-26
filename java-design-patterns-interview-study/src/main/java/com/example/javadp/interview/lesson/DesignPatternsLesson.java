@@ -4,12 +4,13 @@ import com.example.javadp.interview.study.StudyContext;
 import com.example.javadp.interview.study.StudyLesson;
 
 /**
- * Catalog of thirty lessons: all twenty-three Gang-of-Four patterns in book order (creational → structural →
- * behavioral), plus seven widely used “modern” architectural idioms seen in 2020s Java services (repository layer,
- * specification rules, CQRS split, resilience, pooling, null-object logging, constructor DI).
+ * Catalog of lessons: twenty-three Gang-of-Four patterns in book order (creational, structural, behavioral), plus
+ * widely used modern architectural idioms (repository, specification, CQRS, circuit breaker, pool, null object,
+ * dependency injection). Each enum entry is one numbered lesson.
  *
- * <p>Runnable stories are grouped in {@link com.example.javadp.interview.lesson.blocks} so you read one chapter file
- * at a time. Each lesson prints {@link PatternLessonHeader} output, then executes a tiny focused program.
+ * <p>Blocks in {@link com.example.javadp.interview.lesson.blocks} route to per-pattern classes under
+ * {@code com.example.javadp.interview.lesson.patterns}. Each lesson prints {@link PatternLessonHeader} output (including
+ * real-world anchors), then runs a small demo.
  *
  * <p><b>Sources consulted for scope:</b> classic GoF catalog; contemporary pattern catalogs such as
  * <a href="https://java-design-patterns.com/patterns">java-design-patterns.com</a> (broad modern list including
@@ -51,9 +52,6 @@ public enum DesignPatternsLesson implements StudyLesson {
     L28(28, "[Modern / Performance] Object Pool - reuse expensive objects instead of churn."),
     L29(29, "[Modern / Robustness] Null Object - replace null references with a no-op behavior."),
     L30(30, "[Modern / Wiring] Dependency Injection - depend on abstractions; compose from the outside.");
-
-    /** Single source of truth for catalog size checks and CLI banners. */
-    public static final int EXPECTED_LESSON_COUNT = 30;
 
     private final int number;
     private final String title;

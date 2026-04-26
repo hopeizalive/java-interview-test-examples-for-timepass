@@ -3,7 +3,6 @@ package com.example.javadp.interview.cli;
 import com.example.interview.studycli.runall.RunAllTask;
 import com.example.interview.studycli.runall.StudyRunAllExecutor;
 import com.example.interview.studycli.runall.StudyRunAllResult;
-import com.example.javadp.interview.lesson.DesignPatternsLesson;
 import com.example.javadp.interview.lesson.LessonCatalog;
 import com.example.javadp.interview.study.StudyContext;
 import com.example.javadp.interview.study.StudyLesson;
@@ -35,16 +34,12 @@ import java.util.concurrent.Callable;
                 DesignPatternsStudyCli.RunLesson.class,
                 DesignPatternsStudyCli.RunAll.class
         },
-        description =
-                "Run Java design pattern lessons (1–"
-                        + DesignPatternsLesson.EXPECTED_LESSON_COUNT
-                        + "): GoF + modern architectural patterns.")
+        description = "Run Java design pattern lessons (GoF + modern idioms). Use `list` to see lesson numbers.")
 public final class DesignPatternsStudyCli implements Callable<Integer> {
 
     private static final String RUN_ALL_FAILURE_BANNER = "Java design patterns interview study";
 
     public static void main(String[] args) {
-        LessonCatalog.assertCoverage();
         int exit = new CommandLine(new DesignPatternsStudyCli()).execute(args);
         System.exit(exit);
     }

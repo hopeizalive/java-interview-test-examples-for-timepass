@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-/** All design-pattern lessons; {@link DesignPatternsLesson#EXPECTED_LESSON_COUNT} is the single source of truth. */
+/** All design-pattern lessons, ordered by {@link DesignPatternsLesson} enum declaration. */
 public final class LessonCatalog {
 
     private static final List<StudyLesson> LESSONS =
@@ -16,6 +16,11 @@ public final class LessonCatalog {
 
     private static final Map<Integer, StudyLesson> BY_NUMBER =
             LESSONS.stream().collect(Collectors.toUnmodifiableMap(StudyLesson::number, Function.identity()));
+
+    private static final int MIN_LESSON_NUMBER =
+            LESSONS.stream().mapToInt(StudyLesson::number).min().orElse(1);
+    private static final int MAX_LESSON_NUMBER =
+            LESSONS.stream().mapToInt(StudyLesson::number).max().orElse(1);
 
     private LessonCatalog() {}
 
@@ -27,19 +32,15 @@ public final class LessonCatalog {
         StudyLesson lesson = BY_NUMBER.get(n);
         if (lesson == null) {
             throw new IllegalArgumentException(
-                    "No lesson " + n + "; valid range 1–" + DesignPatternsLesson.EXPECTED_LESSON_COUNT);
+                    "No lesson " + n + "; valid range " + MIN_LESSON_NUMBER + "–" + MAX_LESSON_NUMBER);
         }
         return lesson;
     }
 
-    public static void assertCoverage() {
-        if (LESSONS.size() != DesignPatternsLesson.EXPECTED_LESSON_COUNT) {
-            throw new IllegalStateException(
-                    "Expected " + DesignPatternsLesson.EXPECTED_LESSON_COUNT + " lessons, got " + LESSONS.size());
-        }
+    static {
         long distinct = LESSONS.stream().mapToInt(StudyLesson::number).distinct().count();
-        if (distinct != DesignPatternsLesson.EXPECTED_LESSON_COUNT) {
-            throw new IllegalStateException("Duplicate or missing lesson numbers");
+        if (distinct != LESSONS.size()) {
+            throw new IllegalStateException("Duplicate lesson numbers in DesignPatternsLesson");
         }
     }
 }
