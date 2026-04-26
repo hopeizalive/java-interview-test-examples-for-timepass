@@ -58,8 +58,9 @@ public final class DemoSync {
         // Execution story: same shared update pattern as synchronized, but with explicit lock API.
         var lock = new ReentrantLock();
         var c = new int[] {0};
-        try (var ex = java.util.concurrent.Executors.newFixedThreadPool(4)) {
-            for (int i = 0; i < 500; i++) {
+        long currentTimeMillis = System.currentTimeMillis();
+        try (var ex = java.util.concurrent.Executors.newFixedThreadPool(8)) {
+            for (int i = 0; i < 500000; i++) {
                 ex.submit(() -> {
                     lock.lock();
                     try {
@@ -71,6 +72,8 @@ public final class DemoSync {
             }
         }
         ctx.log("  count: " + c[0]);
+        long totalTimeTaken = System.currentTimeMillis() - currentTimeMillis;
+        ctx.log("total time taken in ms --> "+totalTimeTaken);
     }
 
     /** Lesson 16: timed lock acquisition via {@code tryLock(timeout)}. */

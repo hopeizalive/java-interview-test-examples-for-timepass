@@ -25,7 +25,7 @@ public final class DemoAtomic {
         var n = new AtomicInteger();
         try (var ex = java.util.concurrent.Executors.newFixedThreadPool(8)) {
             // Story step 2: many worker submissions race to increment the same counter.
-            for (int i = 0; i < 10_000; i++) {
+            for (int i = 0; i < 10_000_00; i++) {
                 ex.submit(() -> n.incrementAndGet());
             }
         }

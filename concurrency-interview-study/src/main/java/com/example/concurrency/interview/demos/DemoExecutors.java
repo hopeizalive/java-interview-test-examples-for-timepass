@@ -168,11 +168,15 @@ public final class DemoExecutors {
         List<Callable<String>> tasks = new ArrayList<>();
         for (int i = 0; i < 15; i++) {
             int n = i;
-            tasks.add(() -> "v" + n);
+            tasks.add(() -> {
+                System.out.println(n+" this is value of loop with thread name --> "+Thread.currentThread().getName());
+                return "v" + n;
+            });
         }
         try (var ex = Executors.newFixedThreadPool(3)) {
             // Story: invokeAll blocks until every callable in the batch reaches terminal state.
             var futures = ex.invokeAll(tasks);
+            System.out.println("now we can see there results");
             for (var f : futures) {
                 ctx.log(Thread.currentThread().getName()+"  " + f.get());
             }
